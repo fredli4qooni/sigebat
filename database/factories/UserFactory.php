@@ -27,10 +27,54 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->phoneNumber(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'role' => 'pengelola',
+            'status' => 'aktif',
+            'rejection_reason' => null,
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+            'status' => 'aktif',
+        ]);
+    }
+
+    public function pengelola(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'pengelola',
+            'status' => 'aktif',
+        ]);
+    }
+
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'pengelola',
+            'status' => 'pending',
+        ]);
+    }
+
+    public function ditolak(?string $reason = 'Dokumen tidak sesuai'): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'pengelola',
+            'status' => 'ditolak',
+            'rejection_reason' => $reason,
+        ]);
+    }
+
+    public function nonaktif(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'nonaktif',
+        ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\ActivityLog;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -45,12 +46,56 @@ class LoginRequest extends FormRequest
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
+            ActivityLog::log(
+                aksi: 'LOGIN_FAILED',
+                entitasTipe: 'USER',
+                keterangan: ['email' => $this->string('email')->toString(), 'alasan' => 'Email atau password salah.'],
+                ip: $this->ip()
+            );
+
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Email atau password salah.',
+            ]);
+        }
+
+        $user = Auth::user();
+
+        // Validasi status akun (PRD AUTH-03 & DESIGN.md 11)
+        if ($user->status !== 'aktif') {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            $pesan = match ($user->status) {
+                'pending' => 'Akun Anda menunggu verifikasi Admin.',
+                'ditolak' => 'Pendaftaran akun Anda ditolak oleh Admin.'.($user->rejection_reason ? ' Alasan: '.$user->rejection_reason : ''),
+                'nonaktif' => 'Akun Anda dinonaktifkan. Hubungi Admin.',
+                default => 'Akun Anda tidak aktif.',
+            };
+
+            ActivityLog::log(
+                aksi: 'LOGIN_BLOCKED',
+                entitasTipe: 'USER',
+                entitasId: $user->id,
+                keterangan: ['email' => $user->email, 'status' => $user->status, 'pesan' => $pesan],
+                userId: $user->id,
+                ip: $this->ip()
+            );
+
+            throw ValidationException::withMessages([
+                'email' => $pesan,
             ]);
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        ActivityLog::log(
+            aksi: 'LOGIN',
+            entitasTipe: 'USER',
+            entitasId: $user->id,
+            keterangan: ['email' => $user->email, 'peran' => $user->role],
+            userId: $user->id,
+            ip: $this->ip()
+        );
     }
 
     /**

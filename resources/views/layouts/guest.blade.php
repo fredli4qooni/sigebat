@@ -5,25 +5,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $title ?? config('app.name', 'SIGEBAT') }} — Desa Wisata Kampung Gedung Batin</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
+        <!-- Scripts & Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <body class="bg-beton text-aspal font-sans antialiased min-h-screen flex flex-col justify-center items-center p-4">
+        <div class="w-full max-w-[420px]">
+            <!-- Header Papan Rambu -->
+            <div class="mb-4 text-center">
+                <a href="/" class="inline-block no-underline">
+                    <div class="papan papan--cokelat text-center py-3 px-6 inline-flex items-center gap-3">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 256 256">
+                            <path d="M218.83,103.77l-80-75.48a13.9,13.9,0,0,0-17.66,0l-80,75.48A14,14,0,0,0,36,114V208a14,14,0,0,0,14,14H206a14,14,0,0,0,14-14V114A14,14,0,0,0,218.83,103.77ZM206,206H50a2,2,0,0,1-2-2V114a2,2,0,0,1,.74-1.57l80-75.49a2,2,0,0,1,2.52,0l80,75.49A2,2,0,0,1,212,114V204A2,2,0,0,1,206,206Z"/>
+                        </svg>
+                        <div class="text-left">
+                            <div class="font-papan font-bold text-xl leading-none text-putih">SIGEBAT</div>
+                            <div class="text-xs text-putih tracking-wide opacity-90">Kampung Gedung Batin</div>
+                        </div>
+                    </div>
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            <!-- Lembar Form Putih dengan Border Aspal 2px (DESIGN.md 8.6) -->
+            <div class="bg-putih border-2 border-aspal rounded-papan p-6 sm:p-8">
                 {{ $slot }}
+            </div>
+
+            <div class="mt-4 text-center text-sm text-abu">
+                <a href="/" class="text-aspal underline font-semibold hover:text-cokelat">Kembali ke Halaman Publik</a>
             </div>
         </div>
     </body>
