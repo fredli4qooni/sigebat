@@ -3,17 +3,22 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\FasilitasController as PublicFasilitasController;
 use App\Http\Controllers\Public\HomeController as PublicHomeController;
+use App\Http\Controllers\Public\KalenderController as PublicKalenderController;
 use App\Http\Controllers\Public\PetaController as PublicPetaController;
 use App\Http\Controllers\Public\WisataController as PublicWisataController;
 use Illuminate\Support\Facades\Route;
 
-// Rute Publik Wisatawan (Milestone 6)
+// Rute Publik Wisatawan (Milestone 6 & 7)
 Route::get('/', [PublicHomeController::class, 'index'])->name('home');
 Route::get('/wisata', [PublicWisataController::class, 'index'])->name('wisata.index');
 Route::get('/wisata/{slug}', [PublicWisataController::class, 'show'])->name('wisata.show');
 Route::get('/peta', [PublicPetaController::class, 'index'])->name('peta.index');
 Route::get('/fasilitas', [PublicFasilitasController::class, 'index'])->name('fasilitas.index');
 Route::get('/api/wisata', [PublicWisataController::class, 'api'])->name('api.wisata');
+Route::get('/kalender', [PublicKalenderController::class, 'index'])->name('kalender.index');
+Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('event.show');
+Route::get('/event/{slug}/ics', [PublicKalenderController::class, 'downloadIcs'])->name('event.ics');
+Route::get('/kalender/{slug}', fn (string $slug) => redirect()->route('event.show', $slug));
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -274,7 +274,7 @@
                         </div>
 
                         <div class="pt-4 mt-4 border-t border-beton">
-                            <a href="/kalender" class="text-xs font-bold text-aspal underline hover:text-kuning-gelap flex items-center justify-between">
+                            <a href="{{ route('event.show', $ev->slug) }}" class="text-xs font-bold text-aspal underline hover:text-kuning-gelap flex items-center justify-between">
                                 <span>Detail jadwal acara</span>
                                 <span>&rarr;</span>
                             </a>
