@@ -18,7 +18,7 @@ Route::get('/api/wisata', [PublicWisataController::class, 'api'])->name('api.wis
 Route::get('/kalender', [PublicKalenderController::class, 'index'])->name('kalender.index');
 Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('event.show');
 Route::get('/event/{slug}/ics', [PublicKalenderController::class, 'downloadIcs'])->name('event.ics');
-Route::get('/kalender/{slug}', fn (string $slug) => redirect()->route('event.show', $slug));
+Route::get('/kalender/{slug}', [PublicKalenderController::class, 'redirectSlug']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

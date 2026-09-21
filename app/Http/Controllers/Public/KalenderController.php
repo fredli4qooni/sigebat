@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\EventBudaya;
 use App\Models\KategoriEvent;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -201,5 +202,13 @@ class KalenderController extends Controller
             'Content-Type' => 'text/calendar; charset=utf-8',
             'Content-Disposition' => 'attachment; filename="'.$event->slug.'.ics"',
         ]);
+    }
+
+    /**
+     * Redirect alias /kalender/{slug} ke /event/{slug}
+     */
+    public function redirectSlug(string $slug): RedirectResponse
+    {
+        return redirect()->route('event.show', $slug);
     }
 }

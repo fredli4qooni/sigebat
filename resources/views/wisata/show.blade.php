@@ -1,6 +1,9 @@
 <x-portal-layout>
     <x-slot:title>{{ $wisata->nama }} — Desa Wisata Kampung Gedung Batin</x-slot:title>
     <x-slot:description>{{ Str::limit(strip_tags($wisata->deskripsi), 150) }}</x-slot:description>
+    @if($wisata->foto_utama)
+        <x-slot:image>{{ $wisata->foto_url }}</x-slot:image>
+    @endif
 
     <div class="py-8 md:py-12" x-data="{
         userLat: null,

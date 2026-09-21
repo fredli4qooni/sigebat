@@ -1,6 +1,9 @@
 <x-portal-layout>
     <x-slot:title>{{ $event->judul }} — Kalender Event Budaya SIGEBAT</x-slot:title>
     <x-slot:description>{{ Str::limit(strip_tags($event->deskripsi), 160) }}</x-slot:description>
+    @if($event->poster)
+        <x-slot:image>{{ $event->poster_url }}</x-slot:image>
+    @endif
 
     <div class="max-w-[1240px] mx-auto px-4 sm:px-6 py-8 md:py-12 space-y-8" x-data="{ copied: false }">
         <!-- Breadcrumb & Tombol Kembali -->

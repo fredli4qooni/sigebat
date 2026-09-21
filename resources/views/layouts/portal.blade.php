@@ -8,10 +8,22 @@
     <title>{{ $title ?? 'Jelajah Gedung Batin' }} — SIGEBAT Desa Wisata</title>
     <meta name="description" content="{{ $description ?? 'Sistem Informasi Manajemen Desa Wisata Kampung Gedung Batin berbasis Location Based Services (LBS) dan Kalender Event Budaya Digital.' }}">
 
-    <!-- Open Graph Meta -->
+    <!-- Open Graph & Meta Media Sosial (PRD PUB-08 & M8.4) -->
     <meta property="og:title" content="{{ $title ?? 'Desa Wisata Kampung Gedung Batin' }}">
     <meta property="og:description" content="{{ $description ?? 'Informasi objek wisata adat pepadun, peta LBS terdekat, dan jadwal event budaya digital Way Kanan.' }}">
+    <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
+    @if(isset($image))
+        <meta property="og:image" content="{{ $image }}">
+    @endif
+
+    <!-- Twitter Card Meta -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title ?? 'Desa Wisata Kampung Gedung Batin' }}">
+    <meta name="twitter:description" content="{{ $description ?? 'Informasi objek wisata adat pepadun, peta LBS terdekat, dan jadwal event budaya digital Way Kanan.' }}">
+    @if(isset($image))
+        <meta name="twitter:image" content="{{ $image }}">
+    @endif
 
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
