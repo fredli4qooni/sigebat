@@ -169,7 +169,7 @@
                     if (userCoords) {
                         const dist = haversine(userCoords.lat, userCoords.lng, w.latitude, w.longitude);
                         const distText = dist < 1 ? Math.round(dist * 1000) + ' meter' : dist.toFixed(2) + ' km';
-                        distHtml = `<div style="margin-top: 6px; padding: 4px 8px; background: #ECFDF5; color: #047857; font-weight: 600; font-size: 11px; border-radius: 6px; display: inline-block;">📍 Jarak: ${distText} dari Anda</div>`;
+                        distHtml = `<div style="margin-top: 6px; padding: 4px 8px; background: #ECFDF5; color: #047857; font-weight: 600; font-size: 11px; border-radius: 6px; display: inline-block;">Jarak: ${distText} dari Anda</div>`;
                     }
 
                     const popupContent = `
@@ -178,7 +178,7 @@
                             <div style="font-size: 10px; font-weight: 700; color: #047857; text-transform: uppercase; margin-bottom: 2px;">${w.kategori}</div>
                             <div style="font-size: 14px; font-weight: 700; color: #0F172A; line-height: 1.3;">${w.nama}</div>
                             <div style="font-size: 11px; color: #64748B; margin-top: 4px;">${w.alamat}</div>
-                            <div style="font-size: 11px; color: #475569; margin-top: 4px;">🎟️ ${w.harga_tiket} &bull; ⏰ ${w.jam_operasional}</div>
+                            <div style="font-size: 11px; color: #475569; margin-top: 4px;">Tiket: ${w.harga_tiket} &bull; Buka: ${w.jam_operasional}</div>
                             ${distHtml}
                             <div style="margin-top: 10px; display: flex; gap: 6px;">
                                 <a href="${w.detail_url}" style="flex: 1; text-align: center; background: #0F172A; color: #FFFFFF; text-decoration: none; padding: 6px 10px; font-size: 11px; font-weight: 600; border-radius: 6px;">Detail</a>
@@ -188,7 +188,7 @@
                     `;
 
                     const marker = L.marker([w.latitude, w.longitude], {
-                        icon: createPinIcon('#78350F', '🏡 ' + w.nama.substring(0, 14) + (w.nama.length > 14 ? '...' : ''))
+                        icon: createPinIcon('#78350F', w.nama.substring(0, 16) + (w.nama.length > 16 ? '...' : ''))
                     }).bindPopup(popupContent);
 
                     wisataLayer.addLayer(marker);
@@ -210,7 +210,7 @@
                     `;
 
                     const marker = L.marker([f.latitude, f.longitude], {
-                        icon: createPinIcon('#0284C7', '🚻 ' + f.nama.substring(0, 12))
+                        icon: createPinIcon('#0284C7', f.nama.substring(0, 14))
                     }).bindPopup(popupContent);
 
                     fasilitasLayer.addLayer(marker);

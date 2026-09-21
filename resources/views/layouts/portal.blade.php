@@ -151,9 +151,13 @@
                     <p class="text-sm text-slate-400 max-w-md leading-relaxed">
                         Sistem informasi resmi penjelajahan cagar budaya rumah panggung tradisional kayu ulin ratusan tahun, pelestarian adat Pepadun, dan direktori kegiatan budaya terpadu dengan Location Based Services (LBS).
                     </p>
-                    <div class="text-xs text-slate-500 font-mono flex items-center gap-2">
-                        <span>📍 Titik Pusat Koordinat:</span>
-                        <span class="text-slate-400">-4.540583, 104.664984</span>
+                    <div class="text-xs text-slate-400 font-mono flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span>Pusat Koordinat Desa:</span>
+                        <span class="text-slate-300">-4.540583, 104.664984</span>
                     </div>
                 </div>
 

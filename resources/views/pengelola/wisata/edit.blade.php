@@ -166,9 +166,11 @@
                     <button
                         type="button"
                         id="btn-geolocate"
-                        class="h-[36px] px-3 bg-biru text-putih text-xs font-bold rounded-kontrol hover:bg-biru-gelap cursor-pointer flex items-center gap-1.5 self-start sm:self-auto"
+                        class="h-9 px-3.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold rounded-xl cursor-pointer flex items-center gap-1.5 self-start sm:self-auto transition-all shadow-xs"
                     >
-                        <span>📍</span>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
                         <span>Gunakan Lokasi GPS Saya</span>
                     </button>
                 </div>
@@ -291,12 +293,12 @@
                             map.setView([lat, lng], 17);
                             updateInputs(lat, lng);
                             btnGeolocate.disabled = false;
-                            btnGeolocate.innerHTML = '<span>📍</span><span>Lokasi GPS Terdeteksi</span>';
+                            btnGeolocate.innerHTML = '<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg><span>Lokasi GPS Terdeteksi</span>';
                         },
                         function(err) {
                             alert('Gagal mendeteksi lokasi GPS. Pastikan izin lokasi browser telah diaktifkan.');
                             btnGeolocate.disabled = false;
-                            btnGeolocate.innerHTML = '<span>📍</span><span>Gunakan Lokasi GPS Saya</span>';
+                            btnGeolocate.innerHTML = '<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg><span>Gunakan Lokasi GPS Saya</span>';
                         },
                         { enableHighAccuracy: true, timeout: 10000 }
                     );

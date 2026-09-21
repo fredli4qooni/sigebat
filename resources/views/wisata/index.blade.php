@@ -224,8 +224,18 @@
                                 </p>
 
                                 <div class="pt-3 flex items-center justify-between text-xs text-slate-600 border-t border-slate-100">
-                                    <span class="font-semibold text-emerald-700">🎟️ {{ $w->harga_tiket ?: 'Gratis' }}</span>
-                                    <span class="text-slate-400 font-medium">⏰ {{ $w->jam_operasional ?: '08.00 - 17.00 WIB' }}</span>
+                                    <span class="font-semibold text-emerald-700 inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                                        </svg>
+                                        <span>{{ $w->harga_tiket ?: 'Gratis' }}</span>
+                                    </span>
+                                    <span class="text-slate-400 font-medium inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>{{ $w->jam_operasional ?: '08.00 - 17.00 WIB' }}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +265,11 @@
                     </div>
                 @empty
                     <div class="col-span-3 py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200 p-8 space-y-3">
-                        <div class="text-3xl">🔍</div>
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
                         <div class="text-lg font-bold text-slate-800">Tidak ada objek wisata yang sesuai kriteria pencarian</div>
                         <p class="text-xs text-slate-500 max-w-sm mx-auto">
                             Coba ubah kata kunci atau hapus filter kategori untuk menemukan objek wisata lainnya.

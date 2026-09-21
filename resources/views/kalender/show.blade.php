@@ -118,7 +118,9 @@
                                     rel="noopener noreferrer"
                                     class="flex-1 h-10 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl no-underline flex items-center justify-center gap-1.5 transition-all shadow-xs"
                                 >
-                                    <span>💬</span>
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/>
+                                    </svg>
                                     <span>WhatsApp</span>
                                 </a>
 
@@ -132,8 +134,18 @@
                                     "
                                     class="flex-1 h-10 px-3 bg-white border border-slate-300 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-50 flex items-center justify-center gap-1.5 transition-all shadow-xs"
                                 >
-                                    <span x-show="!copied">🔗 Salin Tautan</span>
-                                    <span x-show="copied" class="text-emerald-700 font-bold">✓ Tersalin!</span>
+                                    <span x-show="!copied" class="inline-flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                        </svg>
+                                        <span>Salin Tautan</span>
+                                    </span>
+                                    <span x-show="copied" class="text-emerald-700 font-bold inline-flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span>Tersalin!</span>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -147,8 +159,11 @@
                         <!-- Tanggal Pelaksanaan -->
                         <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-1">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tanggal Pelaksanaan</span>
-                            <div class="text-base sm:text-lg font-bold text-slate-900">
-                                📅 {{ $event->tanggal_mulai ? $event->tanggal_mulai->translatedFormat('l, d F Y') : '' }}
+                            <div class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span>{{ $event->tanggal_mulai ? $event->tanggal_mulai->translatedFormat('l, d F Y') : '' }}</span>
                             </div>
                             @if($event->is_multi_hari)
                                 <div class="text-xs text-amber-700 font-semibold mt-1">
@@ -160,8 +175,11 @@
                         <!-- Jam Operasional -->
                         <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-1">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Waktu Pelaksanaan</span>
-                            <div class="text-base sm:text-lg font-bold text-slate-900">
-                                ⏰ {{ substr($event->jam_mulai, 0, 5) }} - {{ substr($event->jam_selesai, 0, 5) }} WIB
+                            <div class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>{{ substr($event->jam_mulai, 0, 5) }} - {{ substr($event->jam_selesai, 0, 5) }} WIB</span>
                             </div>
                             <div class="text-xs text-slate-500 mt-1 font-mono">
                                 Waktu Indonesia Barat (WIB)
@@ -171,8 +189,12 @@
                         <!-- Tempat & Lokasi -->
                         <div class="sm:col-span-2 bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-1">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lokasi Kegiatan</span>
-                            <div class="text-base sm:text-lg font-bold text-slate-900">
-                                📍 {{ $event->lokasi ?: 'Kawasan Adat Kampung Gedung Batin' }}
+                            <div class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>{{ $event->lokasi ?: 'Kawasan Adat Kampung Gedung Batin' }}</span>
                             </div>
                             <div class="text-xs text-slate-500">
                                 Kampung Gedung Batin, Kec. Umpu Semenguk, Kab. Way Kanan, Lampung
@@ -236,12 +258,24 @@
                                         {{ $evLain->judul }}
                                     </a>
                                 </h3>
-                                <div class="text-xs text-slate-500 font-medium">
-                                    📅 {{ $evLain->tanggal_mulai ? $evLain->tanggal_mulai->translatedFormat('d M Y') : '' }}
+                                <div class="text-xs text-slate-500 font-medium flex flex-wrap items-center gap-2">
+                                    <span class="inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span>{{ $evLain->tanggal_mulai ? $evLain->tanggal_mulai->translatedFormat('d M Y') : '' }}</span>
+                                    </span>
                                     @if($evLain->is_multi_hari)
-                                        s/d {{ $evLain->tanggal_selesai ? $evLain->tanggal_selesai->translatedFormat('d M Y') : '' }}
+                                        <span>s/d {{ $evLain->tanggal_selesai ? $evLain->tanggal_selesai->translatedFormat('d M Y') : '' }}</span>
                                     @endif
-                                    &bull; 📍 {{ $evLain->lokasi }}
+                                    <span>&bull;</span>
+                                    <span class="inline-flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <span>{{ $evLain->lokasi }}</span>
+                                    </span>
                                 </div>
                                 <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                                     {{ $evLain->deskripsi }}

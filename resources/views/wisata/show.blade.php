@@ -152,8 +152,10 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 @foreach($wisata->fasilitas as $f)
                                     <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 flex items-start gap-3 transition-colors">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                                            ✓
+                                        <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                            </svg>
                                         </div>
                                         <div>
                                             <div class="font-bold text-slate-900 text-sm">{{ $f->nama }}</div>
@@ -182,7 +184,9 @@
                         <div class="space-y-4 text-sm">
                             <div class="flex items-start gap-3.5">
                                 <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0">
-                                    🎟️
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <div class="font-bold text-slate-900">Harga Tiket Masuk</div>
@@ -192,7 +196,9 @@
 
                             <div class="flex items-start gap-3.5">
                                 <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                                    ⏰
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <div class="font-bold text-slate-900">Jam Operasional</div>
@@ -203,7 +209,9 @@
                             @if($wisata->kontak)
                                 <div class="flex items-start gap-3.5">
                                     <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-700 flex items-center justify-center flex-shrink-0">
-                                        📞
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
                                     </div>
                                     <div>
                                         <div class="font-bold text-slate-900">Narahubung / Pengelola</div>

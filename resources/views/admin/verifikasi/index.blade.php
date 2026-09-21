@@ -87,9 +87,11 @@
                                             @csrf
                                             <button
                                                 type="submit"
-                                                class="px-3.5 py-1.5 bg-hijau text-putih border-2 border-aspal rounded-kontrol font-bold text-xs hover:opacity-95 cursor-pointer flex items-center gap-1"
+                                                class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
                                             >
-                                                <span>✓</span>
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                                </svg>
                                                 <span>Setujui</span>
                                             </button>
                                         </form>
@@ -102,9 +104,11 @@
                                                 'name' => $pengelola->name,
                                                 'email' => $pengelola->email
                                             ]) }})"
-                                            class="px-3.5 py-1.5 bg-putih text-merah border-2 border-merah rounded-kontrol font-bold text-xs hover:bg-merah hover:text-putih cursor-pointer flex items-center gap-1"
+                                            class="px-3.5 py-1.5 bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 rounded-lg font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
                                         >
-                                            <span>✕</span>
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
                                             <span>Tolak</span>
                                         </button>
                                     </div>

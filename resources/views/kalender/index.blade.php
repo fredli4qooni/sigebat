@@ -91,17 +91,23 @@
                         type="button"
                         @click="viewMode = 'kalender'"
                         :class="viewMode === 'kalender' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all"
+                        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all inline-flex items-center gap-1.5"
                     >
-                        📅 Kalender
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span>Kalender</span>
                     </button>
                     <button
                         type="button"
                         @click="viewMode = 'daftar'"
                         :class="viewMode === 'daftar' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all"
+                        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all inline-flex items-center gap-1.5"
                     >
-                        📋 Daftar ({{ $allMonthEvents->count() }})
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        <span>Daftar ({{ $allMonthEvents->count() }})</span>
                     </button>
                 </div>
             </div>
@@ -220,8 +226,11 @@
                         <span>Selesai</span>
                     </span>
                 </div>
-                <div>
-                    <em>💡 Klik salah satu tanggal di kalender untuk menyaring agenda pada hari tersebut.</em>
+                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                    <svg class="w-3.5 h-3.5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Klik salah satu tanggal di kalender untuk menyaring agenda pada hari tersebut.</span>
                 </div>
             </div>
         </div>
@@ -245,9 +254,12 @@
                     <button
                         type="button"
                         @click="clearDate()"
-                        class="px-3.5 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-colors shadow-xs"
+                        class="px-3.5 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition-colors shadow-xs inline-flex items-center gap-1.5"
                     >
-                        ✕ Tampilkan Semua Bulan Ini
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <span>Tampilkan Semua Bulan Ini</span>
                     </button>
                 </div>
             </div>
@@ -361,8 +373,10 @@
             @else
                 <!-- Pesan Informatif Bulan Kosong Modern -->
                 <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-10 md:p-14 text-center space-y-4 max-w-xl mx-auto">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mx-auto text-xl font-bold">
-                        📅
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mx-auto">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-900 tracking-tight">
                         Belum Ada Agenda pada {{ $namaBulan }} {{ $tahun }}
