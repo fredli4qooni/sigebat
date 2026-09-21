@@ -1,256 +1,263 @@
 <x-portal-layout>
-    <x-slot:title>Jelajah Gedung Batin — Desa Wisata Kebudayaan Way Kanan</x-slot:title>
-    <x-slot:description>Situs resmi Desa Wisata Kampung Gedung Batin. Eksplorasi cagar budaya rumah panggung tua, peta terdekat berbasis LBS, dan jadwal event budaya digital.</x-slot:description>
+    <x-slot:title>Desa Wisata Cagar Budaya Kampung Gedung Batin — SIGEBAT</x-slot:title>
+    <x-slot:description>Sistem Informasi Manajemen Desa Wisata Kampung Gedung Batin, Way Kanan berbasis LBS dan Kalender Event Budaya Digital.</x-slot:description>
 
-    <!-- 1. Hero Section (DESIGN.md 8.1) -->
-    <section class="border-b-2 border-beton bg-putih py-8 md:py-14">
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                <!-- Kolom Kiri: Papan Rambu & Tombol Arah -->
-                <div class="lg:col-span-6 space-y-6">
-                    <x-papan warna="cokelat" class="p-6 sm:p-8">
-                        <div class="text-sm text-putih opacity-90 mb-1 font-semibold">Desa wisata kebudayaan</div>
-                        <h1 class="text-3xl sm:text-5xl font-bold font-papan text-putih leading-tight">
-                            Kampung Gedung Batin
-                        </h1>
-                        <p class="mt-3 text-[17px] text-putih leading-relaxed max-w-prose">
-                            Kawasan cagar budaya rumah panggung kayu berusia ratusan tahun, tradisi adat Pepadun, dan agenda festival tahunan terpadu.
-                        </p>
-                    </x-papan>
+    <!-- 1. Hero Section Modern & Berwibawa -->
+    <section class="relative bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950 text-white overflow-hidden py-16 md:py-24 lg:py-28">
+        <!-- Subtle Grid Pattern Background -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
 
-                    <!-- Tombol Penunjuk Rute Rambu -->
-                    <div class="flex flex-col gap-3 pt-2">
-                        <div>
-                            <x-tombol-arah warna="hijau" href="/peta">
-                                Cari wisata terdekat di peta (LBS)
-                            </x-tombol-arah>
-                        </div>
-                        <div>
-                            <x-tombol-arah warna="kuning" href="/kalender">
-                                Lihat kalender event budaya
-                            </x-tombol-arah>
-                        </div>
-                        <div>
-                            <x-tombol-arah warna="cokelat" href="/wisata">
-                                Jelajahi semua objek wisata
-                            </x-tombol-arah>
-                        </div>
-                    </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl space-y-6">
+                <!-- Status Cagar Budaya Badge -->
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>Cagar Budaya Resmi &bull; Way Kanan, Lampung</span>
                 </div>
 
-                <!-- Kolom Kanan: Visual Representasi Cagar Budaya -->
-                <div class="lg:col-span-6">
-                    <div class="border-2 border-aspal rounded-papan overflow-hidden bg-beton">
-                        <div class="aspect-[4/3] bg-cokelat-gelap text-putih p-8 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute inset-0 opacity-10 pointer-events-none">
-                                <svg width="100%" height="100%">
-                                    <defs>
-                                        <pattern id="hero-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-                                            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#ffffff" stroke-width="1"/>
-                                        </pattern>
-                                    </defs>
-                                    <rect width="100%" height="100%" fill="url(#hero-grid)" />
-                                </svg>
-                            </div>
+                <!-- Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
+                    Warisan Rumah Panggung & Pesona Adat Pepadun
+                </h1>
 
-                            <div class="relative z-10">
-                                <span class="inline-block px-3 py-1 bg-hijau text-putih text-xs font-bold rounded-tag mb-3">
-                                    Cagar Budaya Nasional &bull; SK Bupati Way Kanan
-                                </span>
-                                <h2 class="text-2xl sm:text-3xl font-papan font-bold text-putih leading-snug">
-                                    Warisan Rumah Panggung Kayu Ulin Tertua di Way Kanan
-                                </h2>
-                                <p class="text-xs text-putih/80 mt-2 line-clamp-2">
-                                    Dibangun tanpa paku besi dan bertahan kokoh melewati lintas generasi sejak abad ke-17 di tepi Sungai Way Besai.
-                                </p>
-                            </div>
+                <!-- Deskripsi -->
+                <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
+                    Jelajahi keagungan arsitektur kayu ulin berusia ratusan tahun di Kampung Gedung Batin, ikuti kalender ritual budaya tahunan, dan temukan rute terdekat langsung dengan teknologi <em>Location Based Services</em>.
+                </p>
 
-                            <div class="relative z-10 pt-4 border-t border-putih/20 flex items-center justify-between text-xs text-putih/90 font-mono">
-                                <span>Kecamatan Umpu Semenguk</span>
-                                <span>Titik: -4.540583, 104.664984</span>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Tombol CTA -->
+                <div class="pt-3 flex flex-wrap items-center gap-3.5">
+                    <a
+                        href="/wisata"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-md hover:shadow-emerald-600/30 hover:-translate-y-0.5 transition-all no-underline"
+                    >
+                        <span>Eksplorasi Destinasi</span>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </a>
+
+                    <a
+                        href="/peta"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm backdrop-blur-md hover:-translate-y-0.5 transition-all no-underline"
+                    >
+                        <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                        </svg>
+                        <span>Peta Interaktif & LBS</span>
+                    </a>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- 2. Statistik Cepat Desa -->
-    <section class="border-b-2 border-beton bg-putih py-6">
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="p-4 border-2 border-aspal rounded-kontrol bg-beton/40 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-kontrol bg-cokelat text-putih flex items-center justify-center text-xl font-bold flex-shrink-0">
-                        🏡
+    <!-- 2. Bar Statistik Melayang (Floating Metric Cards) -->
+    <section class="relative -mt-8 sm:-mt-10 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:divide-x md:divide-slate-200">
+                    <!-- Metrik 1 -->
+                    <div class="flex items-center gap-4.5">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countWisata }} Objek Cagar Budaya</div>
+                            <div class="text-xs text-slate-500 font-medium mt-0.5">Rumah adat panggung, situs bersejarah & makam leluhur</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-2xl font-bold font-papan text-aspal">{{ $countWisata }} Objek Wisata</div>
-                        <div class="text-xs text-abu">Cagar budaya & keindahan alam</div>
-                    </div>
-                </div>
 
-                <div class="p-4 border-2 border-aspal rounded-kontrol bg-beton/40 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-kontrol bg-kuning text-aspal flex items-center justify-center text-xl font-bold flex-shrink-0">
-                        📅
+                    <!-- Metrik 2 -->
+                    <div class="flex items-center gap-4.5 md:pl-6">
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countEvent }} Event & Ritual Budaya</div>
+                            <div class="text-xs text-slate-500 font-medium mt-0.5">Pagelaran tari cangget, upacara begawi & festival</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-2xl font-bold font-papan text-aspal">{{ $countEvent }} Agenda Budaya</div>
-                        <div class="text-xs text-abu">Pentas seni tari & upacara adat</div>
-                    </div>
-                </div>
 
-                <div class="p-4 border-2 border-aspal rounded-kontrol bg-beton/40 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-kontrol bg-biru text-putih flex items-center justify-center text-xl font-bold flex-shrink-0">
-                        🚻
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold font-papan text-aspal">{{ $countFasilitas }} Sarana Fasilitas</div>
-                        <div class="text-xs text-abu">Musala, toilet & sarana umum</div>
+                    <!-- Metrik 3 -->
+                    <div class="flex items-center gap-4.5 md:pl-6">
+                        <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countFasilitas }} Sarana Pendukung</div>
+                            <div class="text-xs text-slate-500 font-medium mt-0.5">Musala, toilet umum, pos pemandu & area parkir</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. Objek Wisata Unggulan (DESIGN.md 8.2) -->
-    <section class="py-12 md:py-16">
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6 space-y-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-aspal pb-4">
+    <!-- 3. Destinasi Wisata Unggulan -->
+    <section class="py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <!-- Header Seksi -->
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
                 <div>
-                    <span class="text-xs font-bold text-cokelat tracking-wider uppercase">Destinasi Pilihan</span>
-                    <h2 class="text-3xl font-bold font-papan text-aspal mt-1">Tempat Wisata & Cagar Budaya</h2>
+                    <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase">Destinasi Pilihan</span>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight mt-1">Cagar Budaya & Objek Wisata</h2>
                 </div>
-                <a href="/wisata" class="text-sm font-bold text-aspal underline hover:text-cokelat">
-                    Lihat semua wisata &rarr;
+                <a href="/wisata" class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition-colors no-underline">
+                    <span>Lihat seluruh destinasi</span>
+                    <span>&rarr;</span>
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Grid Kartu Wisata -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 @forelse($wisataUnggulan as $w)
-                    <div class="bg-putih border-2 border-aspal rounded-papan overflow-hidden flex flex-col justify-between hover:translate-y-[-2px] transition-transform">
+                    <div class="card-modern overflow-hidden group flex flex-col justify-between">
                         <div>
                             <!-- Foto Objek Wisata -->
-                            <div class="relative h-48 bg-beton overflow-hidden border-b-2 border-aspal">
+                            <div class="relative h-52 bg-slate-100 overflow-hidden">
                                 @if($w->foto_utama)
-                                    <img src="{{ $w->foto_url }}" alt="{{ $w->nama }}" class="w-full h-full object-cover">
+                                    <img
+                                        src="{{ $w->foto_url }}"
+                                        alt="{{ $w->nama }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    >
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center bg-beton text-abu font-semibold text-sm">
+                                    <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400 text-sm font-medium">
                                         Foto belum tersedia
                                     </div>
                                 @endif
+
+                                <!-- Kategori Tag -->
                                 <div class="absolute top-3 left-3">
-                                    <span class="px-2.5 py-1 bg-cokelat text-putih text-xs font-bold rounded-tag">
+                                    <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-md text-white text-xs font-medium rounded-md shadow-xs">
                                         {{ $w->kategori?->nama ?? 'Wisata' }}
                                     </span>
                                 </div>
                             </div>
 
                             <!-- Detail Ringkas -->
-                            <div class="p-5 space-y-2">
-                                <h3 class="text-xl font-bold font-papan text-aspal leading-snug">
-                                    <a href="{{ route('wisata.show', $w->slug) }}" class="no-underline text-aspal hover:text-cokelat">
+                            <div class="p-6 space-y-3">
+                                <h3 class="text-xl font-bold text-slate-900 tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
+                                    <a href="{{ route('wisata.show', $w->slug) }}" class="no-underline text-inherit">
                                         {{ $w->nama }}
                                     </a>
                                 </h3>
-                                <p class="text-xs text-abu line-clamp-2 leading-relaxed">
+
+                                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                                     {{ $w->deskripsi }}
                                 </p>
-                                <div class="pt-2 text-xs text-aspal flex items-center justify-between border-t border-beton">
-                                    <span class="font-semibold">🎟️ {{ $w->harga_tiket ?: 'Gratis' }}</span>
-                                    <span class="text-abu">⏰ {{ $w->jam_operasional ?: '08.00 - 17.00 WIB' }}</span>
+
+                                <div class="pt-3 flex items-center justify-between text-xs text-slate-600 border-t border-slate-100">
+                                    <span class="font-semibold text-emerald-700">🎟️ {{ $w->harga_tiket ?: 'Gratis' }}</span>
+                                    <span class="text-slate-400 font-medium">⏰ {{ $w->jam_operasional ?: '08.00 - 17.00 WIB' }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Tombol Buka Rincian -->
-                        <div class="p-5 pt-0">
+                        <div class="p-6 pt-0">
                             <a
                                 href="{{ route('wisata.show', $w->slug) }}"
-                                class="w-full h-[40px] px-4 bg-putih border-2 border-aspal text-aspal font-bold text-xs rounded-kontrol hover:bg-beton no-underline flex items-center justify-center gap-1.5"
+                                class="w-full h-10 px-4 rounded-lg bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-700 hover:text-emerald-700 font-semibold text-xs no-underline flex items-center justify-center gap-1.5 transition-all"
                             >
-                                <span>Buka Informasi Lengkap</span>
+                                <span>Informasi Selengkapnya</span>
                                 <span>&rarr;</span>
                             </a>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-3 py-12 text-center text-abu">
-                        Belum ada data objek wisata aktif yang dipublikasikan.
+                    <div class="col-span-3 py-12 text-center text-slate-400">
+                        Belum ada destinasi wisata yang ditampilkan.
                     </div>
                 @endforelse
             </div>
         </div>
     </section>
 
-    <!-- 4. Peta & LBS Promo Banner (DESIGN.md 8.4) -->
-    <section class="border-y-2 border-aspal bg-hijau text-putih py-12">
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                <div class="md:col-span-8 space-y-3">
-                    <span class="px-3 py-1 bg-putih text-hijau text-xs font-bold rounded-tag">
-                        Location Based Services (LBS)
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl font-bold font-papan text-putih leading-tight">
-                        Temukan Destinasi & Fasilitas Terdekat dari Posisi Anda
-                    </h2>
-                    <p class="text-putih/90 text-sm sm:text-base max-w-xl leading-relaxed">
-                        Sistem SIGEBAT menggunakan GPS perangkat Anda untuk menghitung jarak akurat (Haversine Formula) ke setiap rumah panggung adat dan fasilitas umum desa secara langsung tanpa perlu koneksi internet berkecepatan tinggi.
-                    </p>
+    <!-- 4. Banner Edukasi Fitur LBS (Location Based Services) -->
+    <section class="py-12 md:py-16 bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-xl overflow-hidden my-6">
+        <div class="max-w-6xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="space-y-4 max-w-xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold backdrop-blur-sm">
+                    <svg class="w-3.5 h-3.5 fill-current text-emerald-400" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Navigasi Cerdas Wisatawan</span>
                 </div>
-                <div class="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3">
-                    <a
-                        href="/peta"
-                        class="h-[48px] px-6 bg-putih text-aspal border-2 border-aspal font-bold text-sm rounded-kontrol hover:bg-beton no-underline flex items-center justify-center gap-2"
-                    >
-                        <span>🗺️</span>
-                        <span>Buka Peta Interaktif</span>
-                    </a>
-                    <a
-                        href="/fasilitas"
-                        class="h-[48px] px-6 bg-hijau-gelap text-putih border border-putih/30 font-bold text-sm rounded-kontrol hover:bg-hijau-gelap/80 no-underline flex items-center justify-center gap-2"
-                    >
-                        <span>🚻</span>
-                        <span>Lihat Fasilitas Desa</span>
-                    </a>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+                    Temukan Destinasi Wisata Terdekat dari Titik Anda
+                </h2>
+                <p class="text-sm md:text-base text-slate-300 leading-relaxed font-normal">
+                    Manfaatkan teknologi <em>Location Based Services</em> berbasis Geolocation API dan formula Haversine untuk mendeteksi objek wisata terdekat secara instan, aman, dan tanpa biaya.
+                </p>
+                <div class="text-xs text-slate-400 flex items-center gap-2 pt-1">
+                    <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Privasi terjaga: koordinat GPS Anda hanya diproses di browser tanpa disimpan di server.</span>
                 </div>
+            </div>
+
+            <div class="flex-shrink-0">
+                <a
+                    href="/peta"
+                    class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg hover:shadow-emerald-500/30 transition-all no-underline"
+                >
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l3.707 3.707A1 1 0 0019 17.414V7a1 1 0 00-.293-.707z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Buka Peta & Deteksi Lokasi</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- 5. Agenda Event Budaya Digital (DESIGN.md 8.3) -->
-    <section class="py-12 md:py-16 bg-putih border-b-2 border-beton">
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6 space-y-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-aspal pb-4">
+    <!-- 5. Agenda Event Budaya Terdekat -->
+    <section class="py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <!-- Header Seksi -->
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
                 <div>
-                    <span class="text-xs font-bold text-kuning-gelap tracking-wider uppercase">Kalender Budaya</span>
-                    <h2 class="text-3xl font-bold font-papan text-aspal mt-1">Kegiatan Adat & Festival Mendatang</h2>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider uppercase">Kalender Budaya</span>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight mt-1">Kegiatan Adat & Festival Mendatang</h2>
                 </div>
-                <a href="/kalender" class="text-sm font-bold text-aspal underline hover:text-kuning-gelap">
-                    Buka kalender acara lengkap &rarr;
+                <a href="/kalender" class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition-colors no-underline">
+                    <span>Buka kalender acara lengkap</span>
+                    <span>&rarr;</span>
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Grid Kartu Event -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 @forelse($eventMendatang as $ev)
-                    <div class="bg-beton/40 border-2 border-aspal rounded-papan p-6 flex flex-col justify-between">
-                        <div class="space-y-3">
+                    <div class="card-modern p-6 flex flex-col justify-between">
+                        <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-0.5 rounded-tag text-xs font-bold {{ $ev->status_turunan_badge_class }}">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold
+                                    {{ $ev->status_turunan === 'Berlangsung' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : ($ev->status_turunan === 'Akan datang' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-slate-100 text-slate-600 border border-slate-200') }}
+                                ">
                                     {{ $ev->status_turunan }}
                                 </span>
-                                <span class="text-xs font-bold text-cokelat">{{ $ev->kategori?->nama }}</span>
+                                <span class="text-xs font-medium text-slate-500">{{ $ev->kategori?->nama }}</span>
                             </div>
 
-                            <h3 class="text-xl font-bold font-papan text-aspal leading-tight">
-                                {{ $ev->judul }}
+                            <h3 class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
+                                <a href="{{ route('event.show', $ev->slug) }}" class="no-underline text-inherit hover:text-emerald-700 transition-colors">
+                                    {{ $ev->judul }}
+                                </a>
                             </h3>
 
-                            <div class="text-xs font-mono text-abu space-y-1">
-                                <div class="flex items-center gap-1.5 text-aspal font-semibold">
-                                    <span>📅</span>
+                            <div class="text-xs text-slate-600 space-y-2 pt-1 border-t border-slate-100">
+                                <div class="flex items-center gap-2 font-medium text-slate-900">
+                                    <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
                                     <span>
                                         {{ $ev->tanggal_mulai ? $ev->tanggal_mulai->translatedFormat('d M Y') : '' }}
                                         @if($ev->is_multi_hari)
@@ -258,30 +265,34 @@
                                         @endif
                                     </span>
                                 </div>
-                                <div class="flex items-center gap-1.5">
-                                    <span>⏰</span>
+                                <div class="flex items-center gap-2 text-slate-500 font-mono">
+                                    <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
                                     <span>{{ substr($ev->jam_mulai, 0, 5) }} - {{ substr($ev->jam_selesai, 0, 5) }} WIB</span>
                                 </div>
-                                <div class="flex items-center gap-1.5">
-                                    <span>📍</span>
+                                <div class="flex items-center gap-2 text-slate-500">
+                                    <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    </svg>
                                     <span class="line-clamp-1">{{ $ev->lokasi }}</span>
                                 </div>
                             </div>
 
-                            <p class="text-xs text-abu line-clamp-3 leading-relaxed">
+                            <p class="text-xs text-slate-500 line-clamp-3 leading-relaxed">
                                 {{ $ev->deskripsi }}
                             </p>
                         </div>
 
-                        <div class="pt-4 mt-4 border-t border-beton">
-                            <a href="{{ route('event.show', $ev->slug) }}" class="text-xs font-bold text-aspal underline hover:text-kuning-gelap flex items-center justify-between">
+                        <div class="pt-4 mt-4 border-t border-slate-100">
+                            <a href="{{ route('event.show', $ev->slug) }}" class="inline-flex items-center justify-between w-full text-xs font-semibold text-emerald-700 hover:text-emerald-800 no-underline">
                                 <span>Detail jadwal acara</span>
                                 <span>&rarr;</span>
                             </a>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-3 py-12 text-center text-abu">
+                    <div class="col-span-3 py-12 text-center text-slate-400">
                         Belum ada kegiatan budaya yang dijadwalkan dalam waktu dekat.
                     </div>
                 @endforelse

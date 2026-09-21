@@ -1,210 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 @import "leaflet/dist/leaflet.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --putih: #FFFFFF;
-    --aspal: #22282E;
-    --abu: #59626B;
-    --beton: #E4E7E9;
-    --cokelat: #6B3A22;
-    --cokelat-gelap: #4F2A17;
-    --biru: #0B5EA8;
-    --biru-gelap: #084A86;
-    --hijau: #0F7A3C;
-    --hijau-gelap: #0B5F2E;
-    --kuning: #FFC20E;
-    --kuning-gelap: #E5AA00;
-    --merah: #C42B1C;
-    --merah-gelap: #9E2116;
-
-    --font-sans: "Barlow", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-    --font-papan: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
-
-    --r-papan: 16px;
-    --r-kartu: 12px;
-    --r-kontrol: 8px;
-    --r-tag: 6px;
-}
-
 @layer base {
     body {
-        font-family: var(--font-sans);
-        color: var(--aspal);
-        background-color: var(--putih);
-        line-height: 1.5;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        color: #1E293B;
+        background-color: #F8FAFC;
+        line-height: 1.6;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-papan);
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
         font-weight: 700;
-        line-height: 1.15;
+        letter-spacing: -0.025em;
+        line-height: 1.25;
     }
 
-    /* Accessibility focus ring: never outline: none */
     :focus-visible {
-        outline: 3px solid var(--aspal);
-        outline-offset: 3px;
+        outline: 2px solid #047857;
+        outline-offset: 2px;
     }
 }
 
-/* Komponen Papan: Wadah Berwarna dengan Garis Dalam (Inset Line) */
-.papan {
-    position: relative;
-    padding: 20px;
+/* Custom Scrollbar yang Halus */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Utility Card Modern */
+.card-modern {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(226, 232, 240, 0.8);
     border-radius: 16px;
-    background-color: var(--warna, var(--cokelat));
-    color: var(--teks, var(--putih));
+    box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.05);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08);
+    border-color: rgba(203, 213, 225, 0.9);
 }
 
-.papan::before {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border: 2px solid var(--teks, var(--putih));
-    border-radius: 10px;
-    pointer-events: none;
-}
-
-.papan--cokelat {
-    --warna: var(--cokelat);
-    --teks: var(--putih);
-}
-
-.papan--biru {
-    --warna: var(--biru);
-    --teks: var(--putih);
-}
-
-.papan--hijau {
-    --warna: var(--hijau);
-    --teks: var(--putih);
-}
-
-.papan--kuning {
-    --warna: var(--kuning);
-    --teks: var(--aspal);
-}
-
-.papan--aspal {
-    --warna: var(--aspal);
-    --teks: var(--putih);
-}
-
-.papan--merah {
-    --warna: var(--merah);
-    --teks: var(--putih);
-}
-
-/* Tombol Arah (Penunjuk Rute / Aksi Berpindah) */
-.tombol-arah {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    height: 52px;
-    padding: 0 24px;
-    margin-right: 26px;
-    border-radius: 8px 0 0 8px;
-    background-color: var(--warna, var(--hijau));
-    color: var(--teks, var(--putih));
-    font-family: var(--font-papan);
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 52px;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: background-color 100ms ease-out;
-}
-
-.tombol-arah::after {
-    content: "";
-    position: absolute;
-    left: 100%;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-left: 26px solid var(--warna, var(--hijau));
-    border-top: 26px solid transparent;
-    border-bottom: 26px solid transparent;
-    transition: border-left-color 100ms ease-out;
-}
-
-.tombol-arah--hijau {
-    --warna: var(--hijau);
-    --teks: var(--putih);
-}
-.tombol-arah--hijau:hover {
-    --warna: var(--hijau-gelap);
-}
-.tombol-arah--hijau:hover::after {
-    border-left-color: var(--hijau-gelap);
-}
-
-.tombol-arah--kuning {
-    --warna: var(--kuning);
-    --teks: var(--aspal);
-}
-.tombol-arah--kuning:hover {
-    --warna: var(--kuning-gelap);
-}
-.tombol-arah--kuning:hover::after {
-    border-left-color: var(--kuning-gelap);
-}
-
-.tombol-arah--cokelat {
-    --warna: var(--cokelat);
-    --teks: var(--putih);
-}
-.tombol-arah--cokelat:hover {
-    --warna: var(--cokelat-gelap);
-}
-.tombol-arah--cokelat:hover::after {
-    border-left-color: var(--cokelat-gelap);
-}
-
-/* Penanda Peta (Papan Kecil di Atas Tiang) */
-.penanda-papan {
-    position: relative;
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--cokelat);
-    color: var(--putih);
-    border: 2px solid var(--putih);
-    border-radius: 8px;
-    font-family: var(--font-papan);
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.penanda-papan::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    width: 4px;
-    height: 10px;
-    margin-left: -2px;
-    background-color: var(--aspal);
-}
-
-/* Bunting Motif Budaya untuk Papan Acara */
-.papan-acara {
-    margin-bottom: 16px;
-}
-.papan-acara::after {
-    content: "";
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    top: 100%;
-    height: 12px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M0 0h24L12 12z' fill='%23FFC20E'/%3E%3C/svg%3E") repeat-x;
+/* Glassmorphism Header */
+.glass-header {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
