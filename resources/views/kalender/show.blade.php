@@ -28,7 +28,7 @@
         <!-- Kartu Utama Detail Event Modern -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
             <!-- Header Judul & Status Badge -->
-            <div class="p-6 md:p-8 bg-gradient-to-r from-slate-900 via-slate-850 to-amber-950 text-white space-y-4">
+            <div class="p-6 md:p-8 bg-slate-900 text-white space-y-4 border-b border-slate-800">
                 <div class="flex flex-wrap items-center gap-2.5">
                     <span class="px-3 py-1 text-xs font-semibold rounded-full backdrop-blur-md shadow-xs
                         {{ $event->status_turunan === 'Berlangsung' ? 'bg-emerald-500 text-slate-950 font-bold' : ($event->status_turunan === 'Akan datang' ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-slate-700 text-white') }}

@@ -2,10 +2,8 @@
     <x-slot:title>Desa Wisata Cagar Budaya Kampung Gedung Batin — SIGEBAT</x-slot:title>
     <x-slot:description>Sistem Informasi Manajemen Desa Wisata Kampung Gedung Batin, Way Kanan berbasis LBS dan Kalender Event Budaya Digital.</x-slot:description>
 
-    <!-- 1. Hero Section Modern & Berwibawa -->
-    <section class="relative bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950 text-white overflow-hidden py-16 md:py-24 lg:py-28">
-        <!-- Subtle Grid Pattern Background -->
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
+    <!-- 1. Hero Section Modern & Berwibawa (Solid Deep Slate) -->
+    <section class="relative bg-slate-900 text-white overflow-hidden py-16 md:py-24 lg:py-28 border-b border-slate-800">
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl space-y-6">
@@ -181,7 +179,7 @@
     </section>
 
     <!-- 4. Banner Edukasi Fitur LBS (Location Based Services) -->
-    <section class="py-12 md:py-16 bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-xl overflow-hidden my-6">
+    <section class="py-12 md:py-16 bg-slate-900 border border-slate-800 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-sm overflow-hidden my-6">
         <div class="max-w-6xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="space-y-4 max-w-xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold backdrop-blur-sm">

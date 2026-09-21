@@ -20,7 +20,7 @@
         }"
     >
         <!-- Header Kalender Budaya Modern -->
-        <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-amber-950 text-white rounded-2xl p-8 md:p-10 shadow-lg">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-2xl p-8 md:p-10 shadow-sm">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-3 max-w-2xl">
                     <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-semibold backdrop-blur-sm">

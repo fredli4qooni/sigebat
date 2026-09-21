@@ -57,7 +57,7 @@
             </nav>
 
             <!-- Header Halaman Editorial Modern -->
-            <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-emerald-950 rounded-2xl p-6 md:p-10 text-white shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-10 text-white shadow-sm">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div class="space-y-3 max-w-3xl">
                         <div class="flex flex-wrap items-center gap-2.5">
