@@ -135,7 +135,7 @@
         <!-- Area Konten Kerja -->
         <div class="flex-1 flex flex-col min-w-0">
             <!-- Topbar Ringkas Modern -->
-            <header class="bg-white border-b border-slate-200/80 px-8 py-4 flex items-center justify-between shadow-xs">
+            <header class="bg-white border-b border-slate-200/80 px-6 sm:px-8 py-5 min-h-[76px] flex items-center justify-between shadow-xs">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
                         {{ $header ?? $title ?? 'Panel Kerja' }}

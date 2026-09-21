@@ -32,11 +32,11 @@
 
     <!-- Kepala Navigasi Atas (Desktop & Mobile) -->
     <header class="sticky top-0 z-40 glass-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 min-h-[80px] flex items-center justify-between">
             <!-- Logo Brand Modern -->
             <a href="/" class="flex items-center gap-3.5 no-underline group">
-                <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 256 256">
+                <div class="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 256 256">
                         <path d="M218.83,103.77l-80-75.48a13.9,13.9,0,0,0-17.66,0l-80,75.48A14,14,0,0,0,36,114V208a14,14,0,0,0,14,14H206a14,14,0,0,0,14-14V114A14,14,0,0,0,218.83,103.77ZM206,206H50a2,2,0,0,1-2-2V114a2,2,0,0,1,.74-1.57l80-75.49a2,2,0,0,1,2.52,0l80,75.49A2,2,0,0,1,212,114V204A2,2,0,0,1,206,206Z"/>
                     </svg>
                 </div>
@@ -47,35 +47,35 @@
             </a>
 
             <!-- Menu Desktop -->
-            <nav class="hidden md:flex items-center gap-1.5">
-                <a href="/" class="px-3.5 py-2 rounded-lg text-sm font-semibold no-underline transition-all {{ request()->is('/') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+            <nav class="hidden md:flex items-center gap-1.5 lg:gap-2">
+                <a href="/" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('/') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Beranda
                 </a>
-                <a href="/wisata" class="px-3.5 py-2 rounded-lg text-sm font-semibold no-underline transition-all {{ request()->is('wisata*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                <a href="/wisata" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('wisata*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Wisata & Cagar Budaya
                 </a>
-                <a href="/peta" class="px-3.5 py-2 rounded-lg text-sm font-semibold no-underline transition-all {{ request()->is('peta*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                <a href="/peta" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('peta*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Peta & LBS
                 </a>
-                <a href="/kalender" class="px-3.5 py-2 rounded-lg text-sm font-semibold no-underline transition-all {{ request()->is('kalender*') || request()->is('event*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                <a href="/kalender" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('kalender*') || request()->is('event*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Kalender Event
                 </a>
-                <a href="/fasilitas" class="px-3.5 py-2 rounded-lg text-sm font-semibold no-underline transition-all {{ request()->is('fasilitas*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                <a href="/fasilitas" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('fasilitas*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Fasilitas
                 </a>
 
-                <div class="h-5 w-[1px] bg-slate-200 mx-2"></div>
+                <div class="h-6 w-[1px] bg-slate-200 mx-2"></div>
 
                 @auth
                     @if(auth()->user()->isAdmin())
-                        <a href="/admin" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white font-medium text-xs no-underline hover:bg-slate-800 shadow-sm transition-all">
+                        <a href="/admin" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-xs no-underline hover:bg-slate-800 shadow-xs transition-all">
                             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
                                 <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
                             </svg>
                             <span>Panel Admin</span>
                         </a>
                     @else
-                        <a href="/pengelola" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-700 text-white font-medium text-xs no-underline hover:bg-emerald-800 shadow-sm transition-all">
+                        <a href="/pengelola" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 text-white font-semibold text-xs no-underline hover:bg-emerald-800 shadow-xs transition-all">
                             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
                                 <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
                             </svg>
@@ -83,7 +83,7 @@
                         </a>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 font-semibold text-xs no-underline hover:bg-slate-50 shadow-xs transition-all">
+                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-xs no-underline hover:bg-slate-50 shadow-xs transition-all">
                         <svg class="w-3.5 h-3.5 fill-current text-slate-500" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
