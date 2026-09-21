@@ -3,9 +3,9 @@
 @if ($messages)
     <ul {{ $attributes->merge(['class' => 'mt-1.5 space-y-1']) }}>
         @foreach ((array) $messages as $message)
-            <li class="flex items-center gap-1.5 text-sm text-merah font-medium">
-                <svg class="w-4 h-4 flex-shrink-0 fill-current text-merah" viewBox="0 0 256 256">
-                    <path d="M236.8,188,148.8,36a24,24,0,0,0-41.6,0L19.2,188A23.68,23.68,0,0,0,40,224H216a23.68,23.68,0,0,0,20.8-36ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/>
+            <li class="flex items-center gap-1.5 text-xs text-rose-600 font-medium">
+                <svg class="w-3.5 h-3.5 flex-shrink-0 fill-current text-rose-600" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                 </svg>
                 <span>{{ $message }}</span>
             </li>

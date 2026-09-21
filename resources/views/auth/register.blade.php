@@ -2,8 +2,8 @@
     <x-slot:title>Pendaftaran Pengelola Wisata</x-slot:title>
 
     <div class="mb-6 text-center">
-        <h1 class="text-2xl font-bold font-papan text-aspal">Daftar Pengelola</h1>
-        <p class="text-sm text-abu mt-1">Akun Anda akan diverifikasi oleh Admin sebelum dapat digunakan.</p>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Daftar Pengelola</h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Akun Anda akan diverifikasi oleh Admin sebelum dapat digunakan.</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
@@ -89,10 +89,10 @@
             </x-primary-button>
         </div>
 
-        <div class="pt-4 border-t-2 border-beton text-center">
-            <p class="text-sm text-abu">
+        <div class="pt-5 border-t border-slate-100 text-center">
+            <p class="text-xs sm:text-sm text-slate-500">
                 Sudah memiliki akun?
-                <a href="{{ route('login') }}" class="text-aspal font-bold underline hover:text-cokelat ml-1">
+                <a href="{{ route('login') }}" class="text-emerald-600 hover:text-emerald-700 font-semibold no-underline ml-1">
                     Masuk di sini
                 </a>
             </p>

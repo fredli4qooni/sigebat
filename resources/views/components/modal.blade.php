@@ -46,20 +46,20 @@ $maxWidth = [
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
     x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
     x-show="show"
-    class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
-    style="display: {{ $show ? 'block' : 'none' }};"
+    class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50 flex items-center justify-center"
+    style="display: {{ $show ? 'flex' : 'none' }};"
 >
     <div
         x-show="show"
-        class="fixed inset-0"
+        class="fixed inset-0 transition-opacity"
         x-on:click="show = false"
     >
-        <div class="absolute inset-0 bg-aspal opacity-60"></div>
+        <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-xs"></div>
     </div>
 
     <div
         x-show="show"
-        class="mb-6 bg-putih border-2 border-aspal rounded-papan overflow-hidden sm:w-full {{ $maxWidth }} sm:mx-auto"
+        class="relative bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden w-full {{ $maxWidth }} mx-auto z-10 transition-all"
     >
         {{ $slot }}
     </div>
