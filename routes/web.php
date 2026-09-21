@@ -11,10 +11,51 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\LogController as AdminLogController;
+use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Data Master
+    Route::prefix('master')->name('master.')->group(function () {
+        Route::get('/wisata', [AdminMasterDataController::class, 'wisata'])->name('wisata');
+        Route::post('/wisata', [AdminMasterDataController::class, 'storeWisata'])->name('wisata.store');
+        Route::put('/wisata/{kategoriWisata}', [AdminMasterDataController::class, 'updateWisata'])->name('wisata.update');
+        Route::delete('/wisata/{kategoriWisata}', [AdminMasterDataController::class, 'destroyWisata'])->name('wisata.destroy');
+
+        Route::get('/event', [AdminMasterDataController::class, 'event'])->name('event');
+        Route::post('/event', [AdminMasterDataController::class, 'storeEvent'])->name('event.store');
+        Route::put('/event/{kategoriEvent}', [AdminMasterDataController::class, 'updateEvent'])->name('event.update');
+        Route::delete('/event/{kategoriEvent}', [AdminMasterDataController::class, 'destroyEvent'])->name('event.destroy');
+
+        Route::get('/fasilitas', [AdminMasterDataController::class, 'fasilitas'])->name('fasilitas');
+        Route::post('/fasilitas', [AdminMasterDataController::class, 'storeFasilitas'])->name('fasilitas.store');
+        Route::put('/fasilitas/{jenisFasilitas}', [AdminMasterDataController::class, 'updateFasilitas'])->name('fasilitas.update');
+        Route::delete('/fasilitas/{jenisFasilitas}', [AdminMasterDataController::class, 'destroyFasilitas'])->name('fasilitas.destroy');
+    });
+
+    // Pengguna
+    Route::prefix('pengguna')->name('users.')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+        Route::post('/', [AdminUserController::class, 'store'])->name('store');
+        Route::put('/{user}', [AdminUserController::class, 'update'])->name('update');
+        Route::put('/{user}/reset-password', [AdminUserController::class, 'resetPassword'])->name('reset-password');
+        Route::delete('/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
+    });
+
+    // Verifikasi Pengelola
+    Route::prefix('verifikasi')->name('verifikasi.')->group(function () {
+        Route::get('/', [AdminVerificationController::class, 'index'])->name('index');
+        Route::post('/{user}/setujui', [AdminVerificationController::class, 'approve'])->name('approve');
+        Route::post('/{user}/tolak', [AdminVerificationController::class, 'reject'])->name('reject');
+    });
+
+    // Log Aktivitas
+    Route::get('/log', [AdminLogController::class, 'index'])->name('log');
 });
 
 Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengelola.')->group(function () {
