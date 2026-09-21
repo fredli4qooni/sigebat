@@ -58,10 +58,28 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/log', [AdminLogController::class, 'index'])->name('log');
 });
 
+use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
+use App\Http\Controllers\Pengelola\EventController as PengelolaEventController;
+use App\Http\Controllers\Pengelola\FasilitasController as PengelolaFasilitasController;
+use App\Http\Controllers\Pengelola\WisataController as PengelolaWisataController;
+
 Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengelola.')->group(function () {
-    Route::get('/', function () {
-        return view('pengelola.dashboard');
-    })->name('dashboard');
+    Route::get('/', [PengelolaDashboardController::class, 'index'])->name('dashboard');
+
+    // Objek Wisata
+    Route::resource('wisata', PengelolaWisataController::class)
+        ->parameters(['wisata' => 'wisata'])
+        ->except(['show']);
+
+    // Fasilitas Desa
+    Route::resource('fasilitas', PengelolaFasilitasController::class)
+        ->parameters(['fasilitas' => 'fasilitas'])
+        ->except(['show']);
+
+    // Event Budaya
+    Route::resource('event', PengelolaEventController::class)
+        ->parameters(['event' => 'event'])
+        ->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {
