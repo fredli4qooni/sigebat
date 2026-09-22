@@ -64,9 +64,9 @@
                     Fasilitas
                 </a>
 
-                <div class="h-6 w-[1px] bg-slate-200 mx-2"></div>
-
                 @auth
+                    <div class="h-6 w-[1px] bg-slate-200 mx-2"></div>
+
                     @if(auth()->user()->isAdmin())
                         <a href="/admin" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-xs no-underline hover:bg-slate-800 shadow-xs transition-all">
                             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
@@ -82,13 +82,6 @@
                             <span>Panel Pengelola</span>
                         </a>
                     @endif
-                @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-xs no-underline hover:bg-slate-50 shadow-xs transition-all">
-                        <svg class="w-3.5 h-3.5 fill-current text-slate-500" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Masuk Pengelola</span>
-                    </a>
                 @endauth
             </nav>
         </div>
