@@ -50,46 +50,49 @@
     </section>
 
     <!-- 2. Bar Statistik Melayang (Floating Metric Cards) -->
-    <section class="relative -mt-8 sm:-mt-10 z-20">
+    <section class="relative -mt-10 sm:-mt-12 z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl p-6 md:p-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:divide-x md:divide-slate-200">
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl p-6 sm:p-7 lg:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 divide-y divide-slate-100 md:divide-y-0 md:divide-x md:divide-slate-200">
                     <!-- Metrik 1 -->
-                    <div class="flex items-center gap-4.5">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
+                    <div class="flex items-center gap-4.5 pb-5 md:pb-0 md:pr-6 lg:pr-8">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-50/90 border border-emerald-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
+                            <img src="{{ asset('images/icons/point-objects.png') }}" 
+                                 onerror="this.src='https://img.icons8.com/parakeet/48/point-objects.png'" 
+                                 alt="Objek Cagar Budaya" 
+                                 class="w-9 h-9 object-contain">
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countWisata }} Objek Cagar Budaya</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5">Rumah adat panggung, situs bersejarah & makam leluhur</div>
+                        <div class="min-w-0">
+                            <div class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-tight">{{ $countWisata }} Objek Cagar Budaya</div>
+                            <div class="text-xs sm:text-[13px] text-slate-500 font-medium mt-1 leading-snug">Rumah adat panggung, situs bersejarah & makam leluhur</div>
                         </div>
                     </div>
 
                     <!-- Metrik 2 -->
-                    <div class="flex items-center gap-4.5 md:pl-6">
-                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
+                    <div class="flex items-center gap-4.5 py-5 md:py-0 md:px-6 lg:px-8">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-50/90 border border-amber-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
+                            <img src="{{ asset('images/icons/planner.png') }}" 
+                                 onerror="this.src='https://img.icons8.com/parakeet/48/planner.png'" 
+                                 alt="Event & Ritual Budaya" 
+                                 class="w-9 h-9 object-contain">
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countEvent }} Event & Ritual Budaya</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5">Pagelaran tari cangget, upacara begawi & festival</div>
+                        <div class="min-w-0">
+                            <div class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-tight">{{ $countEvent }} Event & Ritual Budaya</div>
+                            <div class="text-xs sm:text-[13px] text-slate-500 font-medium mt-1 leading-snug">Pagelaran tari cangget, upacara begawi & festival</div>
                         </div>
                     </div>
 
                     <!-- Metrik 3 -->
-                    <div class="flex items-center gap-4.5 md:pl-6">
-                        <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
+                    <div class="flex items-center gap-4.5 pt-5 md:pt-0 md:pl-6 lg:pl-8">
+                        <div class="w-14 h-14 rounded-2xl bg-sky-50/90 border border-sky-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
+                            <img src="{{ asset('images/icons/toilet.png') }}" 
+                                 onerror="this.src='https://img.icons8.com/parakeet/48/toilet.png'" 
+                                 alt="Sarana Pendukung" 
+                                 class="w-9 h-9 object-contain">
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-900 tracking-tight">{{ $countFasilitas }} Sarana Pendukung</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5">Musala, toilet umum, pos pemandu & area parkir</div>
+                        <div class="min-w-0">
+                            <div class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-tight">{{ $countFasilitas }} Sarana Pendukung</div>
+                            <div class="text-xs sm:text-[13px] text-slate-500 font-medium mt-1 leading-snug">Musala, toilet umum, pos pemandu & area parkir</div>
                         </div>
                     </div>
                 </div>
