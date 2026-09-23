@@ -120,10 +120,10 @@
                             <th class="py-3.5 px-4 w-12 text-center">No</th>
                             <th class="py-3.5 px-4 w-20">Foto</th>
                             <th class="py-3.5 px-4">Nama Fasilitas</th>
-                            <th class="py-3.5 px-4">Jenis</th>
-                            <th class="py-3.5 px-4">Lingkup / Objek Wisata</th>
+                            <th class="py-3.5 px-4 whitespace-nowrap">Jenis Fasilitas</th>
+                            <th class="py-3.5 px-4 whitespace-nowrap">Lingkup / Lokasi</th>
                             <th class="py-3.5 px-4">Lokasi & Keterangan</th>
-                            <th class="py-3.5 px-4 text-right">Aksi</th>
+                            <th class="py-3.5 px-4 text-right whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-sm text-slate-800">
@@ -150,18 +150,20 @@
                                         <div class="text-xs text-slate-500 line-clamp-1 mt-1">{{ $f->deskripsi }}</div>
                                     @endif
                                 </td>
-                                <td class="py-3.5 px-4">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold">
-                                        {{ $f->jenis?->nama ?? '-' }}
+                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-50 text-sky-800 border border-sky-200/90 whitespace-nowrap shadow-2xs">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500 flex-shrink-0"></span>
+                                        <span>{{ $f->jenis?->nama ?? '-' }}</span>
                                     </span>
                                 </td>
-                                <td class="py-3.5 px-4 text-xs">
+                                <td class="py-3.5 px-4 text-xs whitespace-nowrap">
                                     @if($f->is_umum)
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
-                                            Umum (Desa)
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200/90 text-xs font-semibold whitespace-nowrap shadow-2xs">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                                            <span>Umum Desa</span>
                                         </span>
                                     @else
-                                        <div class="font-bold text-slate-900">{{ $f->objekWisata?->nama ?? '-' }}</div>
+                                        <div class="font-bold text-slate-900 leading-tight">{{ $f->objekWisata?->nama ?? '-' }}</div>
                                         <div class="text-[11px] text-slate-500 mt-0.5">Fasilitas Khusus Wisata</div>
                                     @endif
                                 </td>
