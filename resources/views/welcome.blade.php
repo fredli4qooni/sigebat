@@ -51,48 +51,48 @@
 
     <!-- 2. Bar Statistik Melayang (Floating Metric Cards) -->
     <section class="relative -mt-10 sm:-mt-12 z-20">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6">
-            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl py-6 px-5 sm:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl py-5 px-5 sm:px-7 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 divide-y divide-slate-100 md:divide-y-0 md:divide-x md:divide-slate-200">
                     <!-- Metrik 1 -->
-                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 pb-5 md:pb-0 md:pr-6">
+                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 pb-5 md:pb-0 md:pr-6 lg:pr-8">
                         <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50/90 border border-emerald-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
                             <img src="{{ asset('images/icons/point-objects.png') }}" 
                                  onerror="this.src='https://img.icons8.com/parakeet/48/point-objects.png'" 
                                  alt="Objek Cagar Budaya" 
                                  class="w-7 h-7 sm:w-8 sm:h-8 object-contain">
                         </div>
-                        <div>
-                            <div class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countWisata }} Objek Cagar Budaya</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5 leading-snug">Rumah adat, situs & makam</div>
+                        <div class="min-w-0">
+                            <div class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countWisata }} Objek Cagar Budaya</div>
+                            <div class="text-xs text-slate-500 font-medium mt-1 leading-snug">Rumah adat panggung, situs bersejarah & makam leluhur</div>
                         </div>
                     </div>
 
                     <!-- Metrik 2 -->
-                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 py-5 md:py-0 md:px-6">
+                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 py-5 md:py-0 md:px-6 lg:px-8">
                         <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-amber-50/90 border border-amber-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
                             <img src="{{ asset('images/icons/planner.png') }}" 
                                  onerror="this.src='https://img.icons8.com/parakeet/48/planner.png'" 
                                  alt="Event & Ritual Budaya" 
                                  class="w-7 h-7 sm:w-8 sm:h-8 object-contain">
                         </div>
-                        <div>
-                            <div class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countEvent }} Event & Ritual Budaya</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5 leading-snug">Tari cangget, begawi & festival</div>
+                        <div class="min-w-0">
+                            <div class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countEvent }} Event & Ritual Budaya</div>
+                            <div class="text-xs text-slate-500 font-medium mt-1 leading-snug">Pagelaran tari cangget, upacara begawi & festival</div>
                         </div>
                     </div>
 
                     <!-- Metrik 3 -->
-                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 pt-5 md:pt-0 md:pl-6">
+                    <div class="flex items-center justify-start md:justify-center gap-4 sm:gap-5 pt-5 md:pt-0 md:pl-6 lg:pl-8">
                         <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-sky-50/90 border border-sky-100/90 flex items-center justify-center flex-shrink-0 shadow-xs p-2.5">
                             <img src="{{ asset('images/icons/toilet.png') }}" 
                                  onerror="this.src='https://img.icons8.com/parakeet/48/toilet.png'" 
                                  alt="Sarana Pendukung" 
                                  class="w-7 h-7 sm:w-8 sm:h-8 object-contain">
                         </div>
-                        <div>
-                            <div class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countFasilitas }} Sarana Pendukung</div>
-                            <div class="text-xs text-slate-500 font-medium mt-0.5 leading-snug">Musala, toilet, pemandu & parkir</div>
+                        <div class="min-w-0">
+                            <div class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight whitespace-nowrap">{{ $countFasilitas }} Sarana Pendukung</div>
+                            <div class="text-xs text-slate-500 font-medium mt-1 leading-snug">Musala, toilet umum, pos pemandu & area parkir</div>
                         </div>
                     </div>
                 </div>
