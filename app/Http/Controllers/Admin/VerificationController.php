@@ -16,13 +16,14 @@ class VerificationController extends Controller
         $pendingPengelola = User::where('role', 'pengelola')
             ->where('status', 'pending')
             ->latest('id')
-            ->paginate(10, ['*'], 'pending_page');
+            ->paginate(10, ['*'], 'pending_page')
+            ->withQueryString();
 
         $riwayatVerifikasi = User::where('role', 'pengelola')
             ->whereIn('status', ['aktif', 'ditolak'])
             ->latest('updated_at')
-            ->take(10)
-            ->get();
+            ->paginate(10, ['*'], 'riwayat_page')
+            ->withQueryString();
 
         return view('admin.verifikasi.index', compact('pendingPengelola', 'riwayatVerifikasi'));
     }

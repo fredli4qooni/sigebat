@@ -160,10 +160,10 @@
             <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50">
                 <div>
                     <h3 class="font-bold tracking-tight text-slate-900 text-base">Riwayat Verifikasi Terakhir</h3>
-                    <p class="text-xs text-slate-500">Catatan 10 keputusan persetujuan dan penolakan akun pengelola terkini</p>
+                    <p class="text-xs text-slate-500">Catatan keputusan persetujuan dan penolakan akun pengelola</p>
                 </div>
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                    {{ $riwayatVerifikasi->count() }} Tercatat
+                    {{ $riwayatVerifikasi->total() }} Tercatat
                 </span>
             </div>
 
@@ -183,7 +183,7 @@
                         @forelse($riwayatVerifikasi as $index => $rw)
                             <tr class="h-[60px] hover:bg-slate-50/60 transition-colors">
                                 <td class="py-3.5 px-4 text-center font-bold text-slate-400 text-xs">
-                                    {{ $index + 1 }}
+                                    {{ $riwayatVerifikasi->firstItem() + $index }}
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="font-bold text-slate-900 text-sm">{{ $rw->name }}</div>
@@ -220,6 +220,12 @@
                     </tbody>
                 </table>
             </div>
+
+            @if($riwayatVerifikasi->hasPages())
+                <div class="p-4 border-t border-slate-100 bg-slate-50/40">
+                    {{ $riwayatVerifikasi->links() }}
+                </div>
+            @endif
         </div>
 
         <!-- 4. MODAL: Tolak Verifikasi dengan Alasan -->

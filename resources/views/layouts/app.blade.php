@@ -135,19 +135,21 @@
         <!-- Area Konten Kerja -->
         <div class="flex-1 flex flex-col min-w-0">
             <!-- Topbar Ringkas Modern -->
-            <header class="bg-white border-b border-slate-200/80 px-6 sm:px-8 py-5 min-h-[76px] flex items-center justify-between shadow-xs">
-                <div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
-                        {{ $header ?? $title ?? 'Panel Kerja' }}
-                    </h1>
-                </div>
-                <div class="text-xs font-medium text-slate-500">
-                    WIB (Asia/Jakarta) &bull; {{ now('Asia/Jakarta')->translatedFormat('l, d F Y') }}
+            <header class="bg-white border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-4 min-h-[72px] flex items-center shadow-xs">
+                <div class="max-w-screen-2xl w-full mx-auto flex items-center justify-between">
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                            {{ $header ?? $title ?? 'Panel Kerja' }}
+                        </h1>
+                    </div>
+                    <div class="text-xs font-medium text-slate-500">
+                        WIB (Asia/Jakarta) &bull; {{ now('Asia/Jakarta')->translatedFormat('l, d F Y') }}
+                    </div>
                 </div>
             </header>
 
             <!-- Main Content Area -->
-            <main class="flex-1 p-6 sm:p-8 max-w-7xl w-full mx-auto">
+            <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 md:py-8 max-w-screen-2xl w-full mx-auto">
                 <!-- Flash Notification Banner -->
                 @if(session('success'))
                     <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center gap-3 shadow-xs">

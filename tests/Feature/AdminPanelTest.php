@@ -316,6 +316,22 @@ class AdminPanelTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_view_verification_index_with_paginated_pending_and_history(): void
+    {
+        User::factory()->count(15)->pending()->create();
+        User::factory()->count(8)->create(['role' => 'pengelola', 'status' => 'aktif']);
+        User::factory()->count(7)->create(['role' => 'pengelola', 'status' => 'ditolak']);
+
+        $response = $this->actingAs($this->admin)->get(route('admin.verifikasi.index'));
+        $response->assertOk();
+        $response->assertSee('Verifikasi Pengelola Wisata');
+        $response->assertSee('Riwayat Verifikasi Terakhir');
+        $response->assertSee('15 Tercatat');
+
+        $responseHistoryPage2 = $this->actingAs($this->admin)->get(route('admin.verifikasi.index', ['riwayat_page' => 2]));
+        $responseHistoryPage2->assertOk();
+    }
+
     public function test_admin_can_view_and_filter_activity_logs(): void
     {
         ActivityLog::log(
