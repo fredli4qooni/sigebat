@@ -2,32 +2,41 @@
     <x-slot:title>Edit Event: {{ $event->judul }}</x-slot:title>
     <x-slot:header>Edit Agenda Kegiatan Budaya</x-slot:header>
 
-    <div class="space-y-6 max-w-3xl mx-auto">
-        <!-- Papan Kuning Judul Halaman -->
-        <x-papan warna="kuning" class="p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-2xl font-bold font-papan text-aspal">Edit Event: {{ $event->judul }}</h2>
-                    <p class="text-aspal/80 text-sm mt-1">
-                        Perbarui informasi tanggal, waktu pelaksanaan, deskripsi, atau poster promosi acara.
-                    </p>
+    <div class="space-y-6 max-w-4xl mx-auto">
+        <!-- 1. Banner Eksekutif Modern (Slate 900) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1.5 max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-semibold backdrop-blur-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Penyuntingan Agenda Kebudayaan</span>
                 </div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                    Edit Event: {{ $event->judul }}
+                </h2>
+                <p class="text-slate-300 text-sm leading-relaxed font-normal">
+                    Perbarui informasi tanggal, waktu pelaksanaan, deskripsi rangkaian acara, atau poster promosi kegiatan budaya.
+                </p>
+            </div>
+            <div class="flex-shrink-0">
                 <a
                     href="{{ route('pengelola.event.index') }}"
-                    class="px-3.5 py-2 bg-aspal text-putih font-bold text-xs rounded-kontrol hover:bg-black no-underline"
+                    class="h-10 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-semibold text-xs sm:text-sm transition-all inline-flex items-center gap-2 no-underline"
                 >
-                    &larr; Kembali ke agenda
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Kembali ke Agenda</span>
                 </a>
             </div>
-        </x-papan>
+        </div>
 
-        <!-- Form Edit Event -->
-        <div class="bg-putih border-2 border-aspal rounded-papan p-6">
+        <!-- 2. Formulir Edit Event -->
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-sm">
             <form
                 method="POST"
                 action="{{ route('pengelola.event.update', $event) }}"
                 enctype="multipart/form-data"
-                class="space-y-4"
+                class="space-y-5"
                 x-data="{
                     previewUrl: null,
                     tglMulai: '{{ old('tanggal_mulai', $event->tanggal_mulai ? $event->tanggal_mulai->format('Y-m-d') : '') }}',
@@ -49,19 +58,30 @@
                 @method('PUT')
 
                 <div>
-                    <x-input-label for="judul" value="Judul event budaya" />
-                    <x-text-input id="judul" name="judul" type="text" :value="old('judul', $event->judul)" required />
-                    <x-input-error :messages="$errors->get('judul')" />
+                    <label for="judul" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Judul Event Budaya <span class="text-rose-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="judul"
+                        name="judul"
+                        value="{{ old('judul', $event->judul) }}"
+                        required
+                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                    >
+                    <x-input-error :messages="$errors->get('judul')" class="mt-1.5" />
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <x-input-label for="kategori_event_id" value="Kategori event" />
+                        <label for="kategori_event_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Kategori Event <span class="text-rose-500">*</span>
+                        </label>
                         <select
                             id="kategori_event_id"
                             name="kategori_event_id"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm font-semibold text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
                             @foreach($kategoriList as $kat)
                                 <option value="{{ $kat->id }}" {{ old('kategori_event_id', $event->kategori_event_id) == $kat->id ? 'selected' : '' }}>
@@ -69,29 +89,33 @@
                                 </option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('kategori_event_id')" />
+                        <x-input-error :messages="$errors->get('kategori_event_id')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="status" value="Status publikasi" />
+                        <label for="status" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Status Publikasi <span class="text-rose-500">*</span>
+                        </label>
                         <select
                             id="status"
                             name="status"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm font-semibold text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
                             <option value="aktif" {{ old('status', $event->status) === 'aktif' ? 'selected' : '' }}>Aktif (Tampil di Kalender Digital)</option>
                             <option value="pending" {{ old('status', $event->status) === 'pending' ? 'selected' : '' }}>Pending (Draft)</option>
                             <option value="nonaktif" {{ old('status', $event->status) === 'nonaktif' ? 'selected' : '' }}>Nonaktif (Arsip)</option>
                         </select>
-                        <x-input-error :messages="$errors->get('status')" />
+                        <x-input-error :messages="$errors->get('status')" class="mt-1.5" />
                     </div>
                 </div>
 
-                <!-- Tanggal Mulai & Selesai -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Tanggal Pelaksanaan -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <x-input-label for="tanggal_mulai" value="Tanggal mulai" />
+                        <label for="tanggal_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Tanggal Mulai <span class="text-rose-500">*</span>
+                        </label>
                         <input
                             type="date"
                             id="tanggal_mulai"
@@ -99,13 +123,15 @@
                             x-model="tglMulai"
                             @change="onMulaiChange"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
-                        <x-input-error :messages="$errors->get('tanggal_mulai')" />
+                        <x-input-error :messages="$errors->get('tanggal_mulai')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="tanggal_selesai" value="Tanggal selesai" />
+                        <label for="tanggal_selesai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Tanggal Selesai <span class="text-rose-500">*</span>
+                        </label>
                         <input
                             type="date"
                             id="tanggal_selesai"
@@ -113,84 +139,122 @@
                             x-model="tglSelesai"
                             :min="tglMulai"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
-                        <x-input-error :messages="$errors->get('tanggal_selesai')" />
+                        <x-input-error :messages="$errors->get('tanggal_selesai')" class="mt-1.5" />
                     </div>
                 </div>
 
                 <!-- Jam Pelaksanaan -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <x-input-label for="jam_mulai" value="Jam mulai" />
-                        <x-text-input id="jam_mulai" name="jam_mulai" type="text" :value="old('jam_mulai', substr($event->jam_mulai, 0, 5))" />
-                        <x-input-error :messages="$errors->get('jam_mulai')" />
+                        <label for="jam_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Jam Mulai (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="jam_mulai"
+                            name="jam_mulai"
+                            value="{{ old('jam_mulai', $event->jam_mulai ? substr($event->jam_mulai, 0, 5) : '09:00') }}"
+                            placeholder="Contoh: 09:00"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400 font-mono"
+                        >
+                        <x-input-error :messages="$errors->get('jam_mulai')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="jam_selesai" value="Jam selesai" />
-                        <x-text-input id="jam_selesai" name="jam_selesai" type="text" :value="old('jam_selesai', substr($event->jam_selesai, 0, 5))" />
-                        <x-input-error :messages="$errors->get('jam_selesai')" />
+                        <label for="jam_selesai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Jam Selesai (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="jam_selesai"
+                            name="jam_selesai"
+                            value="{{ old('jam_selesai', $event->jam_selesai ? substr($event->jam_selesai, 0, 5) : '17:00') }}"
+                            placeholder="Contoh: 17:00 / Selesai"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400 font-mono"
+                        >
+                        <x-input-error :messages="$errors->get('jam_selesai')" class="mt-1.5" />
                     </div>
                 </div>
 
                 <div>
-                    <x-input-label for="lokasi" value="Lokasi pelaksanaan" />
-                    <x-text-input id="lokasi" name="lokasi" type="text" :value="old('lokasi', $event->lokasi)" required />
-                    <x-input-error :messages="$errors->get('lokasi')" />
+                    <label for="lokasi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Lokasi Pelaksanaan <span class="text-rose-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="lokasi"
+                        name="lokasi"
+                        value="{{ old('lokasi', $event->lokasi) }}"
+                        required
+                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                    >
+                    <x-input-error :messages="$errors->get('lokasi')" class="mt-1.5" />
                 </div>
 
                 <div>
-                    <x-input-label for="deskripsi" value="Deskripsi lengkap dan rangkaian acara" />
+                    <label for="deskripsi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Deskripsi Lengkap & Rangkaian Acara <span class="text-rose-500">*</span>
+                    </label>
                     <textarea
                         id="deskripsi"
                         name="deskripsi"
                         rows="4"
                         required
-                        class="p-3.5 border-2 border-aspal rounded-kontrol w-full text-sm text-aspal focus:outline-none focus:ring-0 focus:border-aspal"
+                        class="p-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400 leading-relaxed"
                     >{{ old('deskripsi', $event->deskripsi) }}</textarea>
-                    <x-input-error :messages="$errors->get('deskripsi')" />
+                    <x-input-error :messages="$errors->get('deskripsi')" class="mt-1.5" />
                 </div>
 
                 <div>
-                    <x-input-label for="poster" value="Ubah poster event (Biarkan kosong jika tidak diganti)" />
+                    <label for="poster" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Ganti Poster / Foto Dokumentasi (Opsional, Maksimal 3 MB)
+                    </label>
                     <input
                         type="file"
                         id="poster"
                         name="poster"
                         accept="image/jpeg,image/png,image/jpg,image/webp"
                         @change="handleFile"
-                        class="block w-full text-sm text-aspal file:mr-4 file:py-2.5 file:px-4 file:rounded-kontrol file:border-2 file:border-aspal file:text-xs file:font-bold file:bg-beton file:text-aspal hover:file:bg-abu/20 cursor-pointer"
+                        class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all cursor-pointer"
                     >
-                    <x-input-error :messages="$errors->get('poster')" />
+                    <x-input-error :messages="$errors->get('poster')" class="mt-1.5" />
 
-                    <!-- Poster Saat Ini / Pratinjau Poster Baru -->
-                    <div class="mt-3">
-                        <template x-if="previewUrl">
-                            <div class="p-2 bg-beton/40 border border-aspal rounded-kontrol">
-                                <span class="block text-[11px] font-bold text-abu mb-1">Pratinjau poster baru:</span>
-                                <img :src="previewUrl" alt="Pratinjau Baru" class="w-48 h-64 object-cover rounded-kontrol border border-aspal">
+                    <!-- Poster Saat Ini vs Poster Baru -->
+                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        @if($event->poster)
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+                                <span class="block text-[11px] font-semibold text-slate-500">Poster Saat Ini:</span>
+                                <img src="{{ $event->poster_url }}" alt="{{ $event->judul }}" class="w-44 h-56 object-cover rounded-xl border border-slate-200 shadow-2xs">
                             </div>
-                        </template>
-                        <template x-if="!previewUrl && {{ $event->poster ? 'true' : 'false' }}">
-                            <div class="p-2 bg-beton/40 border border-beton rounded-kontrol">
-                                <span class="block text-[11px] font-bold text-abu mb-1">Poster aktif saat ini:</span>
-                                <img src="{{ $event->poster_url }}" alt="{{ $event->judul }}" class="w-48 h-64 object-cover rounded-kontrol border border-aspal">
+                        @endif
+
+                        <template x-if="previewUrl">
+                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+                                <span class="block text-[11px] font-semibold text-emerald-700">Poster Baru Terpilih:</span>
+                                <img :src="previewUrl" alt="Pratinjau Poster Baru" class="w-44 h-56 object-cover rounded-xl border border-emerald-300 shadow-2xs">
                             </div>
                         </template>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end gap-3 pt-4 border-t border-beton">
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
                     <a
                         href="{{ route('pengelola.event.index') }}"
-                        class="h-[44px] px-5 bg-putih border-2 border-aspal text-aspal font-bold text-sm rounded-kontrol hover:bg-beton no-underline flex items-center justify-center"
+                        class="h-11 px-6 bg-white border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm rounded-xl hover:bg-slate-50 transition-all no-underline flex items-center justify-center cursor-pointer shadow-xs"
                     >
                         Batal
                     </a>
-                    <x-primary-button>
-                        Simpan Perubahan
-                    </x-primary-button>
+                    <button
+                        type="submit"
+                        class="h-11 px-7 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs hover:shadow-emerald-600/20 transition-all cursor-pointer flex items-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Simpan Perubahan</span>
+                    </button>
                 </div>
             </form>
         </div>
