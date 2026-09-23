@@ -2,7 +2,7 @@
     <x-slot:title>Tambah Objek Wisata</x-slot:title>
     <x-slot:header>Tambah Objek Wisata Baru</x-slot:header>
 
-    <div class="space-y-6 max-w-5xl mx-auto">
+    <div class="space-y-6">
         <!-- 1. Banner Eksekutif Modern (Slate 900) -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1.5 max-w-2xl">
@@ -209,7 +209,7 @@
                         <template x-if="previewUrl">
                             <div class="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
                                 <span class="block text-[11px] font-semibold text-slate-500">Pratinjau foto terpilih:</span>
-                                <img :src="previewUrl" alt="Pratinjau Foto" class="w-full h-44 object-cover rounded-xl border border-slate-200 shadow-2xs">
+                                <img :src="previewUrl" alt="Pratinjau Foto" class="w-full max-w-md h-52 object-cover rounded-xl border border-slate-200 shadow-2xs">
                             </div>
                         </template>
                     </div>
@@ -243,7 +243,7 @@
 
                 <!-- Kontainer Peta Leaflet Citra Satelit Esri -->
                 <div class="relative">
-                    <div id="map-picker" class="h-[360px] w-full border border-slate-300 rounded-xl z-10 shadow-xs overflow-hidden"></div>
+                    <div id="map-picker" class="h-[400px] w-full border border-slate-300 rounded-xl z-10 shadow-xs overflow-hidden"></div>
                 </div>
 
                 <!-- Input Numerik Latitude & Longitude -->

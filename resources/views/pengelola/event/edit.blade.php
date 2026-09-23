@@ -2,7 +2,7 @@
     <x-slot:title>Edit Event: {{ $event->judul }}</x-slot:title>
     <x-slot:header>Edit Agenda Kegiatan Budaya</x-slot:header>
 
-    <div class="space-y-6 max-w-4xl mx-auto">
+    <div class="space-y-6">
         <!-- 1. Banner Eksekutif Modern (Slate 900) -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1.5 max-w-2xl">
@@ -57,22 +57,23 @@
                 @csrf
                 @method('PUT')
 
-                <div>
-                    <label for="judul" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Judul Event Budaya <span class="text-rose-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="judul"
-                        name="judul"
-                        value="{{ old('judul', $event->judul) }}"
-                        required
-                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
-                    >
-                    <x-input-error :messages="$errors->get('judul')" class="mt-1.5" />
-                </div>
-
+                <!-- Baris 1: Judul Event & Kategori -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="judul" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Judul Event Budaya <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="judul"
+                            name="judul"
+                            value="{{ old('judul', $event->judul) }}"
+                            required
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('judul')" class="mt-1.5" />
+                    </div>
+
                     <div>
                         <label for="kategori_event_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             Kategori Event <span class="text-rose-500">*</span>
@@ -90,6 +91,24 @@
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('kategori_event_id')" class="mt-1.5" />
+                    </div>
+                </div>
+
+                <!-- Baris 2: Lokasi & Status Publikasi -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="lokasi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Lokasi Pelaksanaan <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="lokasi"
+                            name="lokasi"
+                            value="{{ old('lokasi', $event->lokasi) }}"
+                            required
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('lokasi')" class="mt-1.5" />
                     </div>
 
                     <div>
@@ -110,8 +129,8 @@
                     </div>
                 </div>
 
-                <!-- Tanggal Pelaksanaan -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Baris 3: Tanggal & Jam Pelaksanaan (4 Kolom pada Desktop) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <div>
                         <label for="tanggal_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             Tanggal Mulai <span class="text-rose-500">*</span>
@@ -143,10 +162,7 @@
                         >
                         <x-input-error :messages="$errors->get('tanggal_selesai')" class="mt-1.5" />
                     </div>
-                </div>
 
-                <!-- Jam Pelaksanaan -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label for="jam_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             Jam Mulai (Opsional)
@@ -178,21 +194,7 @@
                     </div>
                 </div>
 
-                <div>
-                    <label for="lokasi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Lokasi Pelaksanaan <span class="text-rose-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="lokasi"
-                        name="lokasi"
-                        value="{{ old('lokasi', $event->lokasi) }}"
-                        required
-                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
-                    >
-                    <x-input-error :messages="$errors->get('lokasi')" class="mt-1.5" />
-                </div>
-
+                <!-- Baris 4: Deskripsi -->
                 <div>
                     <label for="deskripsi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                         Deskripsi Lengkap & Rangkaian Acara <span class="text-rose-500">*</span>
@@ -207,6 +209,7 @@
                     <x-input-error :messages="$errors->get('deskripsi')" class="mt-1.5" />
                 </div>
 
+                <!-- Baris 5: Poster -->
                 <div>
                     <label for="poster" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                         Ganti Poster / Foto Dokumentasi (Opsional, Maksimal 3 MB)
@@ -222,7 +225,7 @@
                     <x-input-error :messages="$errors->get('poster')" class="mt-1.5" />
 
                     <!-- Poster Saat Ini vs Poster Baru -->
-                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
                         @if($event->poster)
                             <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
                                 <span class="block text-[11px] font-semibold text-slate-500">Poster Saat Ini:</span>

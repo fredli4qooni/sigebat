@@ -2,7 +2,7 @@
     <x-slot:title>Tambah Fasilitas Desa</x-slot:title>
     <x-slot:header>Tambah Fasilitas Baru</x-slot:header>
 
-    <div class="space-y-6 max-w-4xl mx-auto">
+    <div class="space-y-6">
         <!-- 1. Banner Eksekutif Modern (Slate 900) -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1.5 max-w-2xl">
@@ -49,23 +49,23 @@
             >
                 @csrf
 
-                <div>
-                    <label for="nama" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Nama Fasilitas <span class="text-rose-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="nama"
-                        name="nama"
-                        value="{{ old('nama') }}"
-                        required
-                        placeholder="Contoh: Toilet Umum & Ruang Bilas"
-                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
-                    >
-                    <x-input-error :messages="$errors->get('nama')" class="mt-1.5" />
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="nama" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Nama Fasilitas <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="nama"
+                            name="nama"
+                            value="{{ old('nama') }}"
+                            required
+                            placeholder="Contoh: Toilet Umum & Ruang Bilas"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('nama')" class="mt-1.5" />
+                    </div>
+
                     <div>
                         <label for="jenis_fasilitas_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             Jenis Fasilitas <span class="text-rose-500">*</span>
@@ -85,7 +85,9 @@
                         </select>
                         <x-input-error :messages="$errors->get('jenis_fasilitas_id')" class="mt-1.5" />
                     </div>
+                </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label for="objek_wisata_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             Keterikatan Objek Wisata
@@ -104,22 +106,22 @@
                         </select>
                         <x-input-error :messages="$errors->get('objek_wisata_id')" class="mt-1.5" />
                     </div>
-                </div>
 
-                <div>
-                    <label for="keterangan_lokasi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Keterangan Penempatan / Lokasi <span class="text-rose-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="keterangan_lokasi"
-                        name="keterangan_lokasi"
-                        value="{{ old('keterangan_lokasi') }}"
-                        required
-                        placeholder="Contoh: Samping Balai Adat / Gerbang Masuk Kampung"
-                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
-                    >
-                    <x-input-error :messages="$errors->get('keterangan_lokasi')" class="mt-1.5" />
+                    <div>
+                        <label for="keterangan_lokasi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Keterangan Penempatan / Lokasi <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="keterangan_lokasi"
+                            name="keterangan_lokasi"
+                            value="{{ old('keterangan_lokasi') }}"
+                            required
+                            placeholder="Contoh: Samping Balai Adat / Gerbang Masuk Kampung"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('keterangan_lokasi')" class="mt-1.5" />
+                    </div>
                 </div>
 
                 <div>
@@ -152,9 +154,9 @@
 
                     <!-- Pratinjau Foto -->
                     <template x-if="previewUrl">
-                        <div class="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+                        <div class="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5 inline-block">
                             <span class="block text-[11px] font-semibold text-slate-500">Pratinjau foto terpilih:</span>
-                            <img :src="previewUrl" alt="Pratinjau" class="w-full h-44 object-cover rounded-xl border border-slate-200 shadow-2xs">
+                            <img :src="previewUrl" alt="Pratinjau" class="w-72 h-48 object-cover rounded-xl border border-slate-200 shadow-2xs">
                         </div>
                     </template>
                 </div>
