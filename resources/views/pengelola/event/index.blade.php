@@ -147,42 +147,42 @@
                                 <td class="py-3.5 px-4 text-center font-bold text-slate-400 text-xs">
                                     {{ $eventList->firstItem() + $index }}
                                 </td>
-                                <td class="py-3.5 px-4">
+                                <td class="py-3.5 px-4 w-20">
                                     @if($ev->poster)
-                                        <img src="{{ $ev->poster_url }}" alt="{{ $ev->judul }}" class="w-14 h-14 object-cover rounded-xl border border-slate-200 shadow-2xs">
+                                        <img src="{{ $ev->poster_url }}" alt="{{ $ev->judul }}" class="w-11 h-14 object-cover rounded-xl border border-slate-200 shadow-2xs">
                                     @else
-                                        <div class="w-14 h-14 rounded-xl bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                                            <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                        <div class="w-11 h-14 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 shadow-2xs" title="Tanpa poster">
+                                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
-                                            <span class="text-[9px] font-medium leading-none">Tanpa poster</span>
                                         </div>
                                     @endif
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="font-bold text-slate-900 text-sm leading-tight">{{ $ev->judul }}</div>
-                                    <div class="mt-1">
+                                    <div class="mt-1.5">
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/90 whitespace-nowrap shadow-2xs">
                                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0"></span>
                                             <span>{{ $ev->kategori?->nama ?? '-' }}</span>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="py-3.5 px-4 text-xs">
-                                    <div class="font-bold text-slate-900 font-mono">
-                                        {{ $ev->tanggal_mulai ? $ev->tanggal_mulai->translatedFormat('d M Y') : '-' }}
+                                <td class="py-3.5 px-4 text-xs whitespace-nowrap">
+                                    <div class="font-bold text-slate-900 font-mono flex items-center gap-1.5">
+                                        <span>{{ $ev->tanggal_mulai ? $ev->tanggal_mulai->translatedFormat('d M Y') : '-' }}</span>
                                         @if($ev->is_multi_hari)
-                                            <span class="text-slate-400 font-normal">s/d</span> {{ $ev->tanggal_selesai ? $ev->tanggal_selesai->translatedFormat('d M Y') : '' }}
+                                            <span class="text-slate-400 font-normal">&ndash;</span>
+                                            <span>{{ $ev->tanggal_selesai ? $ev->tanggal_selesai->translatedFormat('d M Y') : '' }}</span>
                                         @endif
                                     </div>
-                                    <div class="text-slate-500 font-mono mt-0.5">
-                                        {{ substr($ev->jam_mulai, 0, 5) }} - {{ substr($ev->jam_selesai, 0, 5) }} WIB
+                                    <div class="flex items-center gap-2 mt-1 text-slate-500 font-mono text-[11px]">
+                                        <span>{{ substr($ev->jam_mulai, 0, 5) }} &ndash; {{ substr($ev->jam_selesai, 0, 5) }} WIB</span>
+                                        @if($ev->is_multi_hari)
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200 leading-none">
+                                                Multi-hari
+                                            </span>
+                                        @endif
                                     </div>
-                                    @if($ev->is_multi_hari)
-                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-semibold border border-slate-200">
-                                            Multi-hari
-                                        </span>
-                                    @endif
                                 </td>
                                 <td class="py-3.5 px-4 text-xs text-slate-700 max-w-xs">
                                     <div class="font-medium line-clamp-2">{{ $ev->lokasi }}</div>
