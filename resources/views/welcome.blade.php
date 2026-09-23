@@ -2,24 +2,34 @@
     <x-slot:title>Desa Wisata Cagar Budaya Kampung Gedung Batin — SIGEBAT</x-slot:title>
     <x-slot:description>Sistem Informasi Manajemen Desa Wisata Kampung Gedung Batin, Way Kanan berbasis LBS dan Kalender Event Budaya Digital.</x-slot:description>
 
-    <!-- 1. Hero Section Modern & Berwibawa (Solid Deep Slate) -->
-    <section class="relative bg-slate-900 text-white overflow-hidden py-16 md:py-24 lg:py-28 border-b border-slate-800">
+    <!-- 1. Hero Section Modern & Berwibawa dengan Background Banner & Dark Overlay -->
+    <section class="relative bg-slate-950 text-white overflow-hidden py-16 md:py-24 lg:py-28 border-b border-slate-800">
+        <!-- Background Banner Image -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="{{ asset('images/fallback-banner.jpg') }}" 
+                alt="Banner Desa Wisata Kampung Gedung Batin" 
+                class="w-full h-full object-cover object-center"
+            >
+            <!-- Layer Hitam Overlay Transparan & Elegan (Foto tetap cerah dan jelas, teks terbaca tajam) -->
+            <div class="absolute inset-0 bg-black/40 bg-gradient-to-r from-black/70 via-black/40 to-black/15"></div>
+        </div>
 
-        <div class="relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative z-10 max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl space-y-6">
                 <!-- Status Cagar Budaya Badge -->
-                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-md">
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold backdrop-blur-md shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span>Cagar Budaya Resmi &bull; Way Kanan, Lampung</span>
                 </div>
 
                 <!-- Headline -->
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15] drop-shadow-md">
                     Warisan Rumah Panggung & Pesona Adat Pepadun
                 </h1>
 
                 <!-- Deskripsi -->
-                <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
+                <p class="text-base sm:text-lg text-slate-100/95 leading-relaxed max-w-2xl font-normal drop-shadow-sm">
                     Jelajahi keagungan arsitektur kayu ulin berusia ratusan tahun di Kampung Gedung Batin, ikuti kalender ritual budaya tahunan, dan temukan rute terdekat langsung dengan teknologi <em>Location Based Services</em>.
                 </p>
 
@@ -27,7 +37,7 @@
                 <div class="pt-3 flex flex-wrap items-center gap-3.5">
                     <a
                         href="/wisata"
-                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-md hover:shadow-emerald-600/30 hover:-translate-y-0.5 transition-all no-underline"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg hover:shadow-emerald-600/40 hover:-translate-y-0.5 transition-all no-underline"
                     >
                         <span>Eksplorasi Destinasi</span>
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
@@ -37,7 +47,7 @@
 
                     <a
                         href="/peta"
-                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm backdrop-blur-md hover:-translate-y-0.5 transition-all no-underline"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm backdrop-blur-md hover:-translate-y-0.5 transition-all no-underline shadow-sm"
                     >
                         <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
