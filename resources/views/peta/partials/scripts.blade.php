@@ -134,36 +134,26 @@
         }
 
         // 6. Draw Polyline Route ke Destinasi Terpilih
-        function drawRouteTo(dest) {
+        function drawRouteTo(dest, fitBounds = false) {
             if (routePolyline) {
                 map.removeLayer(routePolyline);
                 routePolyline = null;
             }
 
-            const latlngs = [
-                [activeOrigin.lat, activeOrigin.lng],
-                [dest.latitude, dest.longitude]
-            ];
-
-            routePolyline = L.polyline(latlngs, {
-                color: '#10B981',
-                weight: 3.5,
-                dashArray: '6, 8',
-                opacity: 0.95
-            }).addTo(map);
+            const latlngs = [[activeOrigin.lat, activeOrigin.lng], [dest.latitude, dest.longitude]];
+            routePolyline = L.polyline(latlngs, { color: '#10B981', weight: 3.5, dashArray: '6, 8', opacity: 0.95 }).addTo(map);
 
             const dist = haversine(activeOrigin.lat, activeOrigin.lng, dest.latitude, dest.longitude);
-            const distStr = formatDistance(dist);
             const eta = calculateEta(dist);
 
-            const badge = document.getElementById('route-info-badge');
             document.getElementById('route-dest-name').textContent = dest.nama;
-            document.getElementById('route-dist-text').textContent = distStr;
+            document.getElementById('route-dist-text').textContent = formatDistance(dist);
             document.getElementById('route-eta-text').textContent = `${eta.walk} • ${eta.motor}`;
-            badge.classList.remove('hidden');
+            document.getElementById('route-info-badge').classList.remove('hidden');
 
-            const bounds = L.latLngBounds(latlngs);
-            map.fitBounds(bounds, { padding: [80, 80], maxZoom: 17 });
+            if (fitBounds) {
+                map.fitBounds(L.latLngBounds(latlngs), { padding: [80, 80], maxZoom: 17 });
+            }
         }
 
         // 7. Render Seluruh Marker & Daftar Sidebar
@@ -319,13 +309,9 @@
                     </div>
                 `;
 
-                marker.bindPopup(popupHtml);
+                marker.bindPopup(popupHtml, { autoPan: false });
                 marker.on('click', () => {
-                    document.querySelectorAll('.sigebat-pin-wrapper').forEach(p => p.classList.remove('is-active'));
-                    const el = document.getElementById(`marker-pin-${item.type}-${item.id}`);
-                    if (el) el.classList.add('is-active');
-                    highlightSidebarCard(item);
-                    drawRouteTo(item);
+                    focusDestination(item, true);
                 });
 
                 if (isWisata) {
@@ -336,22 +322,34 @@
             });
         }
 
-        // 8. Interaksi Dua Arah (Klik Card -> FlyTo Peta)
-        function focusDestination(item) {
+        // 8. Interaksi Dua Arah (Klik Card / Pin -> Zoom Halus & Buka Popup)
+        function focusDestination(item, fromMarkerClick = false) {
             selectedDestination = item;
             highlightSidebarCard(item);
-            map.flyTo([item.latitude, item.longitude], 17, { duration: 1.2 });
-            drawRouteTo(item);
 
             document.querySelectorAll('.sigebat-pin-wrapper').forEach(p => p.classList.remove('is-active'));
             const activePin = document.getElementById(`marker-pin-${item.type}-${item.id}`);
             if (activePin) activePin.classList.add('is-active');
 
+            drawRouteTo(item, false);
+
+            if (!fromMarkerClick && window.innerWidth < 1024) {
+                document.getElementById('full-map')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Offset koordinat latitude sedikit (+0.00045) agar popup dan pin muat seimbang di tengah layar
+            const targetLat = item.latitude + 0.00045;
+            map.flyTo([targetLat, item.longitude], 17, {
+                animate: true,
+                duration: 1.0,
+                easeLinearity: 0.25
+            });
+
             const targetLayer = item.type === 'wisata' ? wisataLayer : fasilitasLayer;
             targetLayer.eachLayer(layer => {
                 const pos = layer.getLatLng();
                 if (Math.abs(pos.lat - item.latitude) < 0.00001 && Math.abs(pos.lng - item.longitude) < 0.00001) {
-                    layer.openPopup();
+                    setTimeout(() => layer.openPopup(), 280);
                 }
             });
         }
