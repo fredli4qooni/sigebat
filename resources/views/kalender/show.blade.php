@@ -5,7 +5,7 @@
         <x-slot:image>{{ $event->poster_url }}</x-slot:image>
     @endif
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8" x-data="{ copied: false }">
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8" x-data="{ copied: false }">
         <!-- Breadcrumb & Tombol Kembali -->
         <div class="flex flex-wrap items-center justify-between gap-4">
             <nav class="flex items-center gap-2 text-xs font-medium text-slate-500">

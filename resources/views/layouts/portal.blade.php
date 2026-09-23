@@ -32,7 +32,7 @@
 
     <!-- Kepala Navigasi Atas (Desktop & Mobile) -->
     <header class="sticky top-0 z-40 glass-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 min-h-[80px] flex items-center justify-between">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-5 min-h-[80px] flex items-center justify-between">
             <!-- Logo Brand Modern -->
             <a href="/" class="flex items-center gap-3.5 no-underline group">
                 <div class="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
@@ -128,7 +128,7 @@
 
     <!-- Footer Publik Modern -->
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12 mb-10">
                 <!-- Kolom 1: Profil & Identitas Desa -->
                 <div class="md:col-span-2 space-y-4">

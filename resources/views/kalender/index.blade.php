@@ -3,7 +3,7 @@
     <x-slot:description>Jadwal lengkap kegiatan adat pepadun, ritual budaya, dan festival seni tahunan di Desa Wisata Kampung Gedung Batin, Way Kanan.</x-slot:description>
 
     <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8"
+        class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8"
         x-data="{
             selectedDate: '{{ $selectedDate ?? '' }}',
             viewMode: 'kalender',

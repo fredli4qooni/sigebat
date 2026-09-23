@@ -3,7 +3,7 @@
     <x-slot:description>Daftar fasilitas penunjang kenyamanan wisatawan di Desa Wisata Kampung Gedung Batin: musala, toilet umum, pos ronda, dan area parkir.</x-slot:description>
 
     <div class="py-8 md:py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <!-- Header Fasilitas Modern -->
             <div class="bg-slate-900 border border-slate-800 text-white rounded-2xl p-8 md:p-10 shadow-sm">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">

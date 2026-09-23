@@ -5,7 +5,7 @@
     <!-- 1. Hero Section Modern & Berwibawa (Solid Deep Slate) -->
     <section class="relative bg-slate-900 text-white overflow-hidden py-16 md:py-24 lg:py-28 border-b border-slate-800">
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl space-y-6">
                 <!-- Status Cagar Budaya Badge -->
                 <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-md">
@@ -51,7 +51,7 @@
 
     <!-- 2. Bar Statistik Melayang (Floating Metric Cards) -->
     <section class="relative -mt-10 sm:-mt-12 z-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl py-5 px-5 sm:px-7 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 divide-y divide-slate-100 md:divide-y-0 md:divide-x md:divide-slate-200">
                     <!-- Metrik 1 -->
@@ -102,7 +102,7 @@
 
     <!-- 3. Destinasi Wisata Unggulan -->
     <section class="py-16 md:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <!-- Header Seksi -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
                 <div>
@@ -192,8 +192,8 @@
     </section>
 
     <!-- 4. Banner Edukasi Fitur LBS (Location Based Services) -->
-    <section class="py-12 md:py-16 bg-slate-900 border border-slate-800 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 shadow-sm overflow-hidden my-6">
-        <div class="max-w-6xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
+    <section class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 my-6">
+        <div class="py-12 md:py-16 bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-sm overflow-hidden px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="space-y-4 max-w-xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold backdrop-blur-sm">
                     <svg class="w-3.5 h-3.5 fill-current text-emerald-400" viewBox="0 0 20 20">
@@ -231,7 +231,7 @@
 
     <!-- 5. Agenda Event Budaya Terdekat -->
     <section class="py-16 md:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <!-- Header Seksi -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
                 <div>

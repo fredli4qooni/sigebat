@@ -46,7 +46,7 @@
             );
         }
     }">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <!-- Breadcrumbs Navigasi Modern -->
             <nav class="text-xs font-medium text-slate-500 flex items-center gap-2">
                 <a href="/" class="hover:text-slate-900 no-underline text-slate-500">Beranda</a>
