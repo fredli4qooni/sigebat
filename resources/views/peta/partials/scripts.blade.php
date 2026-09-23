@@ -44,16 +44,11 @@
         let radiusCircle = null;
         let routePolyline = null;
 
-        // 3. Formula Haversine
+        // 3. Formula Haversine & ETA
         function haversine(lat1, lon1, lat2, lon2) {
-            const R = 6371; // km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+            return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
         function formatDistance(distKm) {
@@ -61,22 +56,40 @@
         }
 
         function calculateEta(distKm) {
-            const walkMin = Math.max(1, Math.round((distKm / 4.5) * 60));
-            const motorMin = Math.max(1, Math.round((distKm / 25) * 60));
             return {
-                walk: `Jalan: ~${walkMin} mnt`,
-                motor: `Motor: ~${motorMin} mnt`
+                walk: `Jalan: ~${Math.max(1, Math.round((distKm / 4.5) * 60))} mnt`,
+                motor: `Motor: ~${Math.max(1, Math.round((distKm / 25) * 60))} mnt`
             };
         }
 
-        // 4. Custom Marker Icon Factory (Bebas Hard Emoji)
-        function createBadgeIcon(colorHex, text) {
+        // 4. Custom Pin Marker Icon Factory (Foto dalam Lingkaran Pin)
+        function createPinIcon(item) {
+            const isWisata = item.type === 'wisata';
+            const pinColor = isWisata ? '#B45309' : '#0284C7';
+            const badgeColor = isWisata ? '#F59E0B' : '#38BDF8';
+            const fallbackBg = isWisata ? '#FEF3C7' : '#E0F2FE';
+            const iconSvg = isWisata
+                ? `<svg style="width:18px;height:18px;color:#92400E;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`
+                : `<svg style="width:18px;height:18px;color:#0369A1;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>`;
+
+            const imageHtml = item.foto_url
+                ? `<img src="${item.foto_url}" class="sigebat-pin-img" alt="${item.nama}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="sigebat-pin-fallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:${fallbackBg};">${iconSvg}</div>`
+                : `<div class="sigebat-pin-fallback" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:${fallbackBg};">${iconSvg}</div>`;
+
+            const html = `
+                <div class="sigebat-pin-wrapper" id="marker-pin-${item.type}-${item.id}">
+                    <div class="sigebat-pin-head" style="border-color:${pinColor};">${imageHtml}</div>
+                    <div class="sigebat-pin-beak" style="background-color:${pinColor};"></div>
+                    <div class="sigebat-pin-badge" style="background-color:${badgeColor};" title="${item.kategori || item.jenis}"></div>
+                </div>
+            `;
+
             return L.divIcon({
-                className: 'custom-map-badge',
-                html: `<div style="background-color:${colorHex};color:#fff;padding:4px 9px;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;box-shadow:0 4px 12px rgba(15,23,42,0.4);border:2px solid #fff;white-space:nowrap;display:inline-flex;align-items:center;cursor:pointer;"><span>${text}</span></div>`,
-                iconSize: [110, 32],
-                iconAnchor: [55, 34],
-                popupAnchor: [0, -34]
+                className: 'sigebat-custom-pin',
+                html: html,
+                iconSize: [44, 52],
+                iconAnchor: [22, 51],
+                popupAnchor: [0, -52]
             });
         }
 
@@ -158,16 +171,16 @@
             wisataLayer.clearLayers();
             fasilitasLayer.clearLayers();
 
-            const allItems = [];
-            wisataRaw.forEach(w => {
-                const dist = haversine(activeOrigin.lat, activeOrigin.lng, w.latitude, w.longitude);
-                allItems.push({ ...w, type: 'wisata', distance: dist, formattedDistance: formatDistance(dist), eta: calculateEta(dist) });
-            });
-
-            fasilitasRaw.forEach(f => {
-                const dist = haversine(activeOrigin.lat, activeOrigin.lng, f.latitude, f.longitude);
-                allItems.push({ ...f, type: 'fasilitas', distance: dist, formattedDistance: formatDistance(dist), eta: calculateEta(dist) });
-            });
+            const allItems = [
+                ...wisataRaw.map(w => {
+                    const d = haversine(activeOrigin.lat, activeOrigin.lng, w.latitude, w.longitude);
+                    return { ...w, type: 'wisata', distance: d, formattedDistance: formatDistance(d), eta: calculateEta(d) };
+                }),
+                ...fasilitasRaw.map(f => {
+                    const d = haversine(activeOrigin.lat, activeOrigin.lng, f.latitude, f.longitude);
+                    return { ...f, type: 'fasilitas', distance: d, formattedDistance: formatDistance(d), eta: calculateEta(d) };
+                })
+            ];
 
             document.getElementById('count-all').textContent = allItems.length;
             document.getElementById('count-wisata').textContent = wisataRaw.length;
@@ -207,16 +220,21 @@
                     searchKeyword = '';
                     document.getElementById('search-input').value = '';
                     currentRadius = 'all';
-                    document.querySelectorAll('.radius-btn').forEach(b => {
-                        b.classList.toggle('active', b.dataset.radius === 'all');
-                        b.classList.toggle('bg-emerald-600', b.dataset.radius === 'all');
-                        b.classList.toggle('text-white', b.dataset.radius === 'all');
-                    });
                     currentTab = 'all';
+                    document.querySelectorAll('.radius-btn').forEach(b => {
+                        const isAll = b.dataset.radius === 'all';
+                        b.classList.toggle('active', isAll);
+                        b.classList.toggle('bg-emerald-600', isAll);
+                        b.classList.toggle('text-white', isAll);
+                        b.classList.toggle('bg-white', !isAll);
+                        b.classList.toggle('text-slate-600', !isAll);
+                    });
                     document.querySelectorAll('.tab-filter').forEach(b => {
-                        b.classList.toggle('active', b.id === 'tab-all');
-                        b.classList.toggle('bg-white', b.id === 'tab-all');
-                        b.classList.toggle('text-slate-900', b.id === 'tab-all');
+                        const isAll = b.id === 'tab-all';
+                        b.classList.toggle('active', isAll);
+                        b.classList.toggle('bg-white', isAll);
+                        b.classList.toggle('text-slate-900', isAll);
+                        b.classList.toggle('text-slate-600', !isAll);
                     });
                     renderAll();
                 });
@@ -232,18 +250,13 @@
                         ? `<svg class="w-5 h-5 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`
                         : `<svg class="w-5 h-5 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>`;
 
+                    const thumbHtml = item.foto_url
+                        ? `<img src="${item.foto_url}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-slate-200 shadow-2xs" alt="${item.nama}" onerror="this.onerror=null;this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');"><div class="hidden w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">${iconFallbackSvg}</div>`
+                        : `<div class="w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">${iconFallbackSvg}</div>`;
+
                     card.innerHTML = `
                         <div class="flex items-start gap-3">
-                            ${item.foto_url ? `
-                                <img src="${item.foto_url}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-slate-200 shadow-2xs" alt="${item.nama}" onerror="this.onerror=null;this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');">
-                                <div class="hidden w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">
-                                    ${iconFallbackSvg}
-                                </div>
-                            ` : `
-                                <div class="w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">
-                                    ${iconFallbackSvg}
-                                </div>
-                            `}
+                            ${thumbHtml}
                             <div class="min-w-0 flex-1">
                                 <div class="flex items-center justify-between gap-1 mb-1">
                                     <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${badgeColor}">
@@ -277,25 +290,23 @@
 
             filtered.forEach(item => {
                 const isWisata = item.type === 'wisata';
-                const color = isWisata ? '#78350F' : '#0284C7';
-                const label = item.nama.length > 15 ? item.nama.substring(0, 14) + '…' : item.nama;
 
                 const marker = L.marker([item.latitude, item.longitude], {
-                    icon: createBadgeIcon(color, label)
+                    icon: createPinIcon(item)
+                });
+
+                marker.bindTooltip(item.nama, {
+                    direction: 'top',
+                    offset: [0, -52],
+                    className: 'sigebat-pin-tooltip'
                 });
 
                 const popupHtml = `
                     <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:230px;max-width:270px;padding:2px;">
                         ${item.foto_url ? `<img src="${item.foto_url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;" alt="${item.nama}" onerror="this.style.display='none'">` : ''}
-                        <div style="font-size:10px;font-weight:700;color:${isWisata ? '#047857' : '#0284C7'};text-transform:uppercase;">
-                            ${item.kategori || item.jenis}
-                        </div>
-                        <div style="font-size:14px;font-weight:700;color:#0F172A;line-height:1.3;margin-top:2px;">
-                            ${item.nama}
-                        </div>
-                        <div style="font-size:11px;color:#64748B;margin-top:4px;">
-                            ${item.alamat || item.lokasi || ''}
-                        </div>
+                        <div style="font-size:10px;font-weight:700;color:${isWisata ? '#047857' : '#0284C7'};text-transform:uppercase;">${item.kategori || item.jenis}</div>
+                        <div style="font-size:14px;font-weight:700;color:#0F172A;line-height:1.3;margin-top:2px;">${item.nama}</div>
+                        <div style="font-size:11px;color:#64748B;margin-top:4px;">${item.alamat || item.lokasi || ''}</div>
                         ${!isWisata && item.objek_wisata ? `<div style="font-size:11px;color:#047857;margin-top:3px;font-weight:600;">Area: ${item.objek_wisata}</div>` : ''}
                         <div style="margin-top:8px;padding:5px 8px;background:#F0FDF4;border:1px solid #BBF7D0;color:#065F46;font-size:11px;font-weight:700;border-radius:6px;display:flex;justify-content:space-between;">
                             <span>Jarak: ${item.formattedDistance}</span>
@@ -310,6 +321,9 @@
 
                 marker.bindPopup(popupHtml);
                 marker.on('click', () => {
+                    document.querySelectorAll('.sigebat-pin-wrapper').forEach(p => p.classList.remove('is-active'));
+                    const el = document.getElementById(`marker-pin-${item.type}-${item.id}`);
+                    if (el) el.classList.add('is-active');
                     highlightSidebarCard(item);
                     drawRouteTo(item);
                 });
@@ -328,6 +342,10 @@
             highlightSidebarCard(item);
             map.flyTo([item.latitude, item.longitude], 17, { duration: 1.2 });
             drawRouteTo(item);
+
+            document.querySelectorAll('.sigebat-pin-wrapper').forEach(p => p.classList.remove('is-active'));
+            const activePin = document.getElementById(`marker-pin-${item.type}-${item.id}`);
+            if (activePin) activePin.classList.add('is-active');
 
             const targetLayer = item.type === 'wisata' ? wisataLayer : fasilitasLayer;
             targetLayer.eachLayer(layer => {
@@ -423,11 +441,15 @@
         document.querySelectorAll('.radius-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.radius-btn').forEach(b => {
-                    b.classList.remove('active', 'bg-emerald-600', 'text-white');
-                    b.classList.add('bg-white', 'border', 'border-slate-200', 'text-slate-600');
+                    const isCur = b === this;
+                    b.classList.toggle('active', isCur);
+                    b.classList.toggle('bg-emerald-600', isCur);
+                    b.classList.toggle('text-white', isCur);
+                    b.classList.toggle('bg-white', !isCur);
+                    b.classList.toggle('border', !isCur);
+                    b.classList.toggle('border-slate-200', !isCur);
+                    b.classList.toggle('text-slate-600', !isCur);
                 });
-                this.classList.add('active', 'bg-emerald-600', 'text-white');
-                this.classList.remove('bg-white', 'border', 'border-slate-200', 'text-slate-600');
                 currentRadius = this.dataset.radius;
                 updateOrigin(activeOrigin.lat, activeOrigin.lng, activeOrigin.label, activeOrigin.type);
             });
@@ -442,11 +464,13 @@
             document.getElementById(t.id).addEventListener('click', function() {
                 tabs.forEach(tb => {
                     const el = document.getElementById(tb.id);
-                    el.classList.remove('active', 'bg-white', 'text-slate-900', 'shadow-xs');
-                    el.classList.add('text-slate-600');
+                    const isCur = tb.id === t.id;
+                    el.classList.toggle('active', isCur);
+                    el.classList.toggle('bg-white', isCur);
+                    el.classList.toggle('text-slate-900', isCur);
+                    el.classList.toggle('shadow-xs', isCur);
+                    el.classList.toggle('text-slate-600', !isCur);
                 });
-                this.classList.add('active', 'bg-white', 'text-slate-900', 'shadow-xs');
-                this.classList.remove('text-slate-600');
                 currentTab = t.val;
                 renderAll();
             });

@@ -47,15 +47,15 @@
     <div class="p-3.5 bg-slate-50 border-t border-slate-200/80 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-5">
             <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-md bg-amber-800 border border-white shadow-xs"></span>
-                <span class="font-medium text-slate-800">Rumah Panggung & Makam Adat</span>
+                <span class="w-3.5 h-3.5 rounded-full bg-amber-700 border-2 border-white shadow-xs"></span>
+                <span class="font-medium text-slate-800">Pin Objek Wisata Adat</span>
             </div>
             <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-md bg-sky-600 border border-white shadow-xs"></span>
-                <span class="font-medium text-slate-800">Sarana Pendukung (Musala, Toilet, Parkir)</span>
+                <span class="w-3.5 h-3.5 rounded-full bg-sky-600 border-2 border-white shadow-xs"></span>
+                <span class="font-medium text-slate-800">Pin Sarana & Fasilitas</span>
             </div>
             <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-full bg-emerald-500 border border-white shadow-xs animate-ping"></span>
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white shadow-xs animate-ping"></span>
                 <span class="font-semibold text-emerald-800">Titik Acuan Pengunjung</span>
             </div>
         </div>
@@ -64,3 +64,99 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom Pin Leaflet Sigebat */
+    .sigebat-custom-pin {
+        background: transparent !important;
+        border: none !important;
+    }
+    .sigebat-pin-wrapper {
+        position: relative;
+        width: 44px;
+        height: 52px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+        transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.22s ease;
+    }
+    .sigebat-pin-wrapper:hover {
+        transform: translateY(-5px) scale(1.12);
+        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
+        z-index: 1000 !important;
+    }
+    .sigebat-pin-wrapper.is-active {
+        transform: translateY(-6px) scale(1.16);
+        filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.8)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+        z-index: 1001 !important;
+    }
+    .sigebat-pin-head {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border-width: 3px;
+        border-style: solid;
+        background: #ffffff;
+        box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.95);
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .sigebat-pin-wrapper.is-active .sigebat-pin-head {
+        border-color: #10B981 !important;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #10B981 !important;
+    }
+    .sigebat-pin-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .sigebat-pin-beak {
+        position: absolute;
+        top: 34px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        width: 14px;
+        height: 14px;
+        border-bottom-right-radius: 3px;
+        box-shadow: 1px 1px 0 1px rgba(255, 255, 255, 0.9);
+        z-index: 1;
+        transition: background-color 0.2s ease;
+    }
+    .sigebat-pin-wrapper.is-active .sigebat-pin-beak {
+        background-color: #10B981 !important;
+    }
+    .sigebat-pin-badge {
+        position: absolute;
+        top: -1px;
+        right: 0px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        z-index: 3;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    /* Tooltip */
+    .sigebat-pin-tooltip {
+        background: rgba(15, 23, 42, 0.92) !important;
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        padding: 5px 9px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+        white-space: nowrap !important;
+    }
+    .sigebat-pin-tooltip::before {
+        border-top-color: rgba(15, 23, 42, 0.92) !important;
+    }
+</style>
