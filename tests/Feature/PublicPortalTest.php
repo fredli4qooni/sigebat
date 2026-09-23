@@ -141,6 +141,14 @@ class PublicPortalTest extends TestCase
             'status' => 'aktif',
             'latitude' => -4.540123,
             'longitude' => 104.665123,
+            'foto_utama' => 'wisata/test-wisata.jpg',
+            'created_by' => $user->id,
+        ]);
+
+        $fasilitas = Fasilitas::factory()->create([
+            'nama' => 'Toilet Wisata Indah',
+            'foto' => 'fasilitas/test-fasilitas.jpg',
+            'objek_wisata_id' => $wisata->id,
             'created_by' => $user->id,
         ]);
 
@@ -151,6 +159,9 @@ class PublicPortalTest extends TestCase
         $response->assertSee('Pusaka Panggung Way Kanan');
         $response->assertSee('-4.540123');
         $response->assertSee('104.665123');
+        $response->assertSee('Toilet Wisata Indah');
+        $response->assertSee('test-fasilitas.jpg');
+        $response->assertSee('test-wisata.jpg');
     }
 
     public function test_fasilitas_directory_page_can_be_rendered_with_filters(): void

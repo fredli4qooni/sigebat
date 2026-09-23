@@ -234,8 +234,11 @@
 
                     card.innerHTML = `
                         <div class="flex items-start gap-3">
-                            ${isWisata && item.foto_url ? `
-                                <img src="${item.foto_url}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" alt="${item.nama}">
+                            ${item.foto_url ? `
+                                <img src="${item.foto_url}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-slate-200 shadow-2xs" alt="${item.nama}" onerror="this.onerror=null;this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');">
+                                <div class="hidden w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">
+                                    ${iconFallbackSvg}
+                                </div>
                             ` : `
                                 <div class="w-12 h-12 rounded-lg ${isWisata ? 'bg-amber-50' : 'bg-sky-50'} flex items-center justify-center flex-shrink-0">
                                     ${iconFallbackSvg}
@@ -283,7 +286,7 @@
 
                 const popupHtml = `
                     <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:230px;max-width:270px;padding:2px;">
-                        ${isWisata && item.foto_url ? `<img src="${item.foto_url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;" alt="${item.nama}">` : ''}
+                        ${item.foto_url ? `<img src="${item.foto_url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;" alt="${item.nama}" onerror="this.style.display='none'">` : ''}
                         <div style="font-size:10px;font-weight:700;color:${isWisata ? '#047857' : '#0284C7'};text-transform:uppercase;">
                             ${item.kategori || item.jenis}
                         </div>
@@ -293,6 +296,7 @@
                         <div style="font-size:11px;color:#64748B;margin-top:4px;">
                             ${item.alamat || item.lokasi || ''}
                         </div>
+                        ${!isWisata && item.objek_wisata ? `<div style="font-size:11px;color:#047857;margin-top:3px;font-weight:600;">Area: ${item.objek_wisata}</div>` : ''}
                         <div style="margin-top:8px;padding:5px 8px;background:#F0FDF4;border:1px solid #BBF7D0;color:#065F46;font-size:11px;font-weight:700;border-radius:6px;display:flex;justify-content:space-between;">
                             <span>Jarak: ${item.formattedDistance}</span>
                             <span>${item.eta.walk}</span>

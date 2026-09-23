@@ -44,6 +44,8 @@ class PetaController extends Controller
                     'nama' => $f->nama,
                     'jenis' => $f->jenis?->nama ?? 'Fasilitas',
                     'lokasi' => $f->keterangan_lokasi,
+                    'deskripsi' => $f->deskripsi,
+                    'foto_url' => $f->foto_url,
                     'latitude' => (float) $lat,
                     'longitude' => (float) $lng,
                     'is_umum' => (bool) $f->is_umum,
