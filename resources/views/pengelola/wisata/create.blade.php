@@ -2,26 +2,35 @@
     <x-slot:title>Tambah Objek Wisata</x-slot:title>
     <x-slot:header>Tambah Objek Wisata Baru</x-slot:header>
 
-    <div class="space-y-6 max-w-4xl mx-auto">
-        <!-- Papan Cokelat Judul Halaman -->
-        <x-papan warna="cokelat" class="p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-2xl font-bold font-papan text-putih">Tambah Objek Wisata</h2>
-                    <p class="text-putih/90 text-sm mt-1">
-                        Masukkan informasi destinasi wisata, cagar budaya, atau rumah adat beserta koordinat LBS.
-                    </p>
+    <div class="space-y-6 max-w-5xl mx-auto">
+        <!-- 1. Banner Eksekutif Modern (Slate 900) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1.5 max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-semibold backdrop-blur-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Formulir Objek Wisata Baru</span>
                 </div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                    Tambah Objek Wisata
+                </h2>
+                <p class="text-slate-300 text-sm leading-relaxed font-normal">
+                    Masukkan informasi lengkap destinasi wisata, cagar budaya, atau rumah adat beserta titik koordinat lokasi LBS.
+                </p>
+            </div>
+            <div class="flex-shrink-0">
                 <a
                     href="{{ route('pengelola.wisata.index') }}"
-                    class="px-3.5 py-2 bg-putih/15 border border-putih/30 text-putih font-bold text-xs rounded-kontrol hover:bg-putih/25 no-underline"
+                    class="h-10 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-semibold text-xs sm:text-sm transition-all inline-flex items-center gap-2 no-underline"
                 >
-                    &larr; Kembali ke daftar
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Kembali ke Daftar</span>
                 </a>
             </div>
-        </x-papan>
+        </div>
 
-        <!-- Form Tambah Wisata -->
+        <!-- 2. Formulir Tambah Objek Wisata -->
         <form
             method="POST"
             action="{{ route('pengelola.wisata.store') }}"
@@ -40,23 +49,41 @@
             @csrf
 
             <!-- Bagian 1: Informasi Pokok -->
-            <div class="bg-putih border-2 border-aspal rounded-papan p-6 space-y-4">
-                <h3 class="text-lg font-bold font-papan text-aspal border-b border-beton pb-2">Informasi dasar</h3>
+            <div class="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-sm space-y-5">
+                <div class="border-b border-slate-100 pb-3">
+                    <h3 class="text-base font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                        <span>Informasi Dasar & Deskripsi</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Identitas utama, kategori, kontak, dan operasional objek wisata</p>
+                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <x-input-label for="nama" value="Nama objek wisata" />
-                        <x-text-input id="nama" name="nama" type="text" :value="old('nama')" required placeholder="Contoh: Rumah Panggung Tua Buay Pemuka Pangeran" />
-                        <x-input-error :messages="$errors->get('nama')" />
+                        <label for="nama" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Nama Objek Wisata <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="nama"
+                            name="nama"
+                            value="{{ old('nama') }}"
+                            required
+                            placeholder="Contoh: Rumah Panggung Tua Buay Pemuka Pangeran"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('nama')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="kategori_wisata_id" value="Kategori wisata" />
+                        <label for="kategori_wisata_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Kategori Wisata <span class="text-rose-500">*</span>
+                        </label>
                         <select
                             id="kategori_wisata_id"
                             name="kategori_wisata_id"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm font-semibold text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
                             <option value="">Pilih kategori wisata...</option>
                             @foreach($kategoriList as $kat)
@@ -65,82 +92,124 @@
                                 </option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('kategori_wisata_id')" />
+                        <x-input-error :messages="$errors->get('kategori_wisata_id')" class="mt-1.5" />
                     </div>
                 </div>
 
                 <div>
-                    <x-input-label for="alamat" value="Alamat lengkap / petunjuk lokasi" />
-                    <x-text-input id="alamat" name="alamat" type="text" :value="old('alamat', 'Kampung Gedung Batin, Kec. Blambangan Umpu, Kab. Way Kanan, Lampung')" required />
-                    <x-input-error :messages="$errors->get('alamat')" />
+                    <label for="alamat" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Alamat Lengkap / Petunjuk Lokasi <span class="text-rose-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="alamat"
+                        name="alamat"
+                        value="{{ old('alamat', 'Kampung Gedung Batin, Kec. Blambangan Umpu, Kab. Way Kanan, Lampung') }}"
+                        required
+                        class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                    >
+                    <x-input-error :messages="$errors->get('alamat')" class="mt-1.5" />
                 </div>
 
                 <div>
-                    <x-input-label for="deskripsi" value="Deskripsi lengkap dan sejarah objek wisata" />
+                    <label for="deskripsi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Deskripsi Lengkap & Sejarah Objek Wisata <span class="text-rose-500">*</span>
+                    </label>
                     <textarea
                         id="deskripsi"
                         name="deskripsi"
                         rows="5"
                         required
                         placeholder="Tuliskan latar belakang sejarah, arsitektur, nilai budaya, atau daya tarik wisata..."
-                        class="p-3.5 border-2 border-aspal rounded-kontrol w-full text-sm text-aspal focus:outline-none focus:ring-0 focus:border-aspal"
+                        class="p-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400 leading-relaxed"
                     >{{ old('deskripsi') }}</textarea>
-                    <x-input-error :messages="$errors->get('deskripsi')" />
+                    <x-input-error :messages="$errors->get('deskripsi')" class="mt-1.5" />
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                     <div>
-                        <x-input-label for="jam_operasional" value="Jam operasional (opsional)" />
-                        <x-text-input id="jam_operasional" name="jam_operasional" type="text" :value="old('jam_operasional', '08.00 - 17.00 WIB')" placeholder="08.00 - 17.00 WIB" />
-                        <x-input-error :messages="$errors->get('jam_operasional')" />
+                        <label for="jam_operasional" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Jam Operasional (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="jam_operasional"
+                            name="jam_operasional"
+                            value="{{ old('jam_operasional', '08.00 - 17.00 WIB') }}"
+                            placeholder="08.00 - 17.00 WIB"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('jam_operasional')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="harga_tiket" value="Harga tiket masuk (opsional)" />
-                        <x-text-input id="harga_tiket" name="harga_tiket" type="text" :value="old('harga_tiket', 'Gratis')" placeholder="Contoh: Rp 10.000 / Gratis" />
-                        <x-input-error :messages="$errors->get('harga_tiket')" />
+                        <label for="harga_tiket" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Harga Tiket Masuk (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="harga_tiket"
+                            name="harga_tiket"
+                            value="{{ old('harga_tiket', 'Gratis') }}"
+                            placeholder="Contoh: Rp 10.000 / Gratis"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                        >
+                        <x-input-error :messages="$errors->get('harga_tiket')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="kontak" value="Kontak narahubung / WhatsApp (opsional)" />
-                        <x-text-input id="kontak" name="kontak" type="text" :value="old('kontak')" placeholder="Contoh: 081234567890" />
-                        <x-input-error :messages="$errors->get('kontak')" />
+                        <label for="kontak" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Kontak Narahubung / WA (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="kontak"
+                            name="kontak"
+                            value="{{ old('kontak') }}"
+                            placeholder="Contoh: 081234567890"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400 font-mono"
+                        >
+                        <x-input-error :messages="$errors->get('kontak')" class="mt-1.5" />
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-slate-100">
                     <div>
-                        <x-input-label for="status" value="Status publikasi" />
+                        <label for="status" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Status Publikasi <span class="text-rose-500">*</span>
+                        </label>
                         <select
                             id="status"
                             name="status"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full text-sm font-semibold text-aspal bg-putih focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
                         >
                             <option value="aktif" {{ old('status', 'aktif') === 'aktif' ? 'selected' : '' }}>Aktif (Tayang di Web Publik)</option>
                             <option value="pending" {{ old('status') === 'pending' ? 'selected' : '' }}>Pending (Konsep/Draft)</option>
                             <option value="nonaktif" {{ old('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif (Arsip)</option>
                         </select>
-                        <x-input-error :messages="$errors->get('status')" />
+                        <x-input-error :messages="$errors->get('status')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="foto_utama" value="Foto utama objek wisata (Maksimal 3 MB)" />
+                        <label for="foto_utama" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Foto Utama Objek Wisata (Maksimal 3 MB)
+                        </label>
                         <input
                             type="file"
                             id="foto_utama"
                             name="foto_utama"
                             accept="image/jpeg,image/png,image/jpg,image/webp"
                             @change="handleFile"
-                            class="block w-full text-sm text-aspal file:mr-4 file:py-2.5 file:px-4 file:rounded-kontrol file:border-2 file:border-aspal file:text-xs file:font-bold file:bg-beton file:text-aspal hover:file:bg-abu/20 cursor-pointer"
+                            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all cursor-pointer"
                         >
-                        <x-input-error :messages="$errors->get('foto_utama')" />
+                        <x-input-error :messages="$errors->get('foto_utama')" class="mt-1.5" />
 
-                        <!-- Pratinjau Foto -->
+                        <!-- Pratinjau Foto Pilihan -->
                         <template x-if="previewUrl">
-                            <div class="mt-3 p-2 bg-beton/40 border border-aspal rounded-kontrol">
-                                <span class="block text-[11px] font-bold text-abu mb-1">Pratinjau foto terpilih:</span>
-                                <img :src="previewUrl" alt="Pratinjau Foto" class="w-full h-40 object-cover rounded-kontrol border border-aspal">
+                            <div class="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+                                <span class="block text-[11px] font-semibold text-slate-500">Pratinjau foto terpilih:</span>
+                                <img :src="previewUrl" alt="Pratinjau Foto" class="w-full h-44 object-cover rounded-xl border border-slate-200 shadow-2xs">
                             </div>
                         </template>
                     </div>
@@ -148,12 +217,15 @@
             </div>
 
             <!-- Bagian 2: Titik Koordinat GPS & Leaflet Map Picker (LBS) -->
-            <div class="bg-putih border-2 border-aspal rounded-papan p-6 space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-beton pb-2">
+            <div class="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                     <div>
-                        <h3 class="text-lg font-bold font-papan text-aspal">Penentuan Titik Koordinat Lokasi (LBS)</h3>
-                        <p class="text-xs text-abu">
-                            Klik atau geser pin penanda pada peta untuk mengatur koordinat GPS lokasi objek wisata.
+                        <h3 class="text-base font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-sky-600"></span>
+                            <span>Penentuan Titik Koordinat Lokasi (LBS)</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            Klik atau geser pin penanda pada peta satelit untuk menentukan koordinat GPS lokasi objek wisata.
                         </p>
                     </div>
                     <button
@@ -161,22 +233,25 @@
                         id="btn-geolocate"
                         class="h-9 px-3.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold rounded-xl cursor-pointer flex items-center gap-1.5 self-start sm:self-auto transition-all shadow-xs"
                     >
-                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
                         <span>Gunakan Lokasi GPS Saya</span>
                     </button>
                 </div>
 
-                <!-- Leaflet Interactive Container -->
+                <!-- Kontainer Peta Leaflet Citra Satelit Esri -->
                 <div class="relative">
-                    <div id="map-picker" class="h-[360px] w-full border-2 border-aspal rounded-kontrol z-10"></div>
+                    <div id="map-picker" class="h-[360px] w-full border border-slate-300 rounded-xl z-10 shadow-xs overflow-hidden"></div>
                 </div>
 
-                <!-- Input Numeric Latitude & Longitude -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <!-- Input Numerik Latitude & Longitude -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                     <div>
-                        <x-input-label for="latitude" value="Latitude (Garis Lintang)" />
+                        <label for="latitude" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Latitude (Garis Lintang) <span class="text-rose-500">*</span>
+                        </label>
                         <input
                             id="latitude"
                             name="latitude"
@@ -184,13 +259,15 @@
                             step="any"
                             value="{{ old('latitude', '-4.540583') }}"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full font-mono text-sm text-aspal focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full font-mono text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                         >
-                        <x-input-error :messages="$errors->get('latitude')" />
+                        <x-input-error :messages="$errors->get('latitude')" class="mt-1.5" />
                     </div>
 
                     <div>
-                        <x-input-label for="longitude" value="Longitude (Garis Bujur)" />
+                        <label for="longitude" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Longitude (Garis Bujur) <span class="text-rose-500">*</span>
+                        </label>
                         <input
                             id="longitude"
                             name="longitude"
@@ -198,9 +275,9 @@
                             step="any"
                             value="{{ old('longitude', '104.664984') }}"
                             required
-                            class="h-[48px] px-3.5 border-2 border-aspal rounded-kontrol w-full font-mono text-sm text-aspal focus:outline-none focus:ring-0 focus:border-aspal"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full font-mono text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                         >
-                        <x-input-error :messages="$errors->get('longitude')" />
+                        <x-input-error :messages="$errors->get('longitude')" class="mt-1.5" />
                     </div>
                 </div>
             </div>
@@ -209,18 +286,24 @@
             <div class="flex items-center justify-end gap-3 pt-2">
                 <a
                     href="{{ route('pengelola.wisata.index') }}"
-                    class="h-[48px] px-6 bg-putih border-2 border-aspal text-aspal font-bold text-sm rounded-kontrol hover:bg-beton no-underline flex items-center justify-center"
+                    class="h-11 px-6 bg-white border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm rounded-xl hover:bg-slate-50 transition-all no-underline flex items-center justify-center cursor-pointer shadow-xs"
                 >
                     Batal
                 </a>
-                <x-primary-button class="h-[48px] px-8">
-                    Simpan Objek Wisata
-                </x-primary-button>
+                <button
+                    type="submit"
+                    class="h-11 px-7 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs hover:shadow-emerald-600/20 transition-all cursor-pointer flex items-center gap-2"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Simpan Objek Wisata</span>
+                </button>
             </div>
         </form>
     </div>
 
-    <!-- Script Leaflet Coordinate Picker -->
+    <!-- Script Leaflet Coordinate Picker (Citra Satelit Esri) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const latInput = document.getElementById('latitude');
@@ -231,15 +314,15 @@
             let currentLng = parseFloat(lngInput.value) || 104.664984;
 
             if (typeof L === 'undefined') {
-                console.error('Leaflet is not loaded.');
+                console.error('Leaflet JS is not loaded.');
                 return;
             }
 
-            // Inisialisasi peta
-            const map = L.map('map-picker').setView([currentLat, currentLng], 15);
+            // Inisialisasi peta dengan citra satelit Esri resolusi tinggi
+            const map = L.map('map-picker').setView([currentLat, currentLng], 16);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri',
                 maxZoom: 19
             }).addTo(map);
 
