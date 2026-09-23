@@ -7,6 +7,8 @@
 
         <title>{{ $title ?? config('app.name', 'SIGEBAT') }} — Desa Wisata Kampung Gedung Batin</title>
 
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
         <!-- Scripts & Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -14,15 +16,11 @@
         <div class="w-full max-w-[440px]">
             <!-- Header Brand Modern -->
             <div class="mb-6 text-center">
-                <a href="/" class="inline-flex items-center gap-3 no-underline group">
-                    <div class="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-                        <svg class="w-6 h-6 fill-current" viewBox="0 0 256 256">
-                            <path d="M218.83,103.77l-80-75.48a13.9,13.9,0,0,0-17.66,0l-80,75.48A14,14,0,0,0,36,114V208a14,14,0,0,0,14,14H206a14,14,0,0,0,14-14V114A14,14,0,0,0,218.83,103.77ZM206,206H50a2,2,0,0,1-2-2V114a2,2,0,0,1,.74-1.57l80-75.49a2,2,0,0,1,2.52,0l80,75.49A2,2,0,0,1,212,114V204A2,2,0,0,1,206,206Z"/>
-                        </svg>
-                    </div>
+                <a href="/" class="inline-flex items-center gap-3.5 no-underline group">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SIGEBAT" class="w-12 h-12 rounded-xl object-contain bg-white border border-slate-200 shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
                     <div class="text-left">
                         <span class="block font-bold text-xl text-slate-900 tracking-tight group-hover:text-emerald-700 transition-colors">SIGEBAT</span>
-                        <span class="text-xs font-medium text-slate-500">Kampung Gedung Batin</span>
+                        <span class="text-xs font-medium text-slate-500">Kampung Gedung Batin, Way Kanan</span>
                     </div>
                 </a>
             </div>

@@ -43,6 +43,7 @@ class PublicPortalTest extends TestCase
         $response->assertOk();
         $response->assertSee('Kampung Gedung Batin');
         $response->assertSee('Rumah Panggung Bersejarah');
+        $response->assertSee('images/logo.png');
         $response->assertSee('Pagelaran Tari Cangget Agung');
     }
 

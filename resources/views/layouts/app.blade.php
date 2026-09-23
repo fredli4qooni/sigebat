@@ -7,6 +7,8 @@
 
         <title>{{ $title ?? 'Panel Kerja' }} — {{ config('app.name', 'SIGEBAT') }}</title>
 
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
         <!-- Scripts & Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -18,11 +20,7 @@
                 <!-- Brand & Role -->
                 <div class="p-6 border-b border-slate-800 flex items-center justify-between">
                     <a href="/" class="flex items-center gap-3 no-underline text-white group">
-                        <div class="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 256 256">
-                                <path d="M218.83,103.77l-80-75.48a13.9,13.9,0,0,0-17.66,0l-80,75.48A14,14,0,0,0,36,114V208a14,14,0,0,0,14,14H206a14,14,0,0,0,14-14V114A14,14,0,0,0,218.83,103.77ZM206,206H50a2,2,0,0,1-2-2V114a2,2,0,0,1,.74-1.57l80-75.49a2,2,0,0,1,2.52,0l80,75.49A2,2,0,0,1,212,114V204A2,2,0,0,1,206,206Z"/>
-                            </svg>
-                        </div>
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo SIGEBAT" class="w-10 h-10 bg-white rounded-xl object-contain p-0.5 border border-slate-700 shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
                         <div>
                             <div class="font-bold text-base leading-tight tracking-tight text-white">SIGEBAT</div>
                             <div class="text-xs text-slate-400 capitalize">

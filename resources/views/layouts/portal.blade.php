@@ -25,6 +25,8 @@
         <meta name="twitter:image" content="{{ $image }}">
     @endif
 
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -35,11 +37,7 @@
         <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-5 min-h-[80px] flex items-center justify-between">
             <!-- Logo Brand Modern -->
             <a href="/" class="flex items-center gap-3.5 no-underline group">
-                <div class="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
-                    <svg class="w-6 h-6 fill-current" viewBox="0 0 256 256">
-                        <path d="M218.83,103.77l-80-75.48a13.9,13.9,0,0,0-17.66,0l-80,75.48A14,14,0,0,0,36,114V208a14,14,0,0,0,14,14H206a14,14,0,0,0,14-14V114A14,14,0,0,0,218.83,103.77ZM206,206H50a2,2,0,0,1-2-2V114a2,2,0,0,1,.74-1.57l80-75.49a2,2,0,0,1,2.52,0l80,75.49A2,2,0,0,1,212,114V204A2,2,0,0,1,206,206Z"/>
-                    </svg>
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo SIGEBAT" class="w-11 h-11 rounded-xl object-contain bg-white border border-slate-200 shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
                 <div class="leading-tight">
                     <span class="block font-bold text-lg text-slate-900 tracking-tight group-hover:text-emerald-700 transition-colors">SIGEBAT</span>
                     <span class="text-xs font-medium text-slate-500">Kampung Gedung Batin, Way Kanan</span>
@@ -133,9 +131,7 @@
                 <!-- Kolom 1: Profil & Identitas Desa -->
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-xs">
-                            GB
-                        </div>
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo SIGEBAT" class="w-10 h-10 rounded-xl object-contain bg-white border border-slate-700 shadow-xs flex-shrink-0">
                         <div>
                             <span class="font-bold text-lg text-white tracking-tight">Desa Wisata Kampung Gedung Batin</span>
                             <span class="block text-xs text-slate-400">Cagar Budaya Resmi Kabupaten Way Kanan, Lampung</span>
