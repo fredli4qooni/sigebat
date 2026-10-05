@@ -14,11 +14,11 @@
     </head>
     <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col md:flex-row selection:bg-emerald-100 selection:text-emerald-900">
         
-        <!-- Sidebar Panel Modern (260px) -->
-        <aside class="w-full md:w-[260px] bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
-            <div>
+        <!-- Sidebar Panel Modern (260px - Fixed pada Desktop) -->
+        <aside class="w-full md:w-[260px] md:fixed md:inset-y-0 md:left-0 md:z-30 md:h-screen bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800 shadow-sm">
+            <div class="flex-1 md:overflow-y-auto">
                 <!-- Brand & Role -->
-                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900 z-10">
                     <a href="/" class="flex items-center gap-3 no-underline text-white group">
                         <img src="{{ asset('images/logo.png') }}" alt="Logo SIGEBAT" class="w-10 h-10 bg-white rounded-xl object-contain p-0.5 border border-slate-700 shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
                         <div>
@@ -127,7 +127,7 @@
             </div>
 
             <!-- Akun & Logout -->
-            <div class="p-4 border-t border-slate-800">
+            <div class="p-4 border-t border-slate-800 bg-slate-900 flex-shrink-0 sticky bottom-0 z-10">
                 <div class="mb-3 px-1">
                     <div class="text-sm font-semibold text-white truncate">{{ auth()->user()->name }}</div>
                     <div class="text-xs text-slate-400 truncate">{{ auth()->user()->email }}</div>
@@ -144,10 +144,10 @@
             </div>
         </aside>
 
-        <!-- Area Konten Kerja -->
-        <div class="flex-1 flex flex-col min-w-0">
+        <!-- Area Konten Kerja (Offset margin kiri pada desktop) -->
+        <div class="flex-1 flex flex-col min-w-0 md:ml-[260px] min-h-screen">
             <!-- Topbar Ringkas Modern -->
-            <header class="bg-white border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-4 min-h-[72px] flex items-center shadow-xs">
+            <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-4 min-h-[72px] flex items-center shadow-xs">
                 <div class="max-w-screen-2xl w-full mx-auto flex items-center justify-between">
                     <div>
                         <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
