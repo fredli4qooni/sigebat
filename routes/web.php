@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\LogController as AdminLogController;
 use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
+use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -74,17 +75,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/log', [AdminLogController::class, 'index'])->name('log');
 
     // Peserta Event (SIM)
-    Route::get('/peserta', [PesertaEventController::class, 'index'])->name('peserta.index');
-    Route::patch('/peserta/{peserta}/status', [PesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
-    Route::delete('/peserta/{peserta}', [PesertaEventController::class, 'destroy'])->name('peserta.destroy');
-    Route::get('/event/{event}/cetak-peserta', [PesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
+    Route::get('/peserta', [PengelolaPesertaEventController::class, 'index'])->name('peserta.index');
+    Route::patch('/peserta/{peserta}/status', [PengelolaPesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
+    Route::delete('/peserta/{peserta}', [PengelolaPesertaEventController::class, 'destroy'])->name('peserta.destroy');
+    Route::get('/event/{event}/cetak-peserta', [PengelolaPesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
 });
 
 use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
 use App\Http\Controllers\Pengelola\EventController as PengelolaEventController;
 use App\Http\Controllers\Pengelola\FasilitasController as PengelolaFasilitasController;
-use App\Http\Controllers\Pengelola\PesertaEventController;
-use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 use App\Http\Controllers\Pengelola\WisataController as PengelolaWisataController;
 
 Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengelola.')->group(function () {
