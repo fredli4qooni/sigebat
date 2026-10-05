@@ -2,7 +2,10 @@
     <x-slot:title>Bukti Pendaftaran Partisipasi: {{ $pendaftaran->kode_pendaftaran }} — SIGEBAT</x-slot:title>
     <x-slot:description>Tanda bukti pendaftaran resmi kegiatan cagar budaya di Desa Wisata Kampung Gedung Batin, Way Kanan.</x-slot:description>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-6">
+    <div 
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-6"
+        x-data="{ copied: false }"
+    >
         <!-- Breadcrumb & Tombol Navigasi (Sembunyi saat cetak) -->
         <div class="flex flex-wrap items-center justify-between gap-4 print:hidden">
             <nav class="flex items-center gap-2 text-xs font-medium text-slate-500">
@@ -15,16 +18,51 @@
                 <span class="text-slate-900 font-semibold">Bukti Pendaftaran</span>
             </nav>
 
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Tombol Salin Tautan -->
+                <button
+                    type="button"
+                    @click="
+                        navigator.clipboard.writeText(window.location.href);
+                        copied = true;
+                        setTimeout(() => copied = false, 2500);
+                    "
+                    class="px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                    title="Salin Tautan Bukti Pendaftaran"
+                >
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span x-text="copied ? 'Tautan Tersalin!' : 'Salin Tautan'"></span>
+                </button>
+
+                <!-- Tombol Simpan ke WhatsApp -->
+                @php
+                    $pesanWa = urlencode("Halo, ini tanda bukti pendaftaran resmi saya untuk event *{$pendaftaran->event->judul}* dengan Kode: *{$pendaftaran->kode_pendaftaran}*. Tautan tiket: " . route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran));
+                @endphp
+                <a
+                    href="https://api.whatsapp.com/send?text={{ $pesanWa }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-xl no-underline flex items-center gap-1.5 transition-all shadow-xs"
+                    title="Simpan atau Kirim Tautan ke WhatsApp"
+                >
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/>
+                    </svg>
+                    <span>Kirim ke WA</span>
+                </a>
+
+                <!-- Cetak PDF -->
                 <button
                     type="button"
                     onclick="window.print()"
-                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center gap-2 transition-all shadow-xs"
+                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl flex items-center gap-2 transition-all shadow-xs cursor-pointer"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                     </svg>
-                    <span>Cetak / Simpan PDF</span>
+                    <span>Cetak PDF</span>
                 </button>
             </div>
         </div>
@@ -246,4 +284,26 @@
             </div>
         </div>
     </div>
+
+    <!-- Simpan Otomatis Riwayat Pendaftaran ke Browser untuk Layanan Mandiri -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                const key = 'sigebat_pendaftaran_history';
+                let list = JSON.parse(localStorage.getItem(key) || '[]');
+                const current = {
+                    kode: @json($pendaftaran->kode_pendaftaran),
+                    judul: @json($pendaftaran->event->judul),
+                    tanggal: @json($pendaftaran->event->tanggal_mulai ? $pendaftaran->event->tanggal_mulai->translatedFormat('d M Y') : ''),
+                    url: @json(route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran))
+                };
+                list = list.filter(item => item.kode !== current.kode);
+                list.unshift(current);
+                if (list.length > 5) list = list.slice(0, 5);
+                localStorage.setItem(key, JSON.stringify(list));
+            } catch (e) {
+                // Ignore storage error if disabled
+            }
+        });
+    </script>
 </x-portal-layout>

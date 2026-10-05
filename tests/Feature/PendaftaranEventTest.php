@@ -249,4 +249,61 @@ class PendaftaranEventTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Monitoring & Presensi Peserta Event');
     }
+
+    public function test_pengunjung_dapat_mengakses_halaman_cek_pendaftaran(): void
+    {
+        $response = $this->get(route('event.pendaftaran.cek'));
+
+        $response->assertStatus(200);
+        $response->assertSee('Cek dan Lacak Bukti Pendaftaran');
+        $response->assertSee('Layanan Mandiri Peserta');
+    }
+
+    public function test_pencarian_dengan_kode_pendaftaran_langsung_redirect_ke_bukti(): void
+    {
+        $pendaftaran = PendaftaranEvent::factory()->create([
+            'kode_pendaftaran' => 'SGB-EVT-2610-TEST1',
+        ]);
+
+        $response = $this->get(route('event.pendaftaran.cek', ['q' => 'SGB-EVT-2610-TEST1']));
+
+        $response->assertRedirect(route('event.pendaftaran.bukti', 'SGB-EVT-2610-TEST1'));
+    }
+
+    public function test_pencarian_dengan_email_menampilkan_daftar_pendaftaran(): void
+    {
+        $pendaftaran = PendaftaranEvent::factory()->create([
+            'email' => 'peserta.mandiri@example.com',
+            'nama_lengkap' => 'Budi Santoso',
+        ]);
+
+        $response = $this->get(route('event.pendaftaran.cek', ['q' => 'peserta.mandiri@example.com']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Budi Santoso');
+        $response->assertSee($pendaftaran->kode_pendaftaran);
+        $response->assertSee(route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran));
+    }
+
+    public function test_pencarian_dengan_nomor_telepon_menampilkan_hasil(): void
+    {
+        $pendaftaran = PendaftaranEvent::factory()->create([
+            'nomor_telepon' => '089876543210',
+            'nama_lengkap' => 'Rina Melati',
+        ]);
+
+        $response = $this->get(route('event.pendaftaran.cek', ['q' => '089876543210']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Rina Melati');
+        $response->assertSee($pendaftaran->kode_pendaftaran);
+    }
+
+    public function test_pencarian_tidak_ditemukan_menampilkan_pesan_sesuai(): void
+    {
+        $response = $this->get(route('event.pendaftaran.cek', ['q' => 'tidakada@example.com']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Data Pendaftaran Tidak Ditemukan');
+    }
 }

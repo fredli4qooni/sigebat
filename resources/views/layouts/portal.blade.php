@@ -55,7 +55,7 @@
                 <a href="/peta" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('peta*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Peta & LBS
                 </a>
-                <a href="/kalender" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('kalender*') || request()->is('event*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                <a href="/kalender" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('kalender*') || request()->is('event*') || request()->is('pendaftaran*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                     Kalender Event
                 </a>
                 <a href="/fasilitas" class="px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all {{ request()->is('fasilitas*') ? 'bg-emerald-50 text-emerald-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
@@ -159,6 +159,7 @@
                         <li><a href="/wisata" class="text-slate-400 hover:text-emerald-400 transition-colors no-underline">Objek Wisata & Cagar Budaya</a></li>
                         <li><a href="/peta" class="text-slate-400 hover:text-emerald-400 transition-colors no-underline">Peta Interaktif & LBS</a></li>
                         <li><a href="/kalender" class="text-slate-400 hover:text-emerald-400 transition-colors no-underline">Kalender Event Budaya</a></li>
+                        <li><a href="{{ route('event.pendaftaran.cek') }}" class="text-slate-400 hover:text-emerald-400 transition-colors no-underline">Cek Bukti Pendaftaran</a></li>
                         <li><a href="/fasilitas" class="text-slate-400 hover:text-emerald-400 transition-colors no-underline">Sarana & Fasilitas Desa</a></li>
                     </ul>
                 </div>

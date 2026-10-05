@@ -239,4 +239,13 @@
             </div>
         </form>
     @endif
+
+    <!-- Bantuan Layanan Mandiri Peserta -->
+    <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500">
+        <span>Sudah pernah mendaftar untuk kegiatan ini sebelumnya?</span>
+        <a href="{{ route('event.pendaftaran.cek') }}" class="font-bold text-emerald-700 hover:text-emerald-800 no-underline inline-flex items-center gap-1">
+            <span>Cek / Lacak Bukti Pendaftaran</span>
+            <span>&rarr;</span>
+        </a>
+    </div>
 </div>

@@ -20,6 +20,7 @@ Route::get('/kalender', [PublicKalenderController::class, 'index'])->name('kalen
 Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('event.show');
 Route::get('/event/{slug}/ics', [PublicKalenderController::class, 'downloadIcs'])->name('event.ics');
 Route::post('/event/{slug}/daftar', [PublicPendaftaranEventController::class, 'store'])->name('event.daftar');
+Route::get('/pendaftaran/cek', [PublicPendaftaranEventController::class, 'cek'])->name('event.pendaftaran.cek')->middleware('throttle:30,1');
 Route::get('/pendaftaran/{kode}', [PublicPendaftaranEventController::class, 'bukti'])->name('event.pendaftaran.bukti');
 Route::get('/kalender/{slug}', [PublicKalenderController::class, 'redirectSlug']);
 

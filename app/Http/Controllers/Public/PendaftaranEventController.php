@@ -108,4 +108,49 @@ class PendaftaranEventController extends Controller
 
         return view('kalender.bukti-pendaftaran', compact('pendaftaran'));
     }
+
+    /**
+     * Halaman pencarian dan pelacakan bukti pendaftaran mandiri (Self-Service)
+     */
+    public function cek(Request $request): View|RedirectResponse
+    {
+        $q = trim((string) $request->input('q', ''));
+        $hasil = collect();
+        $isSearching = $request->has('q');
+
+        if ($q !== '') {
+            $request->validate([
+                'q' => ['required', 'string', 'min:3', 'max:100'],
+            ], [
+                'q.min' => 'Kata kunci pencarian minimal 3 karakter.',
+                'q.max' => 'Kata kunci pencarian maksimal 100 karakter.',
+            ]);
+
+            // Jika kata kunci adalah kode pendaftaran tepat, langsung arahkan ke lembar bukti
+            $kodeFormatted = strtoupper($q);
+            $pendaftaranTepat = PendaftaranEvent::where('kode_pendaftaran', $kodeFormatted)->first();
+            if ($pendaftaranTepat) {
+                return redirect()->route('event.pendaftaran.bukti', $pendaftaranTepat->kode_pendaftaran);
+            }
+
+            // Pencarian fleksibel: Kode pendaftaran, Email, Nama Lengkap, atau Nomor Telepon
+            $cleanPhone = preg_replace('/[^0-9]/', '', $q);
+
+            $hasil = PendaftaranEvent::with(['event.kategori'])
+                ->where(function ($query) use ($q, $cleanPhone) {
+                    $query->where('kode_pendaftaran', 'LIKE', "%{$q}%")
+                        ->orWhere('email', 'LIKE', "%{$q}%")
+                        ->orWhere('nama_lengkap', 'LIKE', "%{$q}%");
+
+                    if ($cleanPhone !== '' && strlen($cleanPhone) >= 4) {
+                        $query->orWhere('nomor_telepon', 'LIKE', "%{$cleanPhone}%");
+                    }
+                })
+                ->latest()
+                ->take(20)
+                ->get();
+        }
+
+        return view('kalender.cek-pendaftaran', compact('hasil', 'q', 'isSearching'));
+    }
 }
