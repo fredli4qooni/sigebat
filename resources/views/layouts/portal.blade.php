@@ -33,7 +33,7 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
 
     <!-- Kepala Navigasi Atas (Desktop & Mobile) -->
-    <header class="sticky top-0 z-40 glass-header">
+    <header class="sticky top-0 z-40 glass-header print:hidden">
         <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-5 min-h-[80px] flex items-center justify-between">
             <!-- Logo Brand Modern -->
             <a href="/" class="flex items-center gap-3.5 no-underline group">
@@ -86,12 +86,12 @@
     </header>
 
     <!-- Konten Utama Halaman -->
-    <main class="flex-1 pb-20 md:pb-12">
+    <main class="flex-1 pb-20 md:pb-12 print:pb-0 print:p-0">
         {{ $slot }}
     </main>
 
     <!-- Mobile Bottom Navigation Modern (Sticky 64px Bar with SVGs) -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200/80 z-50 flex items-center justify-around px-2 shadow-lg">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-t border-slate-200/80 z-50 flex items-center justify-around px-2 shadow-lg print:hidden">
         <a href="/" class="flex flex-col items-center justify-center flex-1 py-1 no-underline transition-colors {{ request()->is('/') ? 'text-emerald-700 font-bold' : 'text-slate-500 hover:text-slate-800' }}">
             <svg class="w-5 h-5 mb-1 {{ request()->is('/') ? 'stroke-emerald-700' : 'stroke-slate-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
@@ -125,7 +125,7 @@
     </nav>
 
     <!-- Footer Publik Modern -->
-    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-auto">
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-auto print:hidden">
         <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12 mb-10">
                 <!-- Kolom 1: Profil & Identitas Desa -->
