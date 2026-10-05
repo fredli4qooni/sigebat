@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\FasilitasController as PublicFasilitasController;
 use App\Http\Controllers\Public\HomeController as PublicHomeController;
 use App\Http\Controllers\Public\KalenderController as PublicKalenderController;
+use App\Http\Controllers\Public\PendaftaranEventController as PublicPendaftaranEventController;
 use App\Http\Controllers\Public\PetaController as PublicPetaController;
 use App\Http\Controllers\Public\WisataController as PublicWisataController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::get('/api/wisata', [PublicWisataController::class, 'api'])->name('api.wis
 Route::get('/kalender', [PublicKalenderController::class, 'index'])->name('kalender.index');
 Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('event.show');
 Route::get('/event/{slug}/ics', [PublicKalenderController::class, 'downloadIcs'])->name('event.ics');
+Route::post('/event/{slug}/daftar', [PublicPendaftaranEventController::class, 'store'])->name('event.daftar');
+Route::get('/pendaftaran/{kode}', [PublicPendaftaranEventController::class, 'bukti'])->name('event.pendaftaran.bukti');
 Route::get('/kalender/{slug}', [PublicKalenderController::class, 'redirectSlug']);
 
 Route::get('/dashboard', function () {
@@ -69,11 +72,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Log Aktivitas
     Route::get('/log', [AdminLogController::class, 'index'])->name('log');
+
+    // Peserta Event (SIM)
+    Route::get('/peserta', [PesertaEventController::class, 'index'])->name('peserta.index');
+    Route::patch('/peserta/{peserta}/status', [PesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
+    Route::delete('/peserta/{peserta}', [PesertaEventController::class, 'destroy'])->name('peserta.destroy');
+    Route::get('/event/{event}/cetak-peserta', [PesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
 });
 
 use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
 use App\Http\Controllers\Pengelola\EventController as PengelolaEventController;
 use App\Http\Controllers\Pengelola\FasilitasController as PengelolaFasilitasController;
+use App\Http\Controllers\Pengelola\PesertaEventController;
+use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 use App\Http\Controllers\Pengelola\WisataController as PengelolaWisataController;
 
 Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengelola.')->group(function () {
@@ -93,6 +104,12 @@ Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengel
     Route::resource('event', PengelolaEventController::class)
         ->parameters(['event' => 'event'])
         ->except(['show']);
+
+    // Monitoring & Pengelolaan Peserta Event (SIM)
+    Route::get('/peserta', [PengelolaPesertaEventController::class, 'index'])->name('peserta.index');
+    Route::patch('/peserta/{peserta}/status', [PengelolaPesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
+    Route::delete('/peserta/{peserta}', [PengelolaPesertaEventController::class, 'destroy'])->name('peserta.destroy');
+    Route::get('/event/{event}/cetak-peserta', [PengelolaPesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
 });
 
 Route::middleware('auth')->group(function () {

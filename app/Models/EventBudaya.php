@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -29,6 +30,8 @@ class EventBudaya extends Model
         'lokasi',
         'poster',
         'status',
+        'buka_pendaftaran',
+        'kuota_peserta',
         'created_by',
     ];
 
@@ -40,6 +43,8 @@ class EventBudaya extends Model
         return [
             'tanggal_mulai' => 'date',
             'tanggal_selesai' => 'date',
+            'buka_pendaftaran' => 'boolean',
+            'kuota_peserta' => 'integer',
         ];
     }
 
@@ -71,9 +76,47 @@ class EventBudaya extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function pendaftar(): HasMany
+    {
+        return $this->hasMany(PendaftaranEvent::class, 'event_budaya_id');
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', 'aktif');
+    }
+
+    public function getTotalPesertaTerdaftarAttribute(): int
+    {
+        return (int) $this->pendaftar()
+            ->where('status', '!=', 'batal')
+            ->sum('jumlah_peserta');
+    }
+
+    public function getSisaKuotaAttribute(): ?int
+    {
+        if (is_null($this->kuota_peserta)) {
+            return null; // Kuota tidak terbatas
+        }
+
+        return max(0, $this->kuota_peserta - $this->total_peserta_terdaftar);
+    }
+
+    public function getIsKuotaPenuhAttribute(): bool
+    {
+        if (is_null($this->kuota_peserta)) {
+            return false;
+        }
+
+        return $this->sisa_kuota <= 0;
+    }
+
+    public function getIsPendaftaranBisaDilakukanAttribute(): bool
+    {
+        return $this->status === 'aktif'
+            && $this->buka_pendaftaran
+            && $this->status_turunan !== 'Selesai'
+            && ! $this->is_kuota_penuh;
     }
 
     /**

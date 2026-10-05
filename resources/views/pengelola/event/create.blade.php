@@ -130,6 +130,55 @@
                     </div>
                 </div>
 
+                <!-- Pengaturan Partisipasi & Kuota Pendaftaran (SIM) -->
+                <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                        <h3 class="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                            Pengaturan Partisipasi & Kuota Peserta (SIM)
+                        </h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="flex items-start gap-3 pt-2">
+                            <input
+                                type="checkbox"
+                                id="buka_pendaftaran"
+                                name="buka_pendaftaran"
+                                value="1"
+                                {{ old('buka_pendaftaran', '1') ? 'checked' : '' }}
+                                class="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 mt-0.5 cursor-pointer"
+                            >
+                            <label for="buka_pendaftaran" class="text-sm font-semibold text-slate-800 cursor-pointer select-none">
+                                Buka Pendaftaran untuk Wisatawan / Umum
+                                <span class="block text-xs font-normal text-slate-500 mt-0.5">
+                                    Jika dicentang, formulir pendaftaran kehadiran akan aktif di halaman publik event.
+                                </span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label for="kuota_peserta" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Batas Kuota Peserta (Orang)
+                            </label>
+                            <input
+                                type="number"
+                                id="kuota_peserta"
+                                name="kuota_peserta"
+                                min="1"
+                                max="50000"
+                                value="{{ old('kuota_peserta') }}"
+                                placeholder="Kosongkan jika kuota tidak dibatasi"
+                                class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                            >
+                            <span class="block text-xs text-slate-500 mt-1">
+                                Biarkan kosong jika kegiatan bersifat terbuka tanpa batasan kuota.
+                            </span>
+                            <x-input-error :messages="$errors->get('kuota_peserta')" class="mt-1.5" />
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Baris 3: Tanggal & Jam Pelaksanaan (4 Kolom pada Desktop) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <div>

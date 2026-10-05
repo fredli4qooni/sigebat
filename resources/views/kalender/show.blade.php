@@ -73,6 +73,16 @@
                         @endif
                     </div>
 
+                    <!-- Banner Tombol Pintas Pendaftaran -->
+                    @if($event->is_pendaftaran_bisa_dilakukan)
+                        <a
+                            href="#form-pendaftaran-event"
+                            class="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md hover:shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all no-underline"
+                        >
+                            <span>Daftar Partisipasi Acara Ini &darr;</span>
+                        </a>
+                    @endif
+
                     <!-- Panel Simpan ke Kalender & Bagikan -->
                     <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-5">
                         <div class="font-bold text-sm text-slate-900 pb-2 border-b border-slate-200">
@@ -211,6 +221,9 @@
                             {{ $event->deskripsi }}
                         </div>
                     </div>
+
+                    <!-- Panel & Formulir Partisipasi / Pendaftaran Acara -->
+                    @include('kalender.partials.registration-form')
 
                     <!-- Etika Berkunjung & Kearifan Lokal -->
                     <div class="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-6 space-y-3">

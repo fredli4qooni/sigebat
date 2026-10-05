@@ -73,6 +73,8 @@ class EventController extends Controller
             'deskripsi' => ['required', 'string'],
             'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
             'status' => ['required', Rule::in(['aktif', 'pending', 'nonaktif'])],
+            'buka_pendaftaran' => ['nullable', 'boolean'],
+            'kuota_peserta' => ['nullable', 'integer', 'min:1', 'max:50000'],
         ], [
             'judul.required' => 'Judul event budaya wajib diisi.',
             'kategori_event_id.required' => 'Pilih kategori event.',
@@ -82,6 +84,7 @@ class EventController extends Controller
             'lokasi.required' => 'Lokasi tempat pelaksanaan event wajib diisi.',
             'deskripsi.required' => 'Deskripsi event budaya wajib diisi.',
             'poster.max' => 'Ukuran poster maksimal adalah 3 MB.',
+            'kuota_peserta.min' => 'Kuota peserta minimal 1 orang jika dibatasi.',
         ]);
 
         $posterPath = null;
@@ -100,6 +103,8 @@ class EventController extends Controller
             'deskripsi' => $validated['deskripsi'],
             'poster' => $posterPath,
             'status' => $validated['status'],
+            'buka_pendaftaran' => $request->boolean('buka_pendaftaran'),
+            'kuota_peserta' => $request->filled('kuota_peserta') ? (int) $request->input('kuota_peserta') : null,
             'created_by' => auth()->id(),
         ]);
 
@@ -136,6 +141,8 @@ class EventController extends Controller
             'deskripsi' => ['required', 'string'],
             'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
             'status' => ['required', Rule::in(['aktif', 'pending', 'nonaktif'])],
+            'buka_pendaftaran' => ['nullable', 'boolean'],
+            'kuota_peserta' => ['nullable', 'integer', 'min:1', 'max:50000'],
         ], [
             'judul.required' => 'Judul event budaya wajib diisi.',
             'kategori_event_id.required' => 'Pilih kategori event.',
@@ -145,6 +152,7 @@ class EventController extends Controller
             'lokasi.required' => 'Lokasi tempat pelaksanaan event wajib diisi.',
             'deskripsi.required' => 'Deskripsi event budaya wajib diisi.',
             'poster.max' => 'Ukuran poster maksimal adalah 3 MB.',
+            'kuota_peserta.min' => 'Kuota peserta minimal 1 orang jika dibatasi.',
         ]);
 
         if ($request->hasFile('poster')) {
@@ -153,6 +161,9 @@ class EventController extends Controller
             }
             $validated['poster'] = $request->file('poster')->store('event', 'public');
         }
+
+        $validated['buka_pendaftaran'] = $request->boolean('buka_pendaftaran');
+        $validated['kuota_peserta'] = $request->filled('kuota_peserta') ? (int) $request->input('kuota_peserta') : null;
 
         $event->update($validated);
 

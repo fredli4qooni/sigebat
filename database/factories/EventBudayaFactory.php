@@ -38,6 +38,8 @@ class EventBudayaFactory extends Factory
             'lokasi' => 'Balai Adat Kampung Gedung Batin',
             'poster' => null,
             'status' => 'aktif',
+            'buka_pendaftaran' => true,
+            'kuota_peserta' => 50,
             'created_by' => User::factory(),
         ];
     }
