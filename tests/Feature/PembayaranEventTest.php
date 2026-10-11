@@ -108,7 +108,7 @@ class PembayaranEventTest extends TestCase
         $response->assertSee('Rp 100.000');
         $response->assertSee('Transfer Bank BUMDes');
         $response->assertSee('QRIS Desa Wisata');
-        $response->assertSee('Mode Sidang Skripsi');
+        $response->assertDontSee('Mode Sidang Skripsi');
     }
 
     public function test_pengunjung_dapat_mengunggah_bukti_transfer_pembayaran(): void

@@ -247,30 +247,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- KOTAK SIMULASI CEPAT SIDANG SKRIPSI (Penting untuk Dosen Penguji / Demo) -->
-                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-5 border border-indigo-700/60 shadow-md space-y-3">
-                    <div class="flex items-center gap-2 text-indigo-300 font-bold text-xs uppercase tracking-wider">
-                        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                        <span>Mode Sidang Skripsi (Fitur Demo Cepat)</span>
-                    </div>
-                    <p class="text-xs text-indigo-200 leading-relaxed">
-                        Disediakan khusus untuk kemudahan simulasi pengujian sidang. Mengubah status pembayaran menjadi <strong>LUNAS</strong> secara instan tanpa perlu mengunggah struk nyata.
-                    </p>
-                    <form action="{{ route('event.pendaftaran.simulasi-bayar', $pendaftaran->kode_pendaftaran) }}" method="POST">
-                        @csrf
-                        <button
-                            type="submit"
-                            onclick="return confirm('Jalankan simulasi bayar instan untuk keperluan sidang skripsi?')"
-                            class="w-full py-2.5 px-4 bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-400 hover:to-emerald-400 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                            <span>Simulasikan Pembayaran Berhasil (Bypass Sidang)</span>
-                            <span>&rarr;</span>
-                        </button>
-                    </form>
-                </div>
             </div>
 
             <!-- Kolom Kanan: Form Unggah Bukti Transfer (5 cols) -->
