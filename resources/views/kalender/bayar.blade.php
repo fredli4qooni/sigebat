@@ -2,6 +2,10 @@
     <x-slot:title>Pembayaran Pendaftaran: {{ $pendaftaran->kode_pendaftaran }} — SIGEBAT</x-slot:title>
     <x-slot:description>Instruksi dan konfirmasi pembayaran pendaftaran event budaya di Desa Wisata Kampung Gedung Batin.</x-slot:description>
 
+    @php
+        $setting = $setting ?? \App\Models\PengaturanPembayaran::getSetting();
+    @endphp
+
     <div
         class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-8"
         x-data="{
@@ -129,29 +133,29 @@
 
                 <!-- Tab Konten: Transfer Bank BUMDes -->
                 <div x-show="activeTab === 'bank'" class="space-y-4">
-                    <!-- Kartu Rekening 1: Bank Lampung -->
+                    <!-- Kartu Rekening 1: Bank Utama -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-black text-xs border border-emerald-200">
-                                    BANK LAMPUNG
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-black text-xs border border-emerald-200 uppercase">
+                                    {{ $setting->nama_bank_utama }}
                                 </span>
-                                <span class="text-xs text-slate-500 font-medium">BUMDes Gedung Batin Sejahtera</span>
+                                <span class="text-xs text-slate-500 font-medium">Rekening Resmi BUMDes</span>
                             </div>
-                            <span class="text-[11px] font-semibold text-slate-400">Akun Resmi</span>
+                            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Utama</span>
                         </div>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                             <div>
                                 <span class="text-[10px] text-slate-400 font-semibold uppercase block">Nomor Rekening</span>
                                 <div class="font-mono text-lg font-black text-slate-900 tracking-wider">
-                                    381.03.01.09882.1
+                                    {{ $setting->nomor_rekening_utama }}
                                 </div>
-                                <span class="text-[11px] text-slate-600 block mt-0.5">a.n. BUMDES KAMPUNG GEDUNG BATIN</span>
+                                <span class="text-[11px] text-slate-600 block mt-0.5">a.n. {{ $setting->atas_nama_utama }}</span>
                             </div>
                             <button
                                 type="button"
                                 @click="
-                                    navigator.clipboard.writeText('3810301098821');
+                                    navigator.clipboard.writeText('{{ $setting->nomor_rekening_utama_raw }}');
                                     copiedBank = true;
                                     setTimeout(() => copiedBank = false, 2500);
                                 "
@@ -165,40 +169,42 @@
                         </div>
                     </div>
 
-                    <!-- Kartu Rekening 2: Bank BRI -->
-                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2.5">
-                                <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-black text-xs border border-blue-200">
-                                    BANK BRI
-                                </span>
-                                <span class="text-xs text-slate-500 font-medium">BUMDes Unit Pariwisata</span>
-                            </div>
-                            <span class="text-[11px] font-semibold text-slate-400">Alternatif</span>
-                        </div>
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                            <div>
-                                <span class="text-[10px] text-slate-400 font-semibold uppercase block">Nomor Rekening</span>
-                                <div class="font-mono text-lg font-black text-slate-900 tracking-wider">
-                                    0182-01-002938-53-9
+                    <!-- Kartu Rekening 2: Bank Sekunder / Alternatif -->
+                    @if($setting->nama_bank_sekunder && $setting->nomor_rekening_sekunder)
+                        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-black text-xs border border-blue-200 uppercase">
+                                        {{ $setting->nama_bank_sekunder }}
+                                    </span>
+                                    <span class="text-xs text-slate-500 font-medium">BUMDes Unit Pariwisata</span>
                                 </div>
-                                <span class="text-[11px] text-slate-600 block mt-0.5">a.n. UNIT PARIWISATA GEDUNG BATIN</span>
+                                <span class="text-[11px] font-semibold text-slate-400">Alternatif</span>
                             </div>
-                            <button
-                                type="button"
-                                @click="
-                                    navigator.clipboard.writeText('018201002938539');
-                                    alert('Nomor Rekening BRI disalin!');
-                                "
-                                class="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-2xs cursor-pointer flex-shrink-0"
-                            >
-                                <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                                </svg>
-                                <span>Salin Rekening</span>
-                            </button>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <div>
+                                    <span class="text-[10px] text-slate-400 font-semibold uppercase block">Nomor Rekening</span>
+                                    <div class="font-mono text-lg font-black text-slate-900 tracking-wider">
+                                        {{ $setting->nomor_rekening_sekunder }}
+                                    </div>
+                                    <span class="text-[11px] text-slate-600 block mt-0.5">a.n. {{ $setting->atas_nama_sekunder ?? $setting->atas_nama_utama }}</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    @click="
+                                        navigator.clipboard.writeText('{{ $setting->nomor_rekening_sekunder_raw }}');
+                                        alert('Nomor Rekening {{ $setting->nama_bank_sekunder }} berhasil disalin!');
+                                    "
+                                    class="px-3.5 py-2 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-2xs cursor-pointer flex-shrink-0"
+                                >
+                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span>Salin Rekening</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <!-- Petunjuk Transfer -->
                     <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900 space-y-1.5">
@@ -209,6 +215,9 @@
                             <li>Transfer tepat sejumlah <strong class="text-amber-950">{{ $pendaftaran->total_tagihan_format }}</strong>.</li>
                             <li>Sertakan berita transfer / keterangan: <code class="bg-amber-100 px-1 py-0.5 rounded font-mono">{{ $pendaftaran->kode_pendaftaran }}</code>.</li>
                             <li>Simpan struk / tangkapan layar bukti transfer dan unggah pada formulir di samping.</li>
+                            @if($setting->petunjuk_transfer)
+                                <li class="text-amber-950 font-medium">{{ $setting->petunjuk_transfer }}</li>
+                            @endif
                         </ol>
                     </div>
                 </div>
@@ -220,29 +229,37 @@
                             <span>QRIS STANDAR PEMBAYARAN NASIONAL</span>
                         </div>
 
-                        <!-- Tampilan QR Code Elegan -->
-                        <div class="w-56 h-56 mx-auto bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-md flex flex-col items-center justify-between">
+                        <!-- Tampilan QR Code Elegan (Gambar Unggahan atau Auto QR) -->
+                        <div class="w-64 h-64 mx-auto bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-md flex flex-col items-center justify-between">
                             <div class="text-[10px] font-black tracking-widest text-slate-800 uppercase">
-                                QRIS &bull; DESA WISATA GEDUNG BATIN
+                                QRIS &bull; {{ $setting->nama_qris }}
                             </div>
-                            <div class="w-40 h-40 bg-slate-50 border border-slate-300 rounded-xl p-2 flex items-center justify-center">
-                                <img
-                                    src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode(route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran)) }}"
-                                    alt="QRIS Desa Wisata"
-                                    class="w-full h-full object-contain"
-                                >
+                            <div class="w-48 h-48 bg-slate-50 border border-slate-300 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+                                @if($setting->qris_url)
+                                    <img
+                                        src="{{ $setting->qris_url }}"
+                                        alt="QRIS {{ $setting->nama_qris }}"
+                                        class="w-full h-full object-contain"
+                                    >
+                                @else
+                                    <img
+                                        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ urlencode(route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran)) }}"
+                                        alt="QRIS Desa Wisata"
+                                        class="w-full h-full object-contain"
+                                    >
+                                @endif
                             </div>
                             <div class="text-[9px] font-mono text-slate-500">
-                                NMID: ID1020038847291 &bull; A01
+                                NMID: {{ $setting->nmid_qris ?? 'ID1020038847291' }} &bull; A01
                             </div>
                         </div>
 
                         <div class="space-y-1">
                             <div class="text-sm font-bold text-slate-900">
-                                BUMDes Wisata Budaya Gedung Batin
+                                {{ $setting->nama_qris }}
                             </div>
                             <p class="text-xs text-slate-500 max-w-sm mx-auto">
-                                Buka aplikasi m-Banking (BCA, BRI, Mandiri, BNI, Bank Lampung) atau e-Wallet (Gopay, OVO, Dana, ShopeePay), lalu arahkan kamera ke kode QR di atas.
+                                Buka aplikasi m-Banking (BCA, BRI, Mandiri, BNI, Bank Lampung) atau e-Wallet (Gopay, OVO, Dana, ShopeePay), lalu arahkan kamera ke barcode QR di atas.
                             </p>
                         </div>
                     </div>

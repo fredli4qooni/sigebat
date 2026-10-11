@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\EventBudaya;
 use App\Models\PendaftaranEvent;
+use App\Models\PengaturanPembayaran;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -131,7 +132,9 @@ class PendaftaranEventController extends Controller
                 ->with('info', 'Pembayaran untuk pendaftaran ini telah terverifikasi lunas.');
         }
 
-        return view('kalender.bayar', compact('pendaftaran'));
+        $setting = PengaturanPembayaran::getSetting();
+
+        return view('kalender.bayar', compact('pendaftaran', 'setting'));
     }
 
     /**

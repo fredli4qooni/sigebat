@@ -37,6 +37,7 @@ use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
 use App\Http\Controllers\Pengelola\PembayaranEventController as PengelolaPembayaranEventController;
+use App\Http\Controllers\Pengelola\PengaturanPembayaranController as PengelolaPengaturanPembayaranController;
 use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -89,6 +90,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/pembayaran', [PengelolaPembayaranEventController::class, 'index'])->name('pembayaran.index');
     Route::patch('/pembayaran/{peserta}/verifikasi', [PengelolaPembayaranEventController::class, 'verifikasi'])->name('pembayaran.verifikasi');
     Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
+    Route::get('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'edit'])->name('pengaturan-pembayaran.edit');
+    Route::put('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'update'])->name('pengaturan-pembayaran.update');
 });
 
 use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
@@ -124,6 +127,8 @@ Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengel
     Route::get('/pembayaran', [PengelolaPembayaranEventController::class, 'index'])->name('pembayaran.index');
     Route::patch('/pembayaran/{peserta}/verifikasi', [PengelolaPembayaranEventController::class, 'verifikasi'])->name('pembayaran.verifikasi');
     Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
+    Route::get('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'edit'])->name('pengaturan-pembayaran.edit');
+    Route::put('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'update'])->name('pengaturan-pembayaran.update');
 });
 
 Route::middleware('auth')->group(function () {
