@@ -177,6 +177,50 @@
                             <x-input-error :messages="$errors->get('kuota_peserta')" class="mt-1.5" />
                         </div>
                     </div>
+
+                    <!-- Pengaturan Biaya & Pembayaran (SIM Keuangan) -->
+                    <div class="pt-4 border-t border-emerald-200/60" x-data="{ tipe: '{{ old('tipe_event', 'gratis') }}' }">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="tipe_event" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Tipe Biaya Kegiatan
+                                </label>
+                                <select
+                                    id="tipe_event"
+                                    name="tipe_event"
+                                    x-model="tipe"
+                                    class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all cursor-pointer"
+                                >
+                                    <option value="gratis">Gratis (Bebas Biaya / Terbuka)</option>
+                                    <option value="berbayar">Berbayar (Tiket Partisipasi)</option>
+                                </select>
+                                <x-input-error :messages="$errors->get('tipe_event')" class="mt-1.5" />
+                            </div>
+
+                            <div x-show="tipe === 'berbayar'" x-cloak>
+                                <label for="harga_tiket" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                    Harga Tiket per Orang (Rp)
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-xs font-bold text-slate-400">Rp</span>
+                                    <input
+                                        type="number"
+                                        id="harga_tiket"
+                                        name="harga_tiket"
+                                        min="0"
+                                        step="1000"
+                                        value="{{ old('harga_tiket', 0) }}"
+                                        placeholder="Contoh: 25000"
+                                        class="h-11 pl-10 pr-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                    >
+                                </div>
+                                <span class="block text-xs text-slate-500 mt-1">
+                                    Biaya per peserta yang akan dikonfirmasi lewat transfer BUMDes / QRIS Desa.
+                                </span>
+                                <x-input-error :messages="$errors->get('harga_tiket')" class="mt-1.5" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Baris 3: Tanggal & Jam Pelaksanaan (4 Kolom pada Desktop) -->

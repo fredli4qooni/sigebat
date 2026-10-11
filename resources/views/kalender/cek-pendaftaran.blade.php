@@ -125,10 +125,11 @@
                                             <span class="font-mono text-xs font-black px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-400">
                                                 {{ $item->kode_pendaftaran }}
                                             </span>
-                                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full
-                                                {{ $item->status === 'terdaftar' ? 'bg-amber-50 text-amber-800 border border-amber-200' : ($item->status === 'dikonfirmasi' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : ($item->status === 'selesai' ? 'bg-slate-100 text-slate-700 border border-slate-200' : 'bg-rose-50 text-rose-800 border border-rose-200')) }}
-                                            ">
-                                                Status: {{ ucfirst($item->status) }}
+                                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full {{ $item->status_badge_class }}">
+                                                {{ $item->status_label }}
+                                            </span>
+                                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full {{ $item->status_pembayaran_badge_class }}">
+                                                {{ $item->status_pembayaran_label }}
                                             </span>
                                         </div>
                                         <h3 class="text-base sm:text-lg font-bold text-slate-900 pt-1">
@@ -136,18 +137,32 @@
                                                 {{ $item->event->judul }}
                                             </a>
                                         </h3>
+                                        <div class="text-xs text-slate-500 font-medium">
+                                            Tagihan: <strong class="text-slate-800">{{ $item->total_tagihan_format }}</strong>
+                                        </div>
                                     </div>
 
-                                    <a
-                                        href="{{ route('event.pendaftaran.bukti', $item->kode_pendaftaran) }}"
-                                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl no-underline transition-all shadow-xs flex-shrink-0"
-                                    >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                        </svg>
-                                        <span>Buka Bukti Pendaftaran</span>
-                                    </a>
+                                    <div class="flex flex-wrap items-center gap-2 flex-shrink-0">
+                                        @if(!$item->is_lunas)
+                                            <a
+                                                href="{{ route('event.pendaftaran.bayar', $item->kode_pendaftaran) }}"
+                                                class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl no-underline transition-all shadow-xs"
+                                            >
+                                                <span>Bayar</span>
+                                                <span>&rarr;</span>
+                                            </a>
+                                        @endif
+                                        <a
+                                            href="{{ route('event.pendaftaran.bukti', $item->kode_pendaftaran) }}"
+                                            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl no-underline transition-all shadow-xs"
+                                        >
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                            <span>Buka Bukti</span>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-100 text-xs text-slate-600">

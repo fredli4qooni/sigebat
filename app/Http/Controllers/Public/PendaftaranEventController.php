@@ -9,6 +9,7 @@ use App\Models\PendaftaranEvent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PendaftaranEventController extends Controller
@@ -62,8 +63,14 @@ class PendaftaranEventController extends Controller
                 ->withInput();
         }
 
-        // 4. Simpan dalam database transaction
-        $pendaftaran = DB::transaction(function () use ($event, $validated) {
+        // 4. Hitung biaya pembayaran
+        $isBerbayar = $event->is_berbayar;
+        $nominalPerTiket = $isBerbayar ? $event->harga_tiket : 0;
+        $totalTagihan = (int) $validated['jumlah_peserta'] * $nominalPerTiket;
+        $statusPembayaran = $isBerbayar ? 'menunggu_pembayaran' : 'gratis';
+
+        // 5. Simpan dalam database transaction
+        $pendaftaran = DB::transaction(function () use ($event, $validated, $nominalPerTiket, $totalTagihan, $statusPembayaran) {
             $record = PendaftaranEvent::create([
                 'event_budaya_id' => $event->id,
                 'nama_lengkap' => $validated['nama_lengkap'],
@@ -71,8 +78,11 @@ class PendaftaranEventController extends Controller
                 'nomor_telepon' => trim($validated['nomor_telepon']),
                 'asal_instansi' => trim($validated['asal_instansi']),
                 'jumlah_peserta' => (int) $validated['jumlah_peserta'],
-                'catatan' => $validated['catatan'] ? trim($validated['catatan']) : null,
+                'catatan' => ! empty($validated['catatan']) ? trim($validated['catatan']) : null,
                 'status' => 'terdaftar',
+                'nominal_per_tiket' => $nominalPerTiket,
+                'total_tagihan' => $totalTagihan,
+                'status_pembayaran' => $statusPembayaran,
             ]);
 
             ActivityLog::log(
@@ -85,6 +95,8 @@ class PendaftaranEventController extends Controller
                     'event_id' => $event->id,
                     'event_judul' => $event->judul,
                     'jumlah_peserta' => $record->jumlah_peserta,
+                    'total_tagihan' => $record->total_tagihan,
+                    'status_pembayaran' => $record->status_pembayaran,
                 ],
                 userId: null
             );
@@ -92,9 +104,122 @@ class PendaftaranEventController extends Controller
             return $record;
         });
 
+        if ($isBerbayar) {
+            return redirect()
+                ->route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran)
+                ->with('info', 'Pendaftaran Anda berhasil dicatat! Silakan lakukan konfirmasi pembayaran berikut untuk menyelesaikan tiket.');
+        }
+
         return redirect()
             ->route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran)
             ->with('success', 'Pendaftaran Anda berhasil dicatat! Simpan tanda bukti pendaftaran berikut untuk ditunjukkan kepada pengelola.');
+    }
+
+    /**
+     * Halaman instruksi pembayaran dan upload bukti transfer
+     */
+    public function bayar(string $kode): View|RedirectResponse
+    {
+        $pendaftaran = PendaftaranEvent::with(['event.kategori'])
+            ->where('kode_pendaftaran', $kode)
+            ->firstOrFail();
+
+        // Jika pendaftaran sudah lunas atau gratis, arahkan langsung ke lembar bukti
+        if ($pendaftaran->is_lunas) {
+            return redirect()
+                ->route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran)
+                ->with('info', 'Pembayaran untuk pendaftaran ini telah terverifikasi lunas.');
+        }
+
+        return view('kalender.bayar', compact('pendaftaran'));
+    }
+
+    /**
+     * Proses pengunggahan bukti transfer pembayaran
+     */
+    public function prosesBayar(Request $request, string $kode): RedirectResponse
+    {
+        $pendaftaran = PendaftaranEvent::where('kode_pendaftaran', $kode)->firstOrFail();
+
+        if ($pendaftaran->is_lunas) {
+            return redirect()
+                ->route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran)
+                ->with('info', 'Pembayaran telah terverifikasi lunas.');
+        }
+
+        $validated = $request->validate([
+            'metode_pembayaran' => ['required', 'in:transfer_bank,qris'],
+            'bukti_pembayaran' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
+        ], [
+            'metode_pembayaran.required' => 'Pilih metode pembayaran yang Anda gunakan.',
+            'metode_pembayaran.in' => 'Metode pembayaran tidak valid.',
+            'bukti_pembayaran.required' => 'Unggah foto struk ATM atau tangkapan layar bukti transfer.',
+            'bukti_pembayaran.image' => 'Berkas bukti pembayaran harus berupa gambar.',
+            'bukti_pembayaran.mimes' => 'Format gambar harus JPG, JPEG, PNG, atau WebP.',
+            'bukti_pembayaran.max' => 'Ukuran berkas maksimal 3 MB.',
+        ]);
+
+        // Hapus file lama jika ada penggantian bukti
+        if ($pendaftaran->bukti_pembayaran && Storage::disk('public')->exists($pendaftaran->bukti_pembayaran)) {
+            Storage::disk('public')->delete($pendaftaran->bukti_pembayaran);
+        }
+
+        $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+        $pendaftaran->update([
+            'status_pembayaran' => 'menunggu_verifikasi',
+            'metode_pembayaran' => $validated['metode_pembayaran'],
+            'bukti_pembayaran' => $path,
+            'waktu_pembayaran' => now(),
+            'catatan_verifikasi' => null, // reset catatan penolakan lama jika ada
+        ]);
+
+        ActivityLog::log(
+            aksi: 'UPLOAD_BUKTI_PEMBAYARAN',
+            entitasTipe: 'PendaftaranEvent',
+            entitasId: $pendaftaran->id,
+            keterangan: [
+                'kode' => $pendaftaran->kode_pendaftaran,
+                'metode' => $pendaftaran->metode_pembayaran,
+                'total_tagihan' => $pendaftaran->total_tagihan,
+            ],
+            userId: null
+        );
+
+        return redirect()
+            ->route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran)
+            ->with('success', 'Bukti pembayaran berhasil diunggah! Pengelola akan segera memverifikasi transaksi Anda.');
+    }
+
+    /**
+     * Mode simulasi instan untuk pengujian / presentasi sidang skripsi
+     */
+    public function simulasiBayar(Request $request, string $kode): RedirectResponse
+    {
+        $pendaftaran = PendaftaranEvent::where('kode_pendaftaran', $kode)->firstOrFail();
+
+        $pendaftaran->update([
+            'status_pembayaran' => 'lunas',
+            'metode_pembayaran' => 'simulasi_demo',
+            'waktu_pembayaran' => now(),
+            'waktu_verifikasi' => now(),
+            'catatan_verifikasi' => 'Terverifikasi otomatis melalui mode Sandbox Demo Sidang.',
+        ]);
+
+        ActivityLog::log(
+            aksi: 'SIMULASI_PEMBAYARAN_DEMO',
+            entitasTipe: 'PendaftaranEvent',
+            entitasId: $pendaftaran->id,
+            keterangan: [
+                'kode' => $pendaftaran->kode_pendaftaran,
+                'total_tagihan' => $pendaftaran->total_tagihan,
+            ],
+            userId: null
+        );
+
+        return redirect()
+            ->route('event.pendaftaran.bukti', $pendaftaran->kode_pendaftaran)
+            ->with('success', 'Simulasi pembayaran berhasil! Tiket Anda kini telah berstatus LUNAS.');
     }
 
     /**
@@ -102,7 +227,7 @@ class PendaftaranEventController extends Controller
      */
     public function bukti(string $kode): View
     {
-        $pendaftaran = PendaftaranEvent::with(['event.kategori'])
+        $pendaftaran = PendaftaranEvent::with(['event.kategori', 'verifier'])
             ->where('kode_pendaftaran', $kode)
             ->firstOrFail();
 

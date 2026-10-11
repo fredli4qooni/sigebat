@@ -75,6 +75,8 @@ class EventController extends Controller
             'status' => ['required', Rule::in(['aktif', 'pending', 'nonaktif'])],
             'buka_pendaftaran' => ['nullable', 'boolean'],
             'kuota_peserta' => ['nullable', 'integer', 'min:1', 'max:50000'],
+            'tipe_event' => ['nullable', Rule::in(['gratis', 'berbayar'])],
+            'harga_tiket' => ['nullable', 'integer', 'min:0', 'max:5000000'],
         ], [
             'judul.required' => 'Judul event budaya wajib diisi.',
             'kategori_event_id.required' => 'Pilih kategori event.',
@@ -105,6 +107,8 @@ class EventController extends Controller
             'status' => $validated['status'],
             'buka_pendaftaran' => $request->boolean('buka_pendaftaran'),
             'kuota_peserta' => $request->filled('kuota_peserta') ? (int) $request->input('kuota_peserta') : null,
+            'tipe_event' => $validated['tipe_event'] ?? 'gratis',
+            'harga_tiket' => ($validated['tipe_event'] ?? 'gratis') === 'berbayar' ? (int) $request->input('harga_tiket', 0) : 0,
             'created_by' => auth()->id(),
         ]);
 
@@ -143,6 +147,8 @@ class EventController extends Controller
             'status' => ['required', Rule::in(['aktif', 'pending', 'nonaktif'])],
             'buka_pendaftaran' => ['nullable', 'boolean'],
             'kuota_peserta' => ['nullable', 'integer', 'min:1', 'max:50000'],
+            'tipe_event' => ['nullable', Rule::in(['gratis', 'berbayar'])],
+            'harga_tiket' => ['nullable', 'integer', 'min:0', 'max:5000000'],
         ], [
             'judul.required' => 'Judul event budaya wajib diisi.',
             'kategori_event_id.required' => 'Pilih kategori event.',
@@ -162,8 +168,11 @@ class EventController extends Controller
             $validated['poster'] = $request->file('poster')->store('event', 'public');
         }
 
+        $tipeEvent = $validated['tipe_event'] ?? $event->tipe_event ?? 'gratis';
         $validated['buka_pendaftaran'] = $request->boolean('buka_pendaftaran');
         $validated['kuota_peserta'] = $request->filled('kuota_peserta') ? (int) $request->input('kuota_peserta') : null;
+        $validated['tipe_event'] = $tipeEvent;
+        $validated['harga_tiket'] = $tipeEvent === 'berbayar' ? (int) $request->input('harga_tiket', 0) : 0;
 
         $event->update($validated);
 

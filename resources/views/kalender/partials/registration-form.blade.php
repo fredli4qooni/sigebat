@@ -15,25 +15,40 @@
             </p>
         </div>
 
-        <!-- Indikator Kuota / Status -->
-        <div class="text-left sm:text-right flex-shrink-0">
+        <!-- Indikator Kuota / Status & Biaya -->
+        <div class="text-left sm:text-right flex-shrink-0 space-y-1">
+            <div class="flex items-center sm:justify-end gap-1.5 flex-wrap">
+                @if($event->is_berbayar)
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                        Tiket: {{ $event->harga_tiket_format }}
+                    </span>
+                @else
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300">
+                        Gratis
+                    </span>
+                @endif
+
+                @if($event->is_pendaftaran_bisa_dilakukan)
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        Pendaftaran Dibuka
+                    </span>
+                @else
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300">
+                        Pendaftaran Ditutup
+                    </span>
+                @endif
+            </div>
+
             @if($event->is_pendaftaran_bisa_dilakukan)
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    Pendaftaran Dibuka
-                </span>
                 @if($event->kuota_peserta)
-                    <div class="text-xs font-semibold text-slate-700 mt-1.5">
+                    <div class="text-xs font-semibold text-slate-700">
                         Tersedia <span class="text-emerald-700 font-bold">{{ $event->sisa_kuota }}</span> dari {{ $event->kuota_peserta }} Kuota
                     </div>
                 @else
-                    <div class="text-xs text-slate-500 mt-1">
+                    <div class="text-xs text-slate-500">
                         Kapasitas Terbuka (Tanpa Batas Kuota)
                     </div>
                 @endif
-            @else
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300">
-                    Pendaftaran Ditutup
-                </span>
             @endif
         </div>
     </div>
@@ -109,7 +124,7 @@
             action="{{ route('event.daftar', $event->slug) }}" 
             method="POST" 
             class="space-y-4"
-            x-data="{ submitting: false }"
+            x-data="{ submitting: false, qty: {{ old('jumlah_peserta', 1) }}, harga: {{ $event->is_berbayar ? $event->harga_tiket : 0 }} }"
             @submit="submitting = true"
         >
             @csrf
@@ -198,9 +213,31 @@
                     min="1"
                     max="{{ $event->sisa_kuota ? min(20, $event->sisa_kuota) : 20 }}"
                     value="{{ old('jumlah_peserta', 1) }}"
-                    class="w-full sm:w-48 px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                    x-model.number="qty"
+                    class="w-full sm:w-48 px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-semibold"
                 >
             </div>
+
+            <!-- Ringkasan Biaya Tiket Real-time (SIM Keuangan) -->
+            @if($event->is_berbayar)
+                <div class="p-4 rounded-xl bg-amber-50/90 border border-amber-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                    <div class="space-y-0.5">
+                        <div class="font-bold text-amber-950 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-amber-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Kegiatan Budaya Berbayar</span>
+                        </div>
+                        <div class="text-amber-800">
+                            Harga Tiket: <span class="font-bold">{{ $event->harga_tiket_format }}</span> per orang.
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right bg-white sm:bg-transparent p-2 sm:p-0 rounded-lg border sm:border-0 border-amber-200">
+                        <span class="text-[11px] text-slate-500 uppercase font-semibold block">Total Tagihan:</span>
+                        <span class="text-base sm:text-lg font-black text-amber-950 tracking-tight block" x-text="'Rp ' + (qty * harga).toLocaleString('id-ID')"></span>
+                    </div>
+                </div>
+            @endif
 
             <!-- Catatan / Kebutuhan Khusus -->
             <div class="space-y-1">
@@ -223,7 +260,13 @@
                     :disabled="submitting"
                     class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-400 text-white font-bold text-sm shadow-md hover:shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                    <span x-show="!submitting">Daftar Partisipasi Sekarang &rarr;</span>
+                    <span x-show="!submitting">
+                        @if($event->is_berbayar)
+                            <span>Daftar &amp; Lanjutkan Pembayaran &rarr;</span>
+                        @else
+                            <span>Daftar Partisipasi Sekarang &rarr;</span>
+                        @endif
+                    </span>
                     <span x-show="submitting" class="inline-flex items-center gap-2">
                         <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

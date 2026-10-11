@@ -118,8 +118,83 @@
             </div>
         @endif
 
+        @if(session('info'))
+            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-xs sm:text-sm flex items-start gap-2.5 print:hidden">
+                <span class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">&excl;</span>
+                <div>
+                    <div class="font-bold text-blue-950">Informasi Pendaftaran</div>
+                    <div class="text-xs text-blue-800 mt-0.5 leading-relaxed">{{ session('info') }}</div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Banner Status Pembayaran (Sembunyi saat cetak) -->
+        @if($pendaftaran->status_pembayaran === 'menunggu_pembayaran')
+            <div class="p-4 sm:p-5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden shadow-sm">
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-200/80 text-amber-800 flex items-center justify-center flex-shrink-0 font-bold text-base mt-0.5">
+                        &excl;
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="font-bold text-sm text-amber-950">Menunggu Pembayaran: {{ $pendaftaran->total_tagihan_format }}</div>
+                        <div class="text-xs text-amber-800 leading-relaxed">
+                            Pendaftaran Anda telah tercatat, namun tiket belum berlaku sebelum pembayaran dilunasi. Segera lakukan transfer dan konfirmasi pembayaran.
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="{{ route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran) }}"
+                    class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl no-underline transition-all shadow-sm flex items-center justify-center gap-2 flex-shrink-0"
+                >
+                    <span>Bayar Sekarang</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+        @elseif($pendaftaran->status_pembayaran === 'menunggu_verifikasi')
+            <div class="p-4 sm:p-5 rounded-2xl bg-blue-50 border border-blue-200 text-blue-950 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden shadow-xs">
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-blue-200/80 text-blue-800 flex items-center justify-center flex-shrink-0 font-bold text-base mt-0.5">
+                        &check;
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="font-bold text-sm text-blue-950">Bukti Pembayaran Sedang Diverifikasi</div>
+                        <div class="text-xs text-blue-800 leading-relaxed">
+                            Bukti pembayaran telah berhasil dikirim pada {{ $pendaftaran->waktu_pembayaran ? $pendaftaran->waktu_pembayaran->translatedFormat('d M Y H:i') : '-' }} WIB. Pengelola sedang melakukan verifikasi data transfer Anda.
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="{{ route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran) }}"
+                    class="px-4 py-2 bg-white hover:bg-blue-50 border border-blue-300 text-blue-700 font-semibold text-xs rounded-xl no-underline transition-all shadow-2xs flex-shrink-0 text-center"
+                >
+                    Perbarui Bukti
+                </a>
+            </div>
+        @elseif($pendaftaran->status_pembayaran === 'ditolak')
+            <div class="p-4 sm:p-5 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-950 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden shadow-sm">
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-rose-200/80 text-rose-800 flex items-center justify-center flex-shrink-0 font-bold text-base mt-0.5">
+                        &times;
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="font-bold text-sm text-rose-950">Verifikasi Pembayaran Ditolak</div>
+                        <div class="text-xs text-rose-800 leading-relaxed">
+                            {{ $pendaftaran->catatan_verifikasi ?? 'Bukti pembayaran tidak sesuai atau nominal transfer salah. Silakan kirimkan ulang bukti yang valid.' }}
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="{{ route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran) }}"
+                    class="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl no-underline transition-all shadow-sm flex items-center justify-center gap-2 flex-shrink-0"
+                >
+                    <span>Kirim Ulang Bukti</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+        @endif
+
         <!-- DOKUMEN TANDA BUKTI RESMI (Simple, Elegan, 1 Lembar A4) -->
-        <div id="printable-ticket" class="bg-white rounded-2xl border border-slate-300 shadow-md overflow-hidden">
+        <div id="printable-ticket" class="bg-white rounded-2xl border border-slate-300 shadow-md overflow-hidden relative">
             <!-- 1. Kop Resmi Dokumen -->
             <div class="print-header bg-slate-900 text-white p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
                 <div class="flex items-center gap-3.5">
@@ -142,14 +217,17 @@
                 </div>
 
                 <!-- Box Kode Pendaftaran & Status -->
-                <div class="text-left sm:text-right bg-white/10 print:bg-slate-50 p-2.5 sm:p-2 rounded-xl border border-white/10 print:border-slate-300 flex-shrink-0">
+                <div class="text-left sm:text-right bg-white/10 print:bg-slate-50 p-2.5 sm:p-2 rounded-xl border border-white/10 print:border-slate-300 flex-shrink-0 space-y-1">
                     <div class="text-[10px] text-slate-300 print:text-slate-500 font-bold uppercase tracking-wider">KODE REGISTRASI</div>
                     <div class="text-lg sm:text-xl font-mono font-black text-amber-300 print:text-slate-950 tracking-wider">
                         {{ $pendaftaran->kode_pendaftaran }}
                     </div>
-                    <div class="mt-0.5">
+                    <div class="flex flex-wrap items-center justify-start sm:justify-end gap-1.5 pt-0.5">
                         <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ $pendaftaran->status_badge_class }}">
                             {{ $pendaftaran->status_label }}
+                        </span>
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ $pendaftaran->status_pembayaran_badge_class }}">
+                            {{ $pendaftaran->status_pembayaran_label }}
                         </span>
                     </div>
                 </div>
@@ -237,6 +315,30 @@
                         </div>
                     </div>
 
+                    <!-- Rincian Biaya & Transaksi Keuangan -->
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-slate-500 font-semibold uppercase text-[10px]">Tipe Kegiatan</span>
+                            <span class="font-bold text-slate-800">
+                                {{ $pendaftaran->nominal_per_tiket ? 'Event Berbayar' : 'Event Gratis (Terbuka)' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-slate-500 font-semibold uppercase text-[10px]">Total Tagihan</span>
+                            <span class="font-mono font-black text-slate-900 {{ $pendaftaran->is_lunas ? 'text-emerald-700' : 'text-amber-700' }}">
+                                {{ $pendaftaran->total_tagihan_format }}
+                            </span>
+                        </div>
+                        @if($pendaftaran->metode_pembayaran)
+                            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-200">
+                                <span class="text-slate-500 font-semibold uppercase text-[10px]">Metode / Waktu</span>
+                                <span class="text-slate-700 font-medium text-[10px]">
+                                    {{ $pendaftaran->metode_pembayaran_label }} &bull; {{ $pendaftaran->waktu_pembayaran ? $pendaftaran->waktu_pembayaran->translatedFormat('d/m/Y') : '-' }}
+                                </span>
+                            </div>
+                        @endif
+                    </div>
+
                     <div>
                         <span class="text-slate-400 font-semibold block text-[10px] uppercase">Waktu Registrasi</span>
                         <div class="text-[11px] text-slate-600 mt-0.5">
@@ -245,13 +347,25 @@
                     </div>
 
                     @if($pendaftaran->catatan)
-                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px]">
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 text-[11px]">
                             <span class="text-slate-500 font-semibold">Catatan:</span>
                             <span class="text-slate-700 italic">"{{ $pendaftaran->catatan }}"</span>
                         </div>
                     @endif
                 </div>
             </div>
+
+            <!-- Cap Digital LUNAS (Jika Status Lunas) -->
+            @if($pendaftaran->is_lunas)
+                <div class="absolute right-6 top-32 pointer-events-none transform -rotate-12 select-none opacity-85 print:opacity-100">
+                    <div class="border-4 border-dashed border-emerald-600 text-emerald-700 px-4 py-1.5 rounded-2xl font-black text-center tracking-widest shadow-2xs">
+                        <div class="text-base sm:text-xl font-black leading-none uppercase">L U N A S</div>
+                        <div class="text-[9px] font-mono tracking-normal uppercase mt-0.5 text-emerald-800">
+                            BUMDES GEDUNG BATIN
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <!-- 3. Petunjuk Singkat Kehadiran -->
             <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-600 space-y-1 print:bg-white print:border-t">
@@ -272,9 +386,15 @@
                     <div class="text-[11px] font-mono font-semibold text-slate-700">
                         REF: {{ $pendaftaran->kode_pendaftaran }} &bull; ID: #{{ $pendaftaran->id }}
                     </div>
-                    <div class="text-[10px] text-slate-500 italic">
-                        Desa Wisata Cagar Budaya Kampung Gedung Batin
-                    </div>
+                    @if($pendaftaran->verifier)
+                        <div class="text-[10px] text-emerald-700 font-semibold">
+                            Diverifikasi: {{ $pendaftaran->verifier->name }} ({{ $pendaftaran->waktu_verifikasi ? $pendaftaran->waktu_verifikasi->translatedFormat('d/m/Y H:i') : '' }})
+                        </div>
+                    @else
+                        <div class="text-[10px] text-slate-500 italic">
+                            Desa Wisata Cagar Budaya Kampung Gedung Batin
+                        </div>
+                    @endif
                 </div>
 
                 <div class="text-right space-y-1">
@@ -300,7 +420,16 @@
                 <span>Kembali ke Kalender Event</span>
             </a>
 
-            <div class="flex items-center gap-2.5">
+            <div class="flex flex-wrap items-center gap-2.5">
+                @if(!$pendaftaran->is_lunas)
+                    <a
+                        href="{{ route('event.pendaftaran.bayar', $pendaftaran->kode_pendaftaran) }}"
+                        class="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs no-underline transition-all shadow-xs flex items-center gap-1.5"
+                    >
+                        <span>Selesaikan Pembayaran</span>
+                        <span>&rarr;</span>
+                    </a>
+                @endif
                 <a
                     href="{{ route('event.show', $pendaftaran->event->slug) }}"
                     class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs no-underline transition-all shadow-xs"

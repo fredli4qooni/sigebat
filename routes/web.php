@@ -21,6 +21,9 @@ Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('ev
 Route::get('/event/{slug}/ics', [PublicKalenderController::class, 'downloadIcs'])->name('event.ics');
 Route::post('/event/{slug}/daftar', [PublicPendaftaranEventController::class, 'store'])->name('event.daftar');
 Route::get('/pendaftaran/cek', [PublicPendaftaranEventController::class, 'cek'])->name('event.pendaftaran.cek')->middleware('throttle:30,1');
+Route::get('/pendaftaran/{kode}/bayar', [PublicPendaftaranEventController::class, 'bayar'])->name('event.pendaftaran.bayar');
+Route::post('/pendaftaran/{kode}/bayar', [PublicPendaftaranEventController::class, 'prosesBayar'])->name('event.pendaftaran.proses-bayar');
+Route::post('/pendaftaran/{kode}/simulasi', [PublicPendaftaranEventController::class, 'simulasiBayar'])->name('event.pendaftaran.simulasi-bayar');
 Route::get('/pendaftaran/{kode}', [PublicPendaftaranEventController::class, 'bukti'])->name('event.pendaftaran.bukti');
 Route::get('/kalender/{slug}', [PublicKalenderController::class, 'redirectSlug']);
 
@@ -33,6 +36,7 @@ use App\Http\Controllers\Admin\LogController as AdminLogController;
 use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
+use App\Http\Controllers\Pengelola\PembayaranEventController as PengelolaPembayaranEventController;
 use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -80,6 +84,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::patch('/peserta/{peserta}/status', [PengelolaPesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
     Route::delete('/peserta/{peserta}', [PengelolaPesertaEventController::class, 'destroy'])->name('peserta.destroy');
     Route::get('/event/{event}/cetak-peserta', [PengelolaPesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
+
+    // Keuangan & Kas Event (SIM)
+    Route::get('/pembayaran', [PengelolaPembayaranEventController::class, 'index'])->name('pembayaran.index');
+    Route::patch('/pembayaran/{peserta}/verifikasi', [PengelolaPembayaranEventController::class, 'verifikasi'])->name('pembayaran.verifikasi');
+    Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
 });
 
 use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
@@ -110,6 +119,11 @@ Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengel
     Route::patch('/peserta/{peserta}/status', [PengelolaPesertaEventController::class, 'updateStatus'])->name('peserta.update-status');
     Route::delete('/peserta/{peserta}', [PengelolaPesertaEventController::class, 'destroy'])->name('peserta.destroy');
     Route::get('/event/{event}/cetak-peserta', [PengelolaPesertaEventController::class, 'cetak'])->name('event.cetak-peserta');
+
+    // Keuangan & Kas Event (SIM)
+    Route::get('/pembayaran', [PengelolaPembayaranEventController::class, 'index'])->name('pembayaran.index');
+    Route::patch('/pembayaran/{peserta}/verifikasi', [PengelolaPembayaranEventController::class, 'verifikasi'])->name('pembayaran.verifikasi');
+    Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
 });
 
 Route::middleware('auth')->group(function () {

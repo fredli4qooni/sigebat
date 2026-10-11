@@ -40,7 +40,17 @@ class EventBudayaFactory extends Factory
             'status' => 'aktif',
             'buka_pendaftaran' => true,
             'kuota_peserta' => 50,
+            'tipe_event' => 'gratis',
+            'harga_tiket' => 0,
             'created_by' => User::factory(),
         ];
+    }
+
+    public function berbayar(int $harga = 25000): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'tipe_event' => 'berbayar',
+            'harga_tiket' => $harga,
+        ]);
     }
 }

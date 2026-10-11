@@ -32,6 +32,8 @@ class EventBudaya extends Model
         'status',
         'buka_pendaftaran',
         'kuota_peserta',
+        'tipe_event',
+        'harga_tiket',
         'created_by',
     ];
 
@@ -45,6 +47,7 @@ class EventBudaya extends Model
             'tanggal_selesai' => 'date',
             'buka_pendaftaran' => 'boolean',
             'kuota_peserta' => 'integer',
+            'harga_tiket' => 'integer',
         ];
     }
 
@@ -119,6 +122,18 @@ class EventBudaya extends Model
             && ! $this->is_kuota_penuh;
     }
 
+    public function getIsBerbayarAttribute(): bool
+    {
+        return ($this->tipe_event ?? 'gratis') === 'berbayar' && ($this->harga_tiket ?? 0) > 0;
+    }
+
+    public function getHargaTiketFormatAttribute(): string
+    {
+        return $this->is_berbayar
+            ? 'Rp '.number_format($this->harga_tiket, 0, ',', '.')
+            : 'Gratis';
+    }
+
     /**
      * Get derived dynamic status based on Asia/Jakarta WIB timezone
      */
@@ -126,7 +141,9 @@ class EventBudaya extends Model
     {
         $today = Carbon::now('Asia/Jakarta')->startOfDay();
         $startDate = Carbon::parse($this->tanggal_mulai)->startOfDay();
-        $endDate = Carbon::parse($this->tanggal_selesai)->endOfDay();
+        $endDate = $this->tanggal_selesai
+            ? Carbon::parse($this->tanggal_selesai)->endOfDay()
+            : Carbon::parse($this->tanggal_mulai)->endOfDay();
 
         if ($today->lt($startDate)) {
             return 'Akan datang';
