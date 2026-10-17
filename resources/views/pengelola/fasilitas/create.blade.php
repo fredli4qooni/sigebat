@@ -138,6 +138,103 @@
                     <x-input-error :messages="$errors->get('deskripsi')" class="mt-1.5" />
                 </div>
 
+                <!-- Bagian Pengaturan Sewa & Reservasi Harian -->
+                <div
+                    x-data="{ bisaDisewa: {{ old('bisa_disewa') ? 'true' : 'false' }} }"
+                    class="p-5 sm:p-6 bg-slate-50/80 border border-slate-200 rounded-2xl space-y-4"
+                >
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <label class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                                <span>Penyewaan Fasilitas oleh Wisatawan</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">Homestay / Gazebo / Aula</span>
+                            </label>
+                            <p class="text-xs text-slate-500">
+                                Aktifkan opsi ini jika fasilitas ini dapat dipesan dan disewa secara harian oleh wisatawan (terintegrasi rekening kas BUMDes).
+                            </p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                            <input
+                                type="checkbox"
+                                name="bisa_disewa"
+                                value="1"
+                                x-model="bisaDisewa"
+                                class="sr-only peer"
+                            >
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                        </label>
+                    </div>
+
+                    <div x-show="bisaDisewa" x-cloak class="pt-4 border-t border-slate-200/80 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="harga_sewa_per_hari" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Tarif Sewa Per Hari (Rp) <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3.5 top-3 text-xs font-bold text-slate-400">Rp</span>
+                                <input
+                                    type="number"
+                                    id="harga_sewa_per_hari"
+                                    name="harga_sewa_per_hari"
+                                    value="{{ old('harga_sewa_per_hari', 0) }}"
+                                    min="0"
+                                    step="1000"
+                                    placeholder="Contoh: 250000"
+                                    class="h-11 pl-10 pr-3.5 border border-slate-300 rounded-xl w-full text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                >
+                            </div>
+                            <x-input-error :messages="$errors->get('harga_sewa_per_hari')" class="mt-1.5" />
+                        </div>
+
+                        <div>
+                            <label for="kapasitas" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Daya Tampung / Kapasitas (Orang)
+                            </label>
+                            <input
+                                type="number"
+                                id="kapasitas"
+                                name="kapasitas"
+                                value="{{ old('kapasitas') }}"
+                                min="1"
+                                placeholder="Contoh: 6"
+                                class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                            >
+                            <x-input-error :messages="$errors->get('kapasitas')" class="mt-1.5" />
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="fasilitas_include" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                Fasilitas yang Didapatkan (Include)
+                            </label>
+                            <input
+                                type="text"
+                                id="fasilitas_include"
+                                name="fasilitas_include"
+                                value="{{ old('fasilitas_include') }}"
+                                placeholder="Contoh: Kasur queen, Kamar mandi dalam, Kipas angin, Sarapan 2 porsi, Listrik"
+                                class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all placeholder-slate-400"
+                            >
+                            <x-input-error :messages="$errors->get('fasilitas_include')" class="mt-1.5" />
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200/60">
+                        <label for="status_ketersediaan" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Status Ketersediaan Operasional
+                        </label>
+                        <select
+                            id="status_ketersediaan"
+                            name="status_ketersediaan"
+                            class="h-11 px-3.5 border border-slate-300 rounded-xl w-full text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                        >
+                            <option value="tersedia" {{ old('status_ketersediaan', 'tersedia') === 'tersedia' ? 'selected' : '' }}>Siap Digunakan / Disewa (Tersedia)</option>
+                            <option value="perbaikan" {{ old('status_ketersediaan') === 'perbaikan' ? 'selected' : '' }}>Dalam Perbaikan / Renovasi</option>
+                            <option value="nonaktif" {{ old('status_ketersediaan') === 'nonaktif' ? 'selected' : '' }}>Nonaktif / Tidak Dibuka</option>
+                        </select>
+                        <x-input-error :messages="$errors->get('status_ketersediaan')" class="mt-1.5" />
+                    </div>
+                </div>
+
                 <div>
                     <label for="foto" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                         Foto Fasilitas (Opsional, Maksimal 3 MB)

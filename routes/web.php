@@ -1,10 +1,24 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\LogController as AdminLogController;
+use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
+use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
+use App\Http\Controllers\Pengelola\EventController as PengelolaEventController;
+use App\Http\Controllers\Pengelola\FasilitasController as PengelolaFasilitasController;
+use App\Http\Controllers\Pengelola\PembayaranEventController as PengelolaPembayaranEventController;
+use App\Http\Controllers\Pengelola\PengaturanPembayaranController as PengelolaPengaturanPembayaranController;
+use App\Http\Controllers\Pengelola\PenyewaanFasilitasController as PengelolaPenyewaanFasilitasController;
+use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
+use App\Http\Controllers\Pengelola\WisataController as PengelolaWisataController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\FasilitasController as PublicFasilitasController;
 use App\Http\Controllers\Public\HomeController as PublicHomeController;
 use App\Http\Controllers\Public\KalenderController as PublicKalenderController;
 use App\Http\Controllers\Public\PendaftaranEventController as PublicPendaftaranEventController;
+use App\Http\Controllers\Public\PenyewaanFasilitasController as PublicPenyewaanFasilitasController;
 use App\Http\Controllers\Public\PetaController as PublicPetaController;
 use App\Http\Controllers\Public\WisataController as PublicWisataController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +29,13 @@ Route::get('/wisata', [PublicWisataController::class, 'index'])->name('wisata.in
 Route::get('/wisata/{slug}', [PublicWisataController::class, 'show'])->name('wisata.show');
 Route::get('/peta', [PublicPetaController::class, 'index'])->name('peta.index');
 Route::get('/fasilitas', [PublicFasilitasController::class, 'index'])->name('fasilitas.index');
+Route::get('/fasilitas/{fasilitas}/sewa', [PublicPenyewaanFasilitasController::class, 'create'])->name('fasilitas.sewa');
+Route::post('/fasilitas/{fasilitas}/sewa', [PublicPenyewaanFasilitasController::class, 'store'])->name('fasilitas.sewa.store');
+Route::get('/sewa/cek', [PublicPenyewaanFasilitasController::class, 'cek'])->name('sewa.cek')->middleware('throttle:30,1');
+Route::get('/sewa/{kode}/bayar', [PublicPenyewaanFasilitasController::class, 'bayar'])->name('sewa.bayar');
+Route::post('/sewa/{kode}/bayar', [PublicPenyewaanFasilitasController::class, 'prosesBayar'])->name('sewa.proses-bayar');
+Route::get('/sewa/{kode}', [PublicPenyewaanFasilitasController::class, 'bukti'])->name('sewa.bukti');
+
 Route::get('/api/wisata', [PublicWisataController::class, 'api'])->name('api.wisata');
 Route::get('/kalender', [PublicKalenderController::class, 'index'])->name('kalender.index');
 Route::get('/event/{slug}', [PublicKalenderController::class, 'show'])->name('event.show');
@@ -30,15 +51,6 @@ Route::get('/kalender/{slug}', [PublicKalenderController::class, 'redirectSlug']
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\LogController as AdminLogController;
-use App\Http\Controllers\Admin\MasterDataController as AdminMasterDataController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\VerificationController as AdminVerificationController;
-use App\Http\Controllers\Pengelola\PembayaranEventController as PengelolaPembayaranEventController;
-use App\Http\Controllers\Pengelola\PengaturanPembayaranController as PengelolaPengaturanPembayaranController;
-use App\Http\Controllers\Pengelola\PesertaEventController as PengelolaPesertaEventController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -92,12 +104,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
     Route::get('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'edit'])->name('pengaturan-pembayaran.edit');
     Route::put('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'update'])->name('pengaturan-pembayaran.update');
-});
 
-use App\Http\Controllers\Pengelola\DashboardController as PengelolaDashboardController;
-use App\Http\Controllers\Pengelola\EventController as PengelolaEventController;
-use App\Http\Controllers\Pengelola\FasilitasController as PengelolaFasilitasController;
-use App\Http\Controllers\Pengelola\WisataController as PengelolaWisataController;
+    // Penyewaan Fasilitas Desa (SIM)
+    Route::get('/penyewaan', [PengelolaPenyewaanFasilitasController::class, 'index'])->name('penyewaan.index');
+    Route::patch('/penyewaan/{sewa}/verifikasi', [PengelolaPenyewaanFasilitasController::class, 'verifikasi'])->name('penyewaan.verifikasi');
+    Route::patch('/penyewaan/{sewa}/status', [PengelolaPenyewaanFasilitasController::class, 'updateStatus'])->name('penyewaan.update-status');
+    Route::delete('/penyewaan/{sewa}', [PengelolaPenyewaanFasilitasController::class, 'destroy'])->name('penyewaan.destroy');
+    Route::get('/penyewaan/cetak-laporan', [PengelolaPenyewaanFasilitasController::class, 'cetakLaporan'])->name('penyewaan.cetak-laporan');
+});
 
 Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengelola.')->group(function () {
     Route::get('/', [PengelolaDashboardController::class, 'index'])->name('dashboard');
@@ -129,6 +143,13 @@ Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengel
     Route::get('/pembayaran/cetak-laporan', [PengelolaPembayaranEventController::class, 'cetakLaporan'])->name('pembayaran.cetak-laporan');
     Route::get('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'edit'])->name('pengaturan-pembayaran.edit');
     Route::put('/pengaturan-pembayaran', [PengelolaPengaturanPembayaranController::class, 'update'])->name('pengaturan-pembayaran.update');
+
+    // Penyewaan Fasilitas Desa (SIM)
+    Route::get('/penyewaan', [PengelolaPenyewaanFasilitasController::class, 'index'])->name('penyewaan.index');
+    Route::patch('/penyewaan/{sewa}/verifikasi', [PengelolaPenyewaanFasilitasController::class, 'verifikasi'])->name('penyewaan.verifikasi');
+    Route::patch('/penyewaan/{sewa}/status', [PengelolaPenyewaanFasilitasController::class, 'updateStatus'])->name('penyewaan.update-status');
+    Route::delete('/penyewaan/{sewa}', [PengelolaPenyewaanFasilitasController::class, 'destroy'])->name('penyewaan.destroy');
+    Route::get('/penyewaan/cetak-laporan', [PengelolaPenyewaanFasilitasController::class, 'cetakLaporan'])->name('penyewaan.cetak-laporan');
 });
 
 Route::middleware('auth')->group(function () {

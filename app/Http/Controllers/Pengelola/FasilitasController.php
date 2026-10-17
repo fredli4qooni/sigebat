@@ -61,6 +61,11 @@ class FasilitasController extends Controller
             'keterangan_lokasi' => ['required', 'string', 'max:500'],
             'deskripsi' => ['nullable', 'string'],
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'bisa_disewa' => ['nullable', 'boolean'],
+            'harga_sewa_per_hari' => ['nullable', 'integer', 'min:0'],
+            'kapasitas' => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'fasilitas_include' => ['nullable', 'string', 'max:1000'],
+            'status_ketersediaan' => ['nullable', 'in:tersedia,perbaikan,nonaktif'],
         ], [
             'nama.required' => 'Nama fasilitas wajib diisi.',
             'jenis_fasilitas_id.required' => 'Pilih jenis fasilitas.',
@@ -68,6 +73,9 @@ class FasilitasController extends Controller
             'foto.image' => 'File foto harus berupa gambar valid.',
             'foto.max' => 'Ukuran foto maksimal adalah 3 MB.',
         ]);
+
+        $bisaDisewa = $request->boolean('bisa_disewa');
+        $hargaSewa = $bisaDisewa ? (int) ($validated['harga_sewa_per_hari'] ?? 0) : 0;
 
         $fotoPath = null;
         if ($request->hasFile('foto')) {
@@ -81,6 +89,11 @@ class FasilitasController extends Controller
             'keterangan_lokasi' => $validated['keterangan_lokasi'],
             'deskripsi' => $validated['deskripsi'] ?? null,
             'foto' => $fotoPath,
+            'bisa_disewa' => $bisaDisewa,
+            'harga_sewa_per_hari' => $hargaSewa,
+            'kapasitas' => $validated['kapasitas'] ?? null,
+            'fasilitas_include' => $validated['fasilitas_include'] ?? null,
+            'status_ketersediaan' => $validated['status_ketersediaan'] ?? 'tersedia',
             'created_by' => auth()->id(),
         ]);
 
@@ -88,7 +101,7 @@ class FasilitasController extends Controller
             aksi: 'CREATE_FASILITAS',
             entitasTipe: 'Fasilitas',
             entitasId: $fasilitas->id,
-            keterangan: ['nama' => $fasilitas->nama, 'jenis' => $fasilitas->jenis?->nama]
+            keterangan: ['nama' => $fasilitas->nama, 'jenis' => $fasilitas->jenis?->nama, 'bisa_disewa' => $fasilitas->bisa_disewa]
         );
 
         return redirect()->route('pengelola.fasilitas.index')->with(
@@ -114,6 +127,11 @@ class FasilitasController extends Controller
             'keterangan_lokasi' => ['required', 'string', 'max:500'],
             'deskripsi' => ['nullable', 'string'],
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'bisa_disewa' => ['nullable', 'boolean'],
+            'harga_sewa_per_hari' => ['nullable', 'integer', 'min:0'],
+            'kapasitas' => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'fasilitas_include' => ['nullable', 'string', 'max:1000'],
+            'status_ketersediaan' => ['nullable', 'in:tersedia,perbaikan,nonaktif'],
         ], [
             'nama.required' => 'Nama fasilitas wajib diisi.',
             'jenis_fasilitas_id.required' => 'Pilih jenis fasilitas.',
@@ -128,15 +146,19 @@ class FasilitasController extends Controller
             $validated['foto'] = $request->file('foto')->store('fasilitas', 'public');
         }
 
+        $bisaDisewa = $request->boolean('bisa_disewa');
+        $validated['bisa_disewa'] = $bisaDisewa;
+        $validated['harga_sewa_per_hari'] = $bisaDisewa ? (int) ($validated['harga_sewa_per_hari'] ?? 0) : 0;
         $validated['objek_wisata_id'] = $validated['objek_wisata_id'] ?? null;
         $validated['deskripsi'] = $validated['deskripsi'] ?? null;
+        $validated['status_ketersediaan'] = $validated['status_ketersediaan'] ?? $fasilitas->status_ketersediaan ?? 'tersedia';
         $fasilitas->update($validated);
 
         ActivityLog::log(
             aksi: 'UPDATE_FASILITAS',
             entitasTipe: 'Fasilitas',
             entitasId: $fasilitas->id,
-            keterangan: ['nama' => $fasilitas->nama, 'lokasi' => $fasilitas->keterangan_lokasi]
+            keterangan: ['nama' => $fasilitas->nama, 'lokasi' => $fasilitas->keterangan_lokasi, 'bisa_disewa' => $fasilitas->bisa_disewa]
         );
 
         return redirect()->route('pengelola.fasilitas.index')->with(

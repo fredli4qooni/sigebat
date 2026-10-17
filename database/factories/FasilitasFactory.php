@@ -29,6 +29,22 @@ class FasilitasFactory extends Factory
             'keterangan_lokasi' => 'Dekat Balai Kampung Gedung Batin',
             'foto' => null,
             'created_by' => User::factory(),
+            'bisa_disewa' => false,
+            'harga_sewa_per_hari' => 0,
+            'kapasitas' => null,
+            'fasilitas_include' => null,
+            'status_ketersediaan' => 'tersedia',
         ];
+    }
+
+    public function disewakan(int $harga = 250000, int $kapasitas = 6): static
+    {
+        return $this->state(fn () => [
+            'bisa_disewa' => true,
+            'harga_sewa_per_hari' => $harga,
+            'kapasitas' => $kapasitas,
+            'fasilitas_include' => 'Listrik, Kasur, Toilet dalam, Kipas angin',
+            'status_ketersediaan' => 'tersedia',
+        ]);
     }
 }

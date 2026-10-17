@@ -146,6 +146,24 @@
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="font-bold text-slate-900 text-sm leading-tight">{{ $f->nama }}</div>
+                                    @if($f->bisa_disewa)
+                                        <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                <span>{{ $f->harga_sewa_format }}</span>
+                                            </span>
+                                            @if($f->kapasitas)
+                                                <span class="text-[11px] text-slate-500 font-medium">Kapasitas {{ $f->kapasitas }} org</span>
+                                            @endif
+                                            @if($f->status_ketersediaan !== 'tersedia')
+                                                <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded border {{ $f->status_ketersediaan_badge_class }}">
+                                                    {{ $f->status_ketersediaan_label }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
                                     @if($f->deskripsi)
                                         <div class="text-xs text-slate-500 line-clamp-1 mt-1">{{ $f->deskripsi }}</div>
                                     @endif

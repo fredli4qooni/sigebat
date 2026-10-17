@@ -34,6 +34,14 @@ class FasilitasController extends Controller
             }
         }
 
+        if ($sewa = $request->input('sewa')) {
+            if ($sewa === 'disewa') {
+                $query->where('bisa_disewa', true)->where('status_ketersediaan', 'tersedia');
+            } elseif ($sewa === 'gratis') {
+                $query->where('bisa_disewa', false);
+            }
+        }
+
         $fasilitasList = $query->paginate(12)->withQueryString();
         $jenisList = JenisFasilitas::has('fasilitas')->orderBy('nama')->get();
 
