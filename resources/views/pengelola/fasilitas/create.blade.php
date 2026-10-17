@@ -145,9 +145,9 @@
                 >
                     <div class="flex items-start justify-between gap-4">
                         <div class="space-y-1">
-                            <label class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <label class="text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap">
                                 <span>Penyewaan Fasilitas oleh Wisatawan</span>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">Homestay / Gazebo / Aula</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">(Aktifkan toggle di samping untuk mengatur penyewaan)</span>
                             </label>
                             <p class="text-xs text-slate-500">
                                 Aktifkan opsi ini jika fasilitas ini dapat dipesan dan disewa secara harian oleh wisatawan (terintegrasi rekening kas BUMDes).
